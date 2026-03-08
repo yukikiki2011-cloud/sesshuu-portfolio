@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sesshuu design — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --crimson: #C8184A;
+      --crimson-dark: #9e1238;
+      --crimson-light: #f0e0e5;
+      --navy: #0F1629;
+      --navy-mid: #1A2340;
+      --sky: #7BAAB8;
+      --pink: #FF3385;
+      --white: #FAFAF8;
+      --gray-light: #F4F4F2;
+      --gray-mid: #E8E8E5;
+      --gray-text: #888880;
+      --text: #1A1A1A;
+      --font-en: 'Space Grotesk', sans-serif;
+      --font-jp: 'Noto Sans JP', sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-jp);
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--crimson); border-radius: 2px; }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(15, 22, 41, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200, 24, 74, 0.2);
+    }
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.06em;
+    }
+    .nav-logo em { color: var(--crimson); font-style: italic; }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-en);
+      color: rgba(250,250,248,0.6);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--crimson); }
+    .nav-cta {
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--crimson);
+      padding: 8px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .nav-cta:hover { background: var(--crimson-dark); }
+
+    /* ===== SECTION UTILITIES ===== */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .section-label-num {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--crimson);
+      letter-spacing: 0.2em;
+    }
+    .section-label-line {
+      width: 40px;
+      height: 1px;
+      background: var(--crimson);
+      opacity: 0.5;
+    }
+    .section-label-text {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--gray-text);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.4;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    .section-heading em { color: var(--crimson); font-style: italic; }
+    .section-heading-white { color: var(--white); }
+    /* 数字 — Cormorant Garamond セリフ体イタリック */
+    .section-heading.has-num {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0 10px;
+    }
+    .section-heading .num-highlight {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 5.5em;
+      line-height: 1;
+      color: var(--crimson);
+      letter-spacing: -0.03em;
+      flex-shrink: 0;
+    }
+    .section-heading-white .num-highlight { color: var(--sky); }
+    .section-heading .num-text-wrap {
+      display: block;
+      padding-top: 0.1em;
+    }
+    .accent-bar {
+      width: 48px;
+      height: 2px;
+      background: var(--crimson);
+      margin: 20px 0 24px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--crimson);
+      padding: 14px 32px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--crimson-dark); transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: transparent;
+      padding: 13px 32px;
+      border: 1px solid rgba(250,250,248,0.4);
+      cursor: pointer;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .btn-outline:hover { border-color: var(--white); color: var(--white); }
+    .btn-outline-dark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      background: transparent;
+      padding: 13px 32px;
+      border: 1px solid var(--crimson);
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+    }
+    .btn-outline-dark:hover { background: var(--crimson); color: var(--white); }
+    .tag {
+      display: inline-block;
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      background: var(--crimson-light);
+      padding: 4px 12px;
+      border-radius: 1px;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,24,74,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,24,74,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-bg-glow {
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(200,24,74,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-bg-glow2 {
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(123,170,184,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 80px 80px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--crimson);
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 80px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .hero-title-accent {
+      font-family: var(--font-serif);
+      font-size: 80px;
+      font-weight: 600;
+      color: var(--crimson);
+      font-style: italic;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+    .hero-name {
+      font-family: var(--font-jp);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--sky);
+      letter-spacing: 0.3em;
+      margin-bottom: 6px;
+    }
+    .hero-tagline {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(250,250,248,0.5);
+      line-height: 1.9;
+      margin-bottom: 40px;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .hero-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .hero-tag {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: rgba(250,250,248,0.4);
+      border: 1px solid rgba(250,250,248,0.12);
+      padding: 5px 14px;
+    }
+    .hero-img-wrap {
+      position: relative;
+    }
+    .hero-img-frame {
+      position: relative;
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .hero-img-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(200,24,74,0.15) 0%, transparent 60%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-img-frame img {
+      width: 100%;
+      display: block;
+      filter: saturate(0.9);
+    }
+    .hero-img-accent {
+      position: absolute;
+      bottom: -16px;
+      right: -16px;
+      width: 80px;
+      height: 80px;
+      background: var(--crimson);
+      z-index: 2;
+    }
+    .hero-img-accent2 {
+      position: absolute;
+      top: -16px;
+      left: -16px;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--sky);
+      z-index: 2;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 80px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250,250,248,0.3);
+    }
+    .hero-scroll-line {
+      width: 48px;
+      height: 1px;
+      background: rgba(250,250,248,0.2);
+    }
+
+    /* ===== ABOUT ===== */
+    #about {
+      padding: 120px 0;
+      background: var(--white);
+    }
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-text {
+      font-family: var(--font-jp);
+      font-size: 14px;
+      font-weight: 300;
+      color: #555;
+      line-height: 2.0;
+      margin-bottom: 28px;
+    }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+      margin-bottom: 40px;
+    }
+    .stat-cell {
+      background: var(--white);
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 44px;
+      font-weight: 600;
+      color: var(--crimson);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-unit {
+      font-family: var(--font-en);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--crimson);
+    }
+    .stat-label {
+      font-family: var(--font-jp);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray-text);
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+    }
+    .timeline {
+      border-left: 1px solid var(--gray-mid);
+      padding-left: 24px;
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 28px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -29px;
+      top: 6px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--crimson);
+      border: 2px solid var(--white);
+      box-shadow: 0 0 0 1px var(--crimson);
+    }
+    .timeline-year {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--crimson);
+      letter-spacing: 0.15em;
+      margin-bottom: 4px;
+    }
+    .timeline-desc {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text);
+    }
+    .timeline-sub {
+      font-family: var(--font-jp);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray-text);
+      margin-top: 2px;
+    }
+
+    /* ===== EXPERTISE ===== */
+    #expertise {
+      padding: 120px 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    .expertise-bg {
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, rgba(200,24,74,0.05) 100%);
+      pointer-events: none;
+    }
+    .expertise-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+    .expertise-header {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 60px;
+    }
+    .expertise-sub {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--sky);
+      line-height: 1.9;
+    }
+    .expertise-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 48px;
+    }
+    .expertise-card {
+      background: var(--navy-mid);
+      padding: 36px 28px;
+      border-top: 2px solid transparent;
+      transition: border-color 0.3s;
+      position: relative;
+    }
+    .expertise-card:hover { border-top-color: var(--crimson); }
+    .expertise-card-num {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(200,24,74,0.4);
+      letter-spacing: 0.2em;
+      margin-bottom: 20px;
+    }
+    .expertise-card-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .expertise-card-title {
+      font-family: var(--font-jp);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .expertise-card-list {
+      list-style: none;
+    }
+    .expertise-card-list li {
+      font-family: var(--font-jp);
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(250,250,248,0.5);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      line-height: 1.6;
+    }
+    .expertise-card-list li:last-child { border-bottom: none; }
+    .expertise-badge {
+      display: inline-block;
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      border: 1px solid rgba(200,24,74,0.4);
+      padding: 3px 10px;
+      margin-top: 12px;
+    }
+    .ai-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    .ai-metric {
+      background: rgba(200,24,74,0.08);
+      padding: 32px;
+      text-align: center;
+      border-bottom: 2px solid rgba(200,24,74,0.3);
+    }
+    .ai-metric-num {
+      font-family: var(--font-serif);
+      font-size: 52px;
+      font-weight: 600;
+      color: var(--crimson);
+      line-height: 1;
+    }
+    .ai-metric-label {
+      font-family: var(--font-jp);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--sky);
+      margin-top: 8px;
+    }
+
+    /* ===== PHILOSOPHY ===== */
+    #philosophy {
+      padding: 120px 0;
+      background: var(--gray-light);
+    }
+    .philosophy-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .philosophy-sticky {
+      position: sticky;
+      top: 100px;
+    }
+    .philosophy-desc {
+      font-family: var(--font-jp);
+      font-size: 14px;
+      font-weight: 300;
+      color: #666;
+      line-height: 2.0;
+    }
+    .philosophy-list { list-style: none; }
+    .philosophy-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .philosophy-item:first-child { border-top: 1px solid var(--gray-mid); }
+    .philosophy-num {
+      font-family: var(--font-serif);
+      font-size: 52px;
+      font-weight: 300;
+      color: var(--crimson);
+      opacity: 0.2;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 64px;
+    }
+    .philosophy-content {}
+    .philosophy-title {
+      font-family: var(--font-jp);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .philosophy-text {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 300;
+      color: #777;
+      line-height: 1.9;
+    }
+
+    /* ===== WORKS ===== */
+    #works {
+      padding: 120px 0;
+      background: var(--white);
+    }
+    .works-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+    .works-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .works-filter {
+      display: flex;
+      gap: 0;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .filter-btn {
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      padding: 12px 24px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .filter-btn.active {
+      color: var(--crimson);
+      border-bottom-color: var(--crimson);
+    }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .work-card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+    .work-thumb {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .work-thumb-text {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      color: rgba(250,250,248,0.3);
+      letter-spacing: 0.1em;
+    }
+    .work-thumb-accent {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--crimson);
+    }
+    .work-info { padding: 20px; }
+    .work-cat {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 6px;
+    }
+    .work-title {
+      font-family: var(--font-jp);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .work-desc {
+      font-family: var(--font-jp);
+      font-size: 12px;
+      font-weight: 300;
+      color: #777;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .work-case-flow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .work-case-item {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      background: var(--gray-light);
+      padding: 3px 10px;
+    }
+    .work-case-arrow {
+      color: var(--gray-mid);
+      font-size: 10px;
+    }
+
+    /* ===== PROCESS ===== */
+    #process {
+      padding: 120px 0;
+      background: var(--navy);
+      position: relative;
+    }
+    .process-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+    .process-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-bottom: 64px;
+      position: relative;
+    }
+    .process-flow::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(12.5% + 20px);
+      right: calc(12.5% + 20px);
+      height: 1px;
+      background: rgba(200,24,74,0.3);
+    }
+    .process-step {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+    .process-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--navy-mid);
+      border: 1px solid rgba(200,24,74,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-family: var(--font-en);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--crimson);
+      position: relative;
+      z-index: 1;
+    }
+    .process-name {
+      font-family: var(--font-jp);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .process-desc {
+      font-family: var(--font-jp);
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(250,250,248,0.4);
+      line-height: 1.7;
+    }
+    .services-section {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 48px;
+    }
+    .services-label {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 24px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    .service-item {
+      background: var(--navy-mid);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .service-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--crimson);
+      flex-shrink: 0;
+    }
+    .service-text {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(250,250,248,0.7);
+    }
+    .service-note {
+      font-family: var(--font-jp);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--crimson);
+      margin-top: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      padding: 120px 0;
+      background: var(--crimson);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .contact-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+    .contact-heading {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .contact-sub {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      line-height: 2.0;
+      margin-bottom: 40px;
+    }
+    .contact-form-label {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .contact-form-field {
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 16px;
+      font-family: var(--font-jp);
+      font-size: 13px;
+      color: var(--white);
+      margin-bottom: 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .contact-form-field:focus { border-color: rgba(255,255,255,0.6); }
+    .contact-form-field::placeholder { color: rgba(255,255,255,0.3); }
+    .contact-form-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 16px;
+      font-family: var(--font-jp);
+      font-size: 13px;
+      color: var(--white);
+      margin-bottom: 20px;
+      outline: none;
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.2s;
+    }
+    .contact-form-textarea:focus { border-color: rgba(255,255,255,0.6); }
+    .contact-form-textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .btn-contact {
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      background: var(--white);
+      padding: 14px 36px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-contact:hover { opacity: 0.9; }
+    .sns-links-title {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 20px;
+    }
+    .sns-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .sns-link:hover { opacity: 0.75; }
+    .sns-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .sns-info {}
+    .sns-name {
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .sns-handle {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      margin-top: 2px;
+    }
+    .contact-meta {
+      margin-top: 32px;
+      font-family: var(--font-jp);
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.9;
+    }
+
+    /* ===== SNS / NOTE ===== */
+    #sns {
+      padding: 120px 0;
+      background: var(--white);
+    }
+    .sns-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .note-card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .note-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+    }
+    .note-thumb {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, var(--navy-mid) 0%, #2a3560 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .note-thumb-label {
+      font-family: var(--font-serif);
+      font-size: 11px;
+      color: rgba(250,250,248,0.3);
+      letter-spacing: 0.1em;
+    }
+    .note-thumb-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--crimson);
+    }
+    .note-info { padding: 18px; }
+    .note-mag {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 8px;
+    }
+    .note-title {
+      font-family: var(--font-jp);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .note-date {
+      font-family: var(--font-en);
+      font-size: 10px;
+      color: var(--gray-text);
+    }
+    .github-section {
+      background: var(--navy);
+      padding: 32px;
+      border-left: 3px solid var(--crimson);
+    }
+    .github-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .github-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .github-title {
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.08em;
+    }
+    .github-sub {
+      font-family: var(--font-en);
+      font-size: 10px;
+      color: var(--sky);
+    }
+    .github-dots {
+      display: grid;
+      grid-template-columns: repeat(52, 1fr);
+      gap: 3px;
+    }
+    .gh-dot {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.05);
+    }
+    .gh-dot.l1 { background: rgba(200,24,74,0.2); }
+    .gh-dot.l2 { background: rgba(200,24,74,0.45); }
+    .gh-dot.l3 { background: rgba(200,24,74,0.7); }
+    .gh-dot.l4 { background: var(--crimson); }
+
+    /* ===== DANCE ===== */
+    #dance {
+      padding: 120px 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    .dance-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .dance-text {
+      font-family: var(--font-jp);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(250,250,248,0.6);
+      line-height: 2.0;
+      margin-bottom: 32px;
+    }
+    .essp-list { list-style: none; margin-bottom: 32px; }
+    .essp-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .essp-year-badge {
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--crimson);
+      border: 1px solid rgba(200,24,74,0.4);
+      padding: 4px 12px;
+      flex-shrink: 0;
+      min-width: 80px;
+      text-align: center;
+    }
+    .essp-desc {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(250,250,248,0.7);
+    }
+    .essp-venue {
+      font-family: var(--font-en);
+      font-size: 10px;
+      color: var(--sky);
+      margin-top: 2px;
+    }
+    .dance-credentials {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+    }
+    .dance-cred-label {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 12px;
+    }
+    .dance-cred-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .dance-cred-tag {
+      font-family: var(--font-jp);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--sky);
+      border: 1px solid rgba(123,170,184,0.3);
+      padding: 5px 14px;
+    }
+    .ig-feed-label {
+      font-family: var(--font-en);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 16px;
+    }
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .ig-cell {
+      aspect-ratio: 1;
+      background: var(--navy-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 10px;
+      color: rgba(250,250,248,0.15);
+      letter-spacing: 0.05em;
+      position: relative;
+      overflow: hidden;
+    }
+    .ig-cell::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(200,24,74,0.05) 0%, transparent 100%);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #0A0F1E;
+      padding: 40px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(200,24,74,0.15);
+    }
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.06em;
+    }
+    .footer-logo em { color: var(--crimson); font-style: italic; }
+    .footer-copy {
+      font-family: var(--font-en);
+      font-size: 10px;
+      color: rgba(250,250,248,0.25);
+      letter-spacing: 0.1em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,250,248,0.3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--crimson); }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <div class="nav-logo">sesshuu <em>design</em></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#sns">Note</a></li>
+    <li><a href="#dance">Dance</a></li>
+  </ul>
+  <button class="nav-cta">Contact</button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Strategic Creator — AI × SEO × Design</div>
+      <div class="hero-title">sesshuu</div>
+      <div class="hero-title-accent">design</div>
+      <div class="hero-name">文月 雪舟</div>
+      <div class="hero-tagline">
+        AI・SEO・デザインを統合する戦略設計型クリエイター<br>
+        武蔵野美術大学 空間演出デザイン学科卒 / 大阪拠点・リモート可
+      </div>
+      <div class="hero-cta">
+        <button class="btn-primary">お問い合わせ →</button>
+        <button class="btn-outline">Works を見る</button>
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag">Strategic Design</span>
+        <span class="hero-tag">AI × SEO</span>
+        <span class="hero-tag">Illustration</span>
+        <span class="hero-tag">Logo Design</span>
+        <span class="hero-tag">Graphic Design</span>
+      </div>
+    </div>
+    <div class="hero-img-wrap">
+      <div class="hero-img-frame">
+        <img src="assets/icon.png" alt="sesshuu design — 文月雪舟" />
+      </div>
+      <div class="hero-img-accent"></div>
+      <div class="hero-img-accent2"></div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-label">
+        <span class="section-label-num">02</span>
+        <div class="section-label-line"></div>
+        <span class="section-label-text">About</span>
+      </div>
+      <h2 class="section-heading">制作する人ではなく、<br><em>設計できる人。</em></h2>
+      <div class="accent-bar"></div>
+      <p class="about-text">
+        武蔵野美術大学 空間演出デザイン学科（1994年卒業）を基盤に、大手メディア制作会社にて25年以上のキャリアを積み、ブランド戦略・データ分析・AI導入推進を担当。2005年にはヘルシンキ芸術デザイン大学（現・アアルト大学）への組織留学を経験し、フィンランド発祥のデザイン思想を吸収した国際的な視点が、現在の制作に活きています。
+      </p>
+      <p class="about-text">
+        現在はAI×SEO×Designを横断するハイブリッド型クリエイターとして活動。単に「作る」のではなく、目的から逆算して構造を設計することを信条としています。
+      </p>
+      <div class="about-tags">
+        <span class="tag">生成AIパスポート（2025）</span>
+        <span class="tag">日本着装百合の会師範免許（2020）</span>
+        <span class="tag">ヘルシンキ芸術デザイン大学留学（2005）</span>
+        <span class="tag">武蔵野美術大学 空間演出デザイン学科（1994）</span>
+      </div>
+      <button class="btn-outline-dark">経歴詳細を見る →</button>
+    </div>
+    <div>
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="stat-num">25<span class="stat-unit">+</span></div>
+          <div class="stat-label">年の経験</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">300<span class="stat-unit">+</span></div>
+          <div class="stat-label">制作実績</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">50<span class="stat-unit">+</span></div>
+          <div class="stat-label">クライアント</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">100<span class="stat-unit">+</span></div>
+          <div class="stat-label">SEO記事</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">85<span class="stat-unit">%</span></div>
+          <div class="stat-label">検索上位達成率</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">30<span class="stat-unit">+</span></div>
+          <div class="stat-label">プロジェクト</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">1994</div>
+          <div class="timeline-desc">武蔵野美術大学 空間演出デザイン学科 卒業</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2000〜</div>
+          <div class="timeline-desc">大手メディア制作会社 入社</div>
+          <div class="timeline-sub">ブランド戦略・データ分析・AI導入推進を担当</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2005</div>
+          <div class="timeline-desc">ヘルシンキ芸術デザイン大学 組織留学</div>
+          <div class="timeline-sub">現・アアルト大学 芸術・デザイン・建築学部</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2020</div>
+          <div class="timeline-desc">日本着装百合の会 師範免許取得</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-desc">生成AIパスポート取得 / ShiftAI PJメンバー</div>
+          <div class="timeline-sub">note「AIエージェントマガジン」始動</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERTISE ===== -->
+<section id="expertise">
+  <div class="expertise-bg"></div>
+  <div class="expertise-inner">
+    <div class="expertise-header">
+      <div>
+        <div class="section-label">
+          <span class="section-label-num" style="color:var(--sky);">03</span>
+          <div class="section-label-line" style="background:var(--sky);"></div>
+          <span class="section-label-text" style="color:var(--sky);">Expertise</span>
+        </div>
+        <h2 class="section-heading section-heading-white has-num"><span class="num-highlight">4</span><span class="num-text-wrap">つの専門領域、<br><em>唯一のポジション</em></span></h2>
+      </div>
+      <p class="expertise-sub">
+        戦略設計・SEO・デザイン・AI活用の4領域を横断できるクリエイターは希少です。それぞれの専門性が相互に強化し合い、単一領域では実現できない統合的な価値を提供します。
+      </p>
+    </div>
+    <div class="expertise-cards">
+      <div class="expertise-card">
+        <div class="expertise-card-num">01</div>
+        <span class="expertise-card-icon">🎯</span>
+        <div class="expertise-card-title">戦略設計</div>
+        <ul class="expertise-card-list">
+          <li>ブランド戦略立案</li>
+          <li>検索意図分析</li>
+          <li>情報構造設計</li>
+          <li>KPI設計・改善提案</li>
+        </ul>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-card-num">02</div>
+        <span class="expertise-card-icon">✍️</span>
+        <div class="expertise-card-title">SEO / Webライティング</div>
+        <ul class="expertise-card-list">
+          <li>5,000〜10,000字記事</li>
+          <li>BtoB向けSEO記事</li>
+          <li>内部リンク設計</li>
+          <li>検索上位達成率 85%</li>
+        </ul>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-card-num">03</div>
+        <span class="expertise-card-icon">🎨</span>
+        <div class="expertise-card-title">デザイン</div>
+        <ul class="expertise-card-list">
+          <li>SNSバナー制作</li>
+          <li>グラフィックデザイン</li>
+          <li>3D・空間デザイン</li>
+          <li>世界観設計型ビジュアル</li>
+        </ul>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-card-num">04</div>
+        <span class="expertise-card-icon">🤖</span>
+        <div class="expertise-card-title">AI活用・コンサル</div>
+        <ul class="expertise-card-list">
+          <li>生成AIパスポート（2025）</li>
+          <li>G検定取得準備中</li>
+          <li>業務効率化・プロンプト設計</li>
+          <li>ShiftAI PJメンバー</li>
+        </ul>
+        <div class="expertise-badge">生成AIパスポート</div>
+      </div>
+    </div>
+    <div class="ai-metrics">
+      <div class="ai-metric">
+        <div class="ai-metric-num">40%</div>
+        <div class="ai-metric-label">コンテンツ制作時間 削減</div>
+      </div>
+      <div class="ai-metric">
+        <div class="ai-metric-num">50%</div>
+        <div class="ai-metric-label">制作スピード 向上</div>
+      </div>
+      <div class="ai-metric">
+        <div class="ai-metric-num">35%</div>
+        <div class="ai-metric-label">デザイン効率 改善</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PHILOSOPHY ===== -->
+<section id="philosophy">
+  <div class="philosophy-inner">
+    <div class="philosophy-sticky">
+      <div class="section-label">
+        <span class="section-label-num">04</span>
+        <div class="section-label-line"></div>
+        <span class="section-label-text">Philosophy</span>
+      </div>
+      <h2 class="section-heading has-num"><span class="num-highlight">5</span><span class="num-text-wrap">つの設計思想が、<br><em>すべての仕事を貫く</em></span></h2>
+      <div class="accent-bar"></div>
+      <p class="philosophy-desc">
+        単に「作る」のではなく、目的から逆算して構造を設計する。デザインもSEOもAIも、すべては成果のための手段です。
+      </p>
+    </div>
+    <ul class="philosophy-list">
+      <li class="philosophy-item">
+        <div class="philosophy-num">01</div>
+        <div class="philosophy-content">
+          <div class="philosophy-title">目的から逆算して設計する</div>
+          <div class="philosophy-text">ビジュアルの美しさより、まず「何のために作るか」を問います。目的が明確であれば、手段は自ずと定まります。</div>
+        </div>
+      </li>
+      <li class="philosophy-item">
+        <div class="philosophy-num">02</div>
+        <div class="philosophy-content">
+          <div class="philosophy-title">構造を整えて成果につなげる</div>
+          <div class="philosophy-text">情報の構造が正しければ、デザインは自然に機能します。見た目の前に、論理的な骨格を設計します。</div>
+        </div>
+      </li>
+      <li class="philosophy-item">
+        <div class="philosophy-num">03</div>
+        <div class="philosophy-content">
+          <div class="philosophy-title">デザインは装飾ではなく成果設計</div>
+          <div class="philosophy-text">美しさと機能性は対立しません。ヘルシンキで学んだ北欧デザイン思想が、この信念の根底にあります。</div>
+        </div>
+      </li>
+      <li class="philosophy-item">
+        <div class="philosophy-num">04</div>
+        <div class="philosophy-content">
+          <div class="philosophy-title">SEOは流入ではなく"動線設計"</div>
+          <div class="philosophy-text">検索上位を取ることがゴールではありません。訪問者が自然に次のアクションへ進む動線を設計することが本質です。</div>
+        </div>
+      </li>
+      <li class="philosophy-item">
+        <div class="philosophy-num">05</div>
+        <div class="philosophy-content">
+          <div class="philosophy-title">AIは代替ではなく能力拡張</div>
+          <div class="philosophy-text">AIは人間の創造性を奪うのではなく、増幅させるツールです。生成AIパスポートを取得し、実務での活用を日々深めています。</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== WORKS ===== -->
+<section id="works">
+  <div class="works-inner">
+    <div class="works-header">
+      <div>
+        <div class="section-label">
+          <span class="section-label-num">05</span>
+          <div class="section-label-line"></div>
+          <span class="section-label-text">Works</span>
+        </div>
+        <h2 class="section-heading has-num"><span class="num-highlight">300</span><span class="num-text-wrap">件以上の制作実績が証明する、<br><em>世界観設計力</em></span></h2>
+      </div>
+      <button class="btn-outline-dark">すべて見る →</button>
+    </div>
+    <div class="works-filter">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Logo Design</button>
+      <button class="filter-btn">Graphic Design</button>
+      <button class="filter-btn">Illustration</button>
+      <button class="filter-btn">SNS Banner</button>
+    </div>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-thumb" style="padding:0;overflow:hidden;">
+          <img src="assets/glassdentistimage2025.jpg" alt="ブランドアイデンティティ設計" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="work-info">
+          <div class="work-cat">Logo Design</div>
+          <div class="work-title">ブランドアイデンティティ設計</div>
+          <div class="work-desc">クライアントの世界観と価値観を一つのシンボルに凝縮。ロゴは単なる図形ではなく、ブランドの哲学を視覚化したものです。</div>
+          <div class="work-case-flow">
+            <span class="work-case-item">課題</span>
+            <span class="work-case-arrow">→</span>
+            <span class="work-case-item">提案</span>
+            <span class="work-case-arrow">→</span>
+            <span class="work-case-item">成果</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb" style="padding:0;overflow:hidden;position:relative;background:#0F1629;">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <div style="font-family:var(--font-en);font-size:11px;color:var(--sky);letter-spacing:0.1em;">PDF PREVIEW</div>
+            <div style="font-family:var(--font-jp);font-size:13px;color:white;font-weight:500;">SNSビジュアルコミュニケーション</div>
+            <a href="assets/SAAL_The_Operational_Engine_compressed.pdf" target="_blank" style="margin-top:8px;padding:6px 16px;border:1px solid var(--sky);color:var(--sky);font-family:var(--font-en);font-size:10px;letter-spacing:0.1em;text-decoration:none;">VIEW PDF →</a>
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-cat">Graphic Design</div>
+          <div class="work-title">SNSビジュアルコミュニケーション</div>
+          <div class="work-desc">視認性と美しさを両立したビジュアルコミュニケーション。スクロールを止める瞬間的な訴求力を設計します。</div>
+          <div class="work-case-flow">
+            <span class="work-case-item">課題</span>
+            <span class="work-case-arrow">→</span>
+            <span class="work-case-item">提案</span>
+            <span class="work-case-arrow">→</span>
+            <span class="work-case-item">成果</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb" style="padding:0;overflow:hidden;">
+          <img src="assets/logo_fantasy.png" alt="キャラクター・世界観設計" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="work-info">
+          <div class="work-cat">Illustration</div>
+          <div class="work-title">キャラクター・世界観設計</div>
+          <div class="work-desc">独自のイラストレーションスタイルでブランドの個性を表現。記憶に残るビジュアルアイデンティティを構築します。</div>
+          <div class="work-case-flow">
+            <span class="work-case-item">課題</span>
+            <span class="work-case-arrow">→</span>
+            <span class="work-case-item">提案</span>
+            <span class="work-case-arrow">→</span>
+            <span class="work-case-item">成果</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section id="process">
+  <div class="process-inner">
+    <div class="section-label">
+      <span class="section-label-num" style="color:var(--sky);">06</span>
+      <div class="section-label-line" style="background:var(--sky);"></div>
+      <span class="section-label-text" style="color:var(--sky);">Process</span>
+    </div>
+    <h2 class="section-heading section-heading-white" style="margin-bottom:60px;">依頼から納品まで、<br><em>明確なフローで安心のプロセス</em></h2>
+    <div class="process-flow">
+      <div class="process-step">
+        <div class="process-circle">1</div>
+        <div class="process-name">お問い合わせ</div>
+        <div class="process-desc">フォームまたは<br>メールでご連絡</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle">2</div>
+        <div class="process-name">ヒアリング</div>
+        <div class="process-desc">課題・目標を<br>詳しくお伺い</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle">3</div>
+        <div class="process-name">提案・見積もり</div>
+        <div class="process-desc">最適なプランと<br>お見積りをご提示</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle">4</div>
+        <div class="process-name">プロジェクト開始</div>
+        <div class="process-desc">ご契約後、<br>制作スタート</div>
+      </div>
+    </div>
+    <div class="services-section">
+      <div class="services-label">Services</div>
+      <div class="services-grid">
+        <div class="service-item"><div class="service-dot"></div><span class="service-text">戦略設計・ブランドコンサルティング</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-text">SEOコンテンツ制作</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-text">デザイン制作（ロゴ・バナー・グラフィック）</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-text">AI活用支援・プロンプト設計</span></div>
+      </div>
+      <div class="service-note">法人提案 / 継続案件 歓迎</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-inner">
+    <div>
+      <div class="section-label">
+        <span class="section-label-num" style="color:rgba(255,255,255,0.5);">07</span>
+        <div class="section-label-line" style="background:rgba(255,255,255,0.3);"></div>
+        <span class="section-label-text" style="color:rgba(255,255,255,0.4);">Contact</span>
+      </div>
+      <h2 class="contact-heading">まずは、<br>お気軽に<br>ご相談ください。</h2>
+      <p class="contact-sub">
+        AI×SEO×Designを統合した戦略設計で、あなたのビジネスの課題を構造から解決します。
+      </p>
+      <div class="sns-links-title">SNS / Links</div>
+      <a href="https://github.com/" class="sns-link">
+        <div class="sns-icon">GH</div>
+        <div class="sns-info">
+          <div class="sns-name">GitHub</div>
+          <div class="sns-handle">sesshuu design</div>
+        </div>
+      </a>
+      <a href="https://note.com/" class="sns-link">
+        <div class="sns-icon">N</div>
+        <div class="sns-info">
+          <div class="sns-name">note</div>
+          <div class="sns-handle">AIエージェントマガジン</div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/sesshuu_design/" class="sns-link">
+        <div class="sns-icon">IG</div>
+        <div class="sns-info">
+          <div class="sns-name">Instagram</div>
+          <div class="sns-handle">@sesshuu_design</div>
+        </div>
+      </a>
+      <a href="https://x.com/sesshuuX" class="sns-link">
+        <div class="sns-icon">X</div>
+        <div class="sns-info">
+          <div class="sns-name">X (Twitter)</div>
+          <div class="sns-handle">@sesshuuX — 文月雪舟</div>
+        </div>
+      </a>
+      <div class="contact-meta">
+        大阪拠点 / リモート可<br>
+        法人提案・継続案件 歓迎
+      </div>
+    </div>
+    <form action="mailto:yukikiki2011+work@gmail.com" method="post" enctype="text/plain">
+      <label class="contact-form-label">お名前</label>
+      <input class="contact-form-field" type="text" name="name" placeholder="山田 太郎" />
+      <label class="contact-form-label">メールアドレス</label>
+      <input class="contact-form-field" type="email" name="email" placeholder="your@email.com" />
+      <label class="contact-form-label">件名</label>
+      <input class="contact-form-field" type="text" name="subject" placeholder="ご相談内容をひとことで" />
+      <label class="contact-form-label">メッセージ</label>
+      <textarea class="contact-form-textarea" name="message" placeholder="プロジェクトの概要、ご予算、スケジュールなどをお気軽にご記入ください。"></textarea>
+      <button type="submit" class="btn-contact">送信する →</button>
+      <div style="margin-top:40px;width:100%;">
+        <img src="assets/welcome_banner.jpg" alt="Welcome @sesshuu design" style="width:100%;height:auto;display:block;object-fit:contain;" />
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ===== SNS / NOTE ===== -->
+<section id="sns">
+  <div class="sns-inner">
+    <div class="section-label">
+      <span class="section-label-num">08</span>
+      <div class="section-label-line"></div>
+      <span class="section-label-text">SNS / Note</span>
+    </div>
+    <h2 class="section-heading" style="margin-bottom:8px;">オープンな制作活動で、<br><em>信頼を積み上げる</em></h2>
+    <div class="accent-bar"></div>
+    <p style="font-family:var(--font-jp);font-size:14px;font-weight:300;color:#666;line-height:2.0;margin-bottom:40px;">
+      note「AIエージェントマガジン」始動。AI活用・デザイン・ストラテジーに関する知見を継続発信。日常的な学びと思考のプロセスを公開することで、訪問者に信頼を届けます。
+    </p>
+    <div class="note-grid">
+      <a class="note-card" href="https://note.com/sesshuu/n/n" target="_blank" style="text-decoration:none;color:inherit;">
+        <div class="note-thumb" style="background:linear-gradient(135deg, #C8184A 0%, #9e1238 100%);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;padding:16px;">
+            <div style="font-family:var(--font-serif);font-size:20px;color:white;font-style:italic;line-height:1.4;">AI Agent<br>Magazine</div>
+          </div>
+        </div>
+        <div class="note-info">
+          <div class="note-mag">AIエージェントマガジン</div>
+          <div class="note-title">Sesshuu design〜AIエージェント生存戦略〜</div>
+          <div class="note-date">note — Sesshuu</div>
+        </div>
+      </a>
+      <a class="note-card" href="https://note.com/sesshuu/" target="_blank" style="text-decoration:none;color:inherit;">
+        <div class="note-thumb" style="background:linear-gradient(135deg, #1a2340 0%, #2d3a5e 100%);;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;padding:16px;">
+            <div style="font-family:var(--font-en);font-size:13px;color:var(--sky);font-weight:600;line-height:1.5;">仕事は「指示」より<br>「設計」になる</div>
+          </div>
+        </div>
+        <div class="note-info">
+          <div class="note-mag">AIエージェントマガジン</div>
+          <div class="note-title">AIエージェント時代、仕事は「指示」より「設計」になる</div>
+          <div class="note-date">note — Sesshuu</div>
+        </div>
+      </a>
+      <a class="note-card" href="https://note.com/sesshuu/" target="_blank" style="text-decoration:none;color:inherit;">
+        <div class="note-thumb" style="background:linear-gradient(135deg, #2a1a2e 0%, #3d2a4a 100%);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;padding:16px;">
+            <div style="font-family:var(--font-en);font-size:13px;color:#c8a0d8;font-weight:600;line-height:1.5;">AIと一緒に進化する<br>Sesshuuデザイン</div>
+          </div>
+        </div>
+        <div class="note-info">
+          <div class="note-mag">AIエージェントマガジン</div>
+          <div class="note-title">AIと一緒に進化するSesshuuデザイン：試行錯誤の全記録</div>
+          <div class="note-date">note — Sesshuu</div>
+        </div>
+      </a>
+    </div>
+    <div class="github-section">
+      <div class="github-header">
+        <div class="github-icon">GH</div>
+        <div>
+          <div class="github-title">sesshuu design — GitHub</div>
+          <div class="github-sub">Contributions in the last year</div>
+        </div>
+      </div>
+      <div class="github-dots" id="ghDots2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DANCE ===== -->
+<section id="dance">
+  <div class="dance-inner">
+    <div>
+      <div class="section-label">
+        <span class="section-label-num" style="color:var(--sky);">09</span>
+        <div class="section-label-line" style="background:var(--sky);"></div>
+        <span class="section-label-text" style="color:var(--sky);">Subculture / Dance</span>
+      </div>
+      <h2 class="section-heading section-heading-white">身体で表現する<br><em>デザイン</em></h2>
+      <div class="accent-bar"></div>
+      <p class="dance-text">
+        ハウス＆ヒップホップダンサーとして、大規模ダンスイベント「ESSP（East Side Spring Party）」に三年連続で出演。身体で表現するデザインを体現し、ビジネスクリエイターとしての層を超えた人間的な幅を示します。
+      </p>
+      <ul class="essp-list">
+        <li class="essp-item">
+          <div class="essp-year-badge">ESSP 2023</div>
+          <div>
+            <div class="essp-desc">East Side Spring Party 出演</div>
+          </div>
+        </li>
+        <li class="essp-item">
+          <div class="essp-year-badge">ESSP 2024</div>
+          <div>
+            <div class="essp-desc">East Side Spring Party 出演</div>
+            <div class="essp-venue">2024.06.02 — CLUB CITTA'</div>
+          </div>
+        </li>
+        <li class="essp-item">
+          <div class="essp-year-badge">ESSP 2025</div>
+          <div>
+            <div class="essp-desc">East Side Spring Party 出演</div>
+          </div>
+        </li>
+      </ul>
+      <div class="dance-credentials">
+        <div class="dance-cred-label">Specialties — 着装・伝統文化</div>
+        <div class="dance-cred-tags">
+          <span class="dance-cred-tag">日本着装百合の会師範免許（2020）</span>
+          <span class="dance-cred-tag">和装スタイリング</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px;">
+          <img src="assets/kimono01.jpg" alt="着装作品1" style="width:100%;height:180px;object-fit:cover;display:block;border-radius:4px;" />
+          <img src="assets/kimono02.jpg" alt="着装作品2" style="width:100%;height:180px;object-fit:cover;display:block;border-radius:4px;" />
+          <img src="assets/yuri_kai.png" alt="日本着装百合乃会" style="width:100%;height:180px;object-fit:cover;display:block;border-radius:4px;" />
+        </div>
+        <div style="margin-top:16px;">
+          <a href="http://www.nihonchakusou-yurinokai.com/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:1px solid var(--sky);color:var(--sky);font-family:var(--font-en);font-size:11px;letter-spacing:0.1em;text-decoration:none;">
+            <span style="font-family:var(--font-jp);font-size:12px;">日本着装百合乃会</span>
+            <span style="font-size:10px;">→ 公式サイト</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="ig-feed-label">Instagram Feed — @sesshuu_design</div>
+      <div class="ig-grid">
+        <div class="ig-cell" style="padding:0;overflow:hidden;"><img src="assets/dancer00.png" alt="dancer" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+        <div class="ig-cell" style="padding:0;overflow:hidden;"><img src="assets/dancer01.png" alt="dancer" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+        <div class="ig-cell" style="padding:0;overflow:hidden;"><img src="assets/noa_180419.png" alt="NOA IMPACT" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+        <div class="ig-cell" style="padding:0;overflow:hidden;"><img src="assets/noa_180508.png" alt="NOA IMPACT" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+        <div class="ig-cell" style="padding:0;overflow:hidden;"><img src="assets/noa_180731.png" alt="NOA IMPACT" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+        <div class="ig-cell" style="padding:0;overflow:hidden;"><img src="assets/noa_180812.png" alt="NOA IMPACT" style="width:100%;height:100%;object-fit:cover;display:block;"/></div>
+      </div>
+      <button class="btn-outline" style="font-size:11px;">Instagram を見る →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">sesshuu <em>design</em></div>
+  <div class="footer-copy">© 2025 文月雪舟 / sesshuu design. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#works">Works</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // GitHub contribution graph
+  const container = document.getElementById('ghDots2');
+  const levels = ['', 'l1', 'l2', 'l3', 'l4'];
+  for (let i = 0; i < 364; i++) {
+    const dot = document.createElement('div');
+    const r = Math.random();
+    let cls = 'gh-dot';
+    if (r > 0.88) cls += ' l4';
+    else if (r > 0.75) cls += ' l3';
+    else if (r > 0.60) cls += ' l2';
+    else if (r > 0.45) cls += ' l1';
+    dot.className = cls;
+    container.appendChild(dot);
+  }
+</script>
+</body>
+</html>
