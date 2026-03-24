@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10月の猿人 - AI時代の職人集団</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --accent-pink: #ff3c8e;
+    --accent-cyan: #00e5ff;
+    --accent-purple: #a855f7;
+    --accent-orange: #ff8c42;
+    --accent-green: #34d399;
+    --gradient-1: linear-gradient(135deg, #ff3c8e, #a855f7);
+    --gradient-2: linear-gradient(135deg, #00e5ff, #a855f7);
+    --gradient-3: linear-gradient(135deg, #ff8c42, #ff3c8e);
+  }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ---- Navigation ---- */
+  .nav-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 48px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-bar .logo { font-weight: 700; font-size: 13px; color: var(--text-dim); letter-spacing: 2px; }
+  .nav-bar .page-indicator { font-size: 13px; color: var(--text-dim); }
+  .nav-bar .page-indicator span { color: var(--accent-cyan); font-weight: 700; }
+
+  .progress-bar {
+    position: fixed; top: 48px; left: 0; height: 2px;
+    background: var(--gradient-2);
+    z-index: 101;
+    transition: width 0.4s ease;
+  }
+
+  /* ---- Slide Container ---- */
+  .slides-wrapper {
+    width: 100vw; height: 100vh;
+    position: relative;
+  }
+  .slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 72px 48px 48px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    overflow-y: auto;
+  }
+  .slide.active {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+  }
+  .slide-inner {
+    max-width: 960px; width: 100%;
+  }
+
+  /* ---- Typography ---- */
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    color: var(--accent-cyan);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .slide-title {
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .slide-title .gradient-text {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .slide-subtitle {
+    font-size: clamp(14px, 2vw, 17px);
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  /* ---- Cards ---- */
+  .card-grid {
+    display: grid;
+    gap: 16px;
+  }
+  .card-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .card-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.3s;
+  }
+  .card:hover { border-color: var(--accent-purple); }
+  .card .card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .card h3 {
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .card p, .card ul {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .card ul { padding-left: 16px; }
+  .card ul li { margin-bottom: 4px; }
+
+  .card-accent-top {
+    border-top: 2px solid var(--accent-pink);
+  }
+  .card-accent-top.cyan { border-top-color: var(--accent-cyan); }
+  .card-accent-top.purple { border-top-color: var(--accent-purple); }
+  .card-accent-top.orange { border-top-color: var(--accent-orange); }
+  .card-accent-top.green { border-top-color: var(--accent-green); }
+
+  /* ---- Tags / Badges ---- */
+  .badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .badge.pink { background: rgba(255,60,142,0.15); color: var(--accent-pink); }
+  .badge.cyan { background: rgba(0,229,255,0.15); color: var(--accent-cyan); }
+  .badge.purple { background: rgba(168,85,247,0.15); color: var(--accent-purple); }
+  .badge.orange { background: rgba(255,140,66,0.15); color: var(--accent-orange); }
+  .badge.green { background: rgba(52,211,153,0.15); color: var(--accent-green); }
+
+  /* ---- Flow / Steps ---- */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .flow-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .flow-arrow { color: var(--accent-cyan); font-size: 20px; }
+
+  /* ---- KPI Metric ---- */
+  .metric {
+    text-align: center;
+    padding: 16px;
+  }
+  .metric .value {
+    font-size: 32px;
+    font-weight: 900;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .metric .label {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* ---- Timeline ---- */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 10px; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -27px; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    border: 2px solid var(--bg);
+  }
+  .timeline-item .step-num {
+    font-size: 11px; font-weight: 700;
+    color: var(--accent-cyan);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .timeline-item h3 {
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-item p {
+    font-size: 13px; color: var(--text-dim); line-height: 1.6;
+  }
+  .timeline-item .meta {
+    font-size: 11px;
+    color: var(--accent-purple);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* ---- CTA Section ---- */
+  .cta-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+  .cta-box h3 {
+    font-size: 20px; font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .cta-box p {
+    font-size: 14px; color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 14px; font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--gradient-1);
+    color: #fff;
+  }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* ---- Slide 1 Hero ---- */
+  .hero-center { text-align: center; }
+  .hero-center .hero-title {
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero-center .hero-sub {
+    font-size: clamp(15px, 2.5vw, 20px);
+    color: var(--text-dim);
+    margin-bottom: 32px;
+  }
+  .hero-tags { margin-bottom: 24px; }
+
+  /* ---- Bottom nav arrows ---- */
+  .slide-nav {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+  .slide-nav button {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .slide-nav button:hover {
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+  }
+
+  /* ---- Unit stripe ---- */
+  .unit-card {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .unit-card .unit-badge {
+    flex-shrink: 0;
+    width: 8px;
+    border-radius: 4px;
+    align-self: stretch;
+  }
+  .unit-card .unit-body h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .unit-card .unit-body p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+  .unit-card .unit-results {
+    font-size: 12px; color: var(--accent-green); margin-top: 8px; font-weight: 500;
+  }
+
+  /* ---- Service 2-col ---- */
+  .service-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 700px) {
+    .service-split { grid-template-columns: 1fr; }
+    .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr; }
+  }
+  .service-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .service-box h3 {
+    font-size: 16px; font-weight: 700; margin-bottom: 4px;
+  }
+  .service-box .service-desc {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.6;
+  }
+  .service-box .detail-row {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .service-box .detail-item {
+    font-size: 12px;
+  }
+  .service-box .detail-item .dl { color: var(--text-dim); }
+  .service-box .detail-item .dv { font-weight: 700; color: var(--accent-cyan); }
+  .service-box ul {
+    padding-left: 16px;
+    font-size: 13px; color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ---- Team ---- */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .team-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 13px;
+  }
+  .team-card .role {
+    font-size: 11px; font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 6px;
+  }
+  .team-card .members {
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ---- Strengths ---- */
+  .strength-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .strength-item .s-icon {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    background: rgba(168,85,247,0.15);
+  }
+  .strength-item h3 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .strength-item p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  .tagline {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dim);
+    margin-top: 12px;
+  }
+  .tagline em {
+    font-style: normal;
+    color: var(--accent-pink);
+  }
+  /* ---- Slide 1 Split Design ---- */
+  .slide[data-slide="1"] {
+    padding: 0;
+    align-items: stretch;
+  }
+  .hero-split {
+    display: flex;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+  }
+  .hero-split .hero-left {
+    flex: 1.2;
+    background: url("./images/bg.png") center/cover no-repeat;
+    position: relative;
+  }
+  .hero-split .hero-right {
+    flex: 1;
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background: var(--bg);
+  }
+  .hero-split .main-title {
+    font-size: clamp(40px, 5vw, 70px);
+    font-weight: 900;
+    margin-bottom: 24px;
+    line-height: 1.2;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+  .hero-split .hero-logo {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 140px;
+    height: auto;
+    background: transparent;
+    padding: 0;
+    mix-blend-mode: screen;
+  }
+  .hero-split .accent-line {
+    position: absolute;
+    left: 0;
+    top: 15%;
+    bottom: 25%;
+    width: 8px;
+    background: linear-gradient(to bottom, var(--accent-cyan) 40%, transparent 40%, transparent 42%, var(--accent-pink) 42%);
+  }
+  .hero-split .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 40px;
+  }
+  .hero-split .footer-text {
+    position: absolute;
+    bottom: 24px;
+    left: 60px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="nav-bar">
+  <div class="logo">OCTOBER ENGINE</div>
+  <div class="page-indicator"><span id="currentPage">1</span> / 10</div>
+</div>
+<div class="progress-bar" id="progressBar" style="width:10%"></div>
+
+<!-- Slides -->
+<div class="slides-wrapper">
+
+  <!-- Slide 1: Title -->
+  <div class="slide active" data-slide="1">
+    <div class="slide-inner hero-split">
+      <div class="hero-left"></div>
+      <div class="hero-right">
+        <div class="accent-line"></div>
+        <div class="hero-logo">
+          <img src="./images/logo.png" alt="Logo" style="width:100%; height:100%; object-fit:contain;">
+        </div>
+        
+        <div class="section-label" style="font-size:14px; margin-bottom:4px; color:var(--text-dim); letter-spacing:3px;">OCTOBER ENGINE</div>
+        <div style="font-size:12px; color:var(--text-dim); margin-bottom:32px;">10月の猿人</div>
+
+        <div class="main-title">10月の猿人</div>
+        
+        <div style="font-size:18px; font-weight:700; line-height:1.6; margin-bottom:24px;">
+          AI時代の職人集団。<br>複雑を、シンプルに。
+        </div>
+
+        <div style="font-size:14px; color:var(--text-dim);">
+          AIで、次の仕事をつくる。
+        </div>
+
+        <div class="service-card">
+          <h3 style="font-size:12px; color:var(--text-dim); margin-bottom:12px; font-weight:500;">ワンストップ支援領域</h3>
+          <p style="font-size:16px; font-weight:700; margin-bottom:12px; line-height:1.6;">
+            営業・実装・デザイン・文章・動画・SNS・<br>教育まで
+          </p>
+          <ul style="padding-left:16px; font-size:12px; color:var(--text-dim); line-height:1.8;">
+            <li>企画→実装→運用→定着（教育）まで一気通貫</li>
+            <li>単発で終わらせず、成果が出る形へ伴走</li>
+          </ul>
+        </div>
+
+        <div class="footer-text">提案資料 | {日付を入力}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Problem -->
+  <div class="slide" data-slide="2">
+    <div class="slide-inner">
+      <div class="section-label">PROBLEM</div>
+      <div class="slide-title">企業が抱える<span class="gradient-text">AI活用の3つの壁</span></div>
+      <div class="slide-subtitle">導入はできても「現場で使い切れない」「成果に結びつかない」——多くの現場で起きています。</div>
+      <div class="card-grid cols-3">
+        <div class="card card-accent-top">
+          <div class="card-icon">🧭</div>
+          <h3>どこから始めるか分からない</h3>
+          <p>目的設計・優先順位が曖昧なまま導入が先行。「何を改善し、どこから効かせるか」が決まらず、止まりやすい。</p>
+          <ul style="margin-top:10px;">
+            <li>ツール選定がゴールになっている</li>
+            <li>担当者が孤立し、企画が進まない</li>
+          </ul>
+        </div>
+        <div class="card card-accent-top purple">
+          <div class="card-icon">⚙️</div>
+          <h3>現場で使い切れない</h3>
+          <p>運用設計やテンプレが無く、属人的な利用に。仕組み化できず「続かない」「品質が揺れる」状態に陥る。</p>
+          <ul style="margin-top:10px;">
+            <li>プロンプトが個人依存で再現性がない</li>
+            <li>教育・定着の場が用意できない</li>
+          </ul>
+        </div>
+        <div class="card card-accent-top orange">
+          <div class="card-icon">📉</div>
+          <h3>成果が見えない</h3>
+          <p>売上・工数・CV・発信KPIなど、指標に接続できない。価値が説明できず、継続投資が難しくなる。</p>
+          <ul style="margin-top:10px;">
+            <li>ROIが語れず、社内説得が通らない</li>
+            <li>改善が回らず、効果が頭打ち</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note" style="text-align:center;margin-top:24px;">これらは「人材の寄せ集め」では解けません。必要なのは、<strong style="color:var(--accent-cyan);">設計・実装・運用・教育をチームで回す体制</strong>です。</p>
+    </div>
+  </div>
+
+  <!-- Slide 3: Solution -->
+  <div class="slide" data-slide="3">
+    <div class="slide-inner">
+      <div class="section-label">SOLUTION</div>
+      <div class="slide-title">解決策＝<span class="gradient-text">チームで伴走する実装集団</span></div>
+      <div class="slide-subtitle">「AIを入れる」ではなく、現場で使える成果に変えるために、設計から定着までを一気通貫で回します。</div>
+      <div class="flow-row">
+        <div class="flow-step">🎯 企画<br><small style="color:var(--text-dim);font-weight:400;">目的・優先順位を設計</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">⚡ 実装<br><small style="color:var(--text-dim);font-weight:400;">プロンプト・仕組み化</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">🔄 運用<br><small style="color:var(--text-dim);font-weight:400;">KPIで改善を回す</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📚 教育<br><small style="color:var(--text-dim);font-weight:400;">再現性として定着</small></div>
+      </div>
+      <div class="divider"></div>
+      <p class="tagline" style="text-align:center;">複雑を、<em>シンプルな成果へ。</em></p>
+      <p class="note" style="text-align:center;">AI・業務・制作・集客が絡む課題を整理し、実装し、運用し、価値として定着させます。<br>AI人材の寄せ集めではなく、役割が連携する"チーム設計"で成果まで到達します。</p>
+    </div>
+  </div>
+
+  <!-- Slide 4: Value -->
+  <div class="slide" data-slide="4">
+    <div class="slide-inner">
+      <div class="section-label">VALUE</div>
+      <div class="slide-title">提供価値：<span class="gradient-text">3つのユニットで前進</span></div>
+      <div class="slide-subtitle">外向きは「11人」ではなく、3ユニットで記憶される形に整理します。</div>
+
+      <div class="unit-card">
+        <div class="unit-badge" style="background:var(--accent-pink);"></div>
+        <div class="unit-body">
+          <h3>ユニットA｜AI業務改善・実装</h3>
+          <p>業務効率化／プロンプト設計／テンプレ整備／定着支援（簡易レクチャー・運用設計）</p>
+          <div class="unit-results">成果の例：工数削減／品質の標準化／対応速度の改善</div>
+        </div>
+      </div>
+
+      <div class="unit-card">
+        <div class="unit-badge" style="background:var(--accent-purple);"></div>
+        <div class="unit-body">
+          <h3>ユニットB｜ブランド・コンテンツ制作</h3>
+          <p>Web／LP／コピーライティング／デザイン／動画制作／ブランド表現（世界観づくり）</p>
+          <div class="unit-results">成果の例：CV改善／提案力の向上／制作スピードの増強</div>
+        </div>
+      </div>
+
+      <div class="unit-card">
+        <div class="unit-badge" style="background:var(--accent-cyan);"></div>
+        <div class="unit-body">
+          <h3>ユニットC｜集客・運用・マネタイズ</h3>
+          <p>SNS運用／コンテンツ導線設計／収益化設計／運用改善（KPIで回す）</p>
+          <div class="unit-results">成果の例：投稿継続率UP／商談数UP／運用の型化</div>
+        </div>
+      </div>
+
+      <p class="note" style="text-align:center;">役割が連携することで、AI活用を「導入」から「成果」へ。必要なユニットから柔軟に編成します。</p>
+    </div>
+  </div>
+
+  <!-- Slide 5: Service 1 -->
+  <div class="slide" data-slide="5">
+    <div class="slide-inner">
+      <div class="section-label">SERVICE</div>
+      <div class="slide-title">主力サービス①：<span class="gradient-text">入口〜実装</span></div>
+      <div class="slide-subtitle">小さく入って課題を掴み、短期間で"使える仕組み"まで落とし込みます。</div>
+
+      <div class="service-split">
+        <div class="service-box" style="border-top:2px solid var(--accent-cyan);">
+          <h3>🔍 AI業務改善診断（入口）</h3>
+          <p class="service-desc">まず「何を、どこから」改善するかを明確に</p>
+          <ul>
+            <li>現状ヒアリング／業務フロー可視化</li>
+            <li>AIで削減できる工数ポイント整理</li>
+            <li>導入優先順位の提案</li>
+            <li>即効改善案を1〜3個提示</li>
+          </ul>
+          <div class="detail-row" style="margin-top:16px;">
+            <div class="detail-item"><span class="dl">期間：</span><span class="dv">1〜2週</span></div>
+            <div class="detail-item"><span class="dl">価格目安：</span><span class="dv">5〜15万円（税別）</span></div>
+          </div>
+          <p style="font-size:12px;color:var(--accent-green);margin-top:8px;">▶ 改善ロードマップ／即効施策案／優先順位を"見える化"</p>
+        </div>
+
+        <div class="service-box" style="border-top:2px solid var(--accent-orange);">
+          <h3>⚡ AI実装スプリント（主力）</h3>
+          <p class="service-desc">短期間で仕組みを実装し、運用に載せる</p>
+          <ul>
+            <li>プロンプト設計／業務効率化の実装</li>
+            <li>テンプレ整備／ドキュメント化</li>
+            <li>運用フロー設計（役割・ルール）</li>
+            <li>チームへの簡易レクチャー</li>
+          </ul>
+          <div class="detail-row" style="margin-top:16px;">
+            <div class="detail-item"><span class="dl">期間：</span><span class="dv">2〜6週</span></div>
+            <div class="detail-item"><span class="dl">価格目安：</span><span class="dv">30〜80万円（税別）</span></div>
+          </div>
+          <p style="font-size:12px;color:var(--accent-green);margin-top:8px;">▶ 営業資料／SNS運用／記事・台本制作／問い合わせ対応の型化</p>
+        </div>
+      </div>
+
+      <p class="note" style="text-align:center;margin-top:20px;">まずは診断で「最短で効くポイント」を特定し、スプリントで実装。必要に応じて顧問・制作・教育へ拡張できます。</p>
+    </div>
+  </div>
+
+  <!-- Slide 6: Service 2 -->
+  <div class="slide" data-slide="6">
+    <div class="slide-inner">
+      <div class="section-label">SERVICE</div>
+      <div class="slide-title">主力サービス②：<span class="gradient-text">集客と継続</span></div>
+      <div class="slide-subtitle">つくって終わりではなく、集客導線の構築→運用改善まで伴走します。</div>
+
+      <div class="service-split">
+        <div class="service-box" style="border-top:2px solid var(--accent-pink);">
+          <h3>🎯 集客導線構築パッケージ</h3>
+          <p class="service-desc">LP〜SNS〜動画を「売れる導線」に統合</p>
+          <ul>
+            <li>LP／Web制作（導線設計含む）</li>
+            <li>コピーライティング（訴求・オファー設計）</li>
+            <li>SNS運用設計（投稿型・テンプレ・導線）</li>
+            <li>動画編集（ショート／YouTube用の型化）</li>
+          </ul>
+          <div class="detail-row" style="margin-top:16px;">
+            <div class="detail-item"><span class="dl">期間：</span><span class="dv">3〜6週</span></div>
+            <div class="detail-item"><span class="dl">価格目安：</span><span class="dv">50〜150万円（税別）</span></div>
+          </div>
+          <p style="font-size:12px;color:var(--accent-green);margin-top:8px;">▶ LP／投稿テンプレ／台本・編集プリセット／導線設計図（KPI含む）</p>
+        </div>
+
+        <div class="service-box" style="border-top:2px solid var(--accent-purple);">
+          <h3>🤝 AI伴走顧問（継続）</h3>
+          <p class="service-desc">運用を回し、成果が出るまで改善し続ける</p>
+          <ul>
+            <li>月次相談／壁打ち（戦略・施策・優先順位）</li>
+            <li>プロンプト改善／テンプレ拡張</li>
+            <li>運用レビュー（KPI・導線・制作フロー）</li>
+            <li>新AIツール導入提案／定着支援</li>
+          </ul>
+          <div class="detail-row" style="margin-top:16px;">
+            <div class="detail-item"><span class="dl">頻度：</span><span class="dv">月1〜2回</span></div>
+            <div class="detail-item"><span class="dl">価格目安：</span><span class="dv">月15〜50万円（税別）</span></div>
+          </div>
+          <p style="font-size:12px;color:var(--accent-green);margin-top:8px;">▶ SNS運用の改善／問い合わせ対応の型化／提案・制作の効率化</p>
+        </div>
+      </div>
+
+      <p class="note" style="text-align:center;margin-top:20px;">まずは導線を整え、運用を回しながら改善。必要に応じてスプリント（実装）や教育支援へ拡張できます。</p>
+    </div>
+  </div>
+
+  <!-- Slide 7: Strengths -->
+  <div class="slide" data-slide="7">
+    <div class="slide-inner">
+      <div class="section-label">STRENGTHS</div>
+      <div class="slide-title">10月の猿人の<span class="gradient-text">強み</span></div>
+      <div class="slide-subtitle">"AIが使える"ではなく、成果が出る形に実装して定着させるためのチーム体制です。</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div>
+          <h3 style="font-size:14px;color:var(--accent-cyan);margin-bottom:16px;">営業で刺さる「4つの強み」</h3>
+
+          <div class="strength-item">
+            <div class="s-icon">🔗</div>
+            <div>
+              <h3>ワンストップ（企画〜教育）</h3>
+              <p>導入で止めず、現場の運用ルール・テンプレまで整備して定着させます。</p>
+            </div>
+          </div>
+
+          <div class="strength-item">
+            <div class="s-icon" style="background:rgba(255,60,142,0.15);">🛠️</div>
+            <div>
+              <h3>実装できる × 伝えられる</h3>
+              <p>システム/プロンプトの実装と、文章・デザイン・動画での伝達が同居。</p>
+            </div>
+          </div>
+
+          <div class="strength-item">
+            <div class="s-icon" style="background:rgba(0,229,255,0.15);">⚡</div>
+            <div>
+              <h3>小回りとスピード</h3>
+              <p>診断→スプリントで、短期間に"使える仕組み"として提供します。</p>
+            </div>
+          </div>
+
+          <div class="strength-item">
+            <div class="s-icon" style="background:rgba(52,211,153,0.15);">📊</div>
+            <div>
+              <h3>数字で語る運用</h3>
+              <p>工数・売上・CV・制作本数などKPIに接続し、改善を継続します。</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size:14px;color:var(--accent-cyan);margin-bottom:16px;">チーム体制（役割で編成）</h3>
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="role">🎯 PM / 営業</div>
+              <div class="members">ナカザキ</div>
+            </div>
+            <div class="team-card">
+              <div class="role">✑ クリエイティブ</div>
+              <div class="members">雪舟／フレデリック／しのさん／沖さん</div>
+            </div>
+            <div class="team-card">
+              <div class="role">⚡ 実装</div>
+              <div class="members">ジェット／みっちー</div>
+            </div>
+            <div class="team-card">
+              <div class="role">📣 集客 / 運用</div>
+              <div class="members">みはるさん／大阪の男の子</div>
+            </div>
+            <div class="team-card">
+              <div class="role">🤝 サポート</div>
+              <div class="members">かなこちゃん／Mino</div>
+            </div>
+          </div>
+          <p class="note">課題に合わせてユニットを組み替え。単発支援で終わらせず、役割分担されたチームで「実装→運用→改善」を回します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: Results -->
+  <div class="slide" data-slide="8">
+    <div class="slide-inner">
+      <div class="section-label">RESULTS</div>
+      <div class="slide-title">実績・<span class="gradient-text">成果</span></div>
+      <div class="slide-subtitle">「できる」を数字で見える化。実数は貴社事例に合わせて差し替え可能です。</div>
+
+      <div class="card-grid cols-3">
+        <div class="card card-accent-top">
+          <h3>事例A｜営業資料作成の効率化</h3>
+          <p style="margin-bottom:12px;">提案書づくりを"型"にして速くする</p>
+          <p><strong style="color:var(--text);">課題：</strong>提案資料の作成に時間がかかり、提案数が伸びない。</p>
+          <p style="margin-top:8px;"><strong style="color:var(--text);">施策：</strong>提案テンプレ＋プロンプト整備、構成/言い回しを標準化</p>
+          <div style="display:flex;gap:16px;margin-top:16px;">
+            <div class="metric">
+              <div class="value">-40%</div>
+              <div class="label">作成時間</div>
+            </div>
+            <div class="metric">
+              <div class="value">×2倍</div>
+              <div class="label">提案本数</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-accent-top cyan">
+          <h3>事例B｜SNS/動画運用の型化</h3>
+          <p style="margin-bottom:12px;">制作フローを定型化して継続</p>
+          <p><strong style="color:var(--text);">課題：</strong>投稿・動画が属人化し、更新が止まりやすい。</p>
+          <p style="margin-top:8px;"><strong style="color:var(--text);">施策：</strong>台本テンプレ／編集プリセット、投稿カレンダー＋チェック体制</p>
+          <div style="display:flex;gap:16px;margin-top:16px;">
+            <div class="metric">
+              <div class="value">8→16</div>
+              <div class="label">月間投稿数</div>
+            </div>
+            <div class="metric">
+              <div class="value">95%</div>
+              <div class="label">継続率</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-accent-top orange">
+          <h3>事例C｜LPリニューアル</h3>
+          <p style="margin-bottom:12px;">訴求と導線を磨き、CVを改善</p>
+          <p><strong style="color:var(--text);">課題：</strong>反応が伸びず、問い合わせに繋がりにくい。</p>
+          <p style="margin-top:8px;"><strong style="color:var(--text);">施策：</strong>コピー最適化（訴求整理）、CTA/導線の再設計</p>
+          <div style="margin-top:16px;">
+            <div class="metric">
+              <div class="value">+25%</div>
+              <div class="label">CVR</div>
+            </div>
+          </div>
+          <p class="note" style="text-align:center;">※母数や導線条件により変動</p>
+        </div>
+      </div>
+
+      <p class="note" style="text-align:center;margin-top:16px;">事例の基本形：課題 → 施策 → KPI（工数削減／売上・CV改善／制作本数／継続率など）。数値は実績に合わせて提示します。</p>
+    </div>
+  </div>
+
+  <!-- Slide 9: Process -->
+  <div class="slide" data-slide="9">
+    <div class="slide-inner">
+      <div class="section-label">PROCESS</div>
+      <div class="slide-title">導入の流れ（<span class="gradient-text">5ステップ</span>）</div>
+      <div class="slide-subtitle">まずは小さく始めて、短期間で"使える仕組み"に落とし込みます。</div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="step-num">STEP 01 — START</div>
+          <h3>無料相談（30分壁打ち）</h3>
+          <p>目的・課題・現状を整理し、優先順位と最短ルートを仮説化します。</p>
+          <div class="meta">所要：30分</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-num">STEP 02 — DIAG</div>
+          <h3>AI業務改善診断（1〜2週）</h3>
+          <p>業務フローを可視化し、工数削減ポイントと導入優先順位を"見える化"します。</p>
+          <div class="meta">期間：1〜2週</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-num">STEP 03 — BUILD</div>
+          <h3>実装スプリント（2〜6週）</h3>
+          <p>プロンプト／テンプレ／運用ルールを整備し、現場で回る状態まで実装します。</p>
+          <div class="meta">期間：2〜6週</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-num">STEP 04 — RUN</div>
+          <h3>運用開始・レビュー</h3>
+          <p>KPIと制作フローを回し、詰まりを潰して改善サイクルを作ります。</p>
+          <div class="meta">頻度：週次/隔週</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-num">STEP 05 — GROW</div>
+          <h3>伴走・拡張（顧問/教育・追加開発）</h3>
+          <p>運用を継続しながら、内製化・研修・集客導線の拡張まで広げます。</p>
+          <div class="meta">目安：月次で継続 ※規模に応じて調整</div>
+        </div>
+      </div>
+
+      <p class="note" style="text-align:center;">最短は「無料相談→診断→スプリント」。状況により、制作（LP/SNS/動画）や教育（研修・内製化）を組み合わせます。</p>
+    </div>
+  </div>
+
+  <!-- Slide 10: CTA -->
+  <div class="slide" data-slide="10">
+    <div class="slide-inner hero-center">
+      <div class="section-label">NEXT ACTION</div>
+      <div class="slide-title" style="margin-bottom:8px;">次の<span class="gradient-text">アクション</span></div>
+      <div class="slide-subtitle">是非一度、壁打ちで「壁」を見つけ出しましょう。<br>「診断」or「無料相談」、どちらからでもOKです。</div>
+
+      <div class="service-split" style="max-width:700px;margin:0 auto 32px;">
+        <div class="service-box" style="border-top:2px solid var(--accent-cyan);text-align:left;">
+          <h3>🔍 AI業務改善診断</h3>
+          <p class="service-desc">業務フローを可視化し、工数削減ポイント／優先順位／即効施策を提示。</p>
+          <div class="detail-row">
+            <div class="detail-item"><span class="dl">目安：</span><span class="dv">5〜15万円</span></div>
+            <div class="detail-item"><span class="dl">期間：</span><span class="dv">1〜2週</span></div>
+          </div>
+        </div>
+        <div class="service-box" style="border-top:2px solid var(--accent-green);text-align:left;">
+          <h3>💬 30分無料相談（壁打ち）</h3>
+          <p class="service-desc">目的と現状を整理し、最短ルート（優先順位・次の一手）を仮説化します。</p>
+          <div class="detail-row">
+            <div class="detail-item"><span class="dl">所要：</span><span class="dv">30分</span></div>
+            <div class="detail-item"><span class="dl">費用：</span><span class="dv" style="color:var(--accent-green);">無料</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" style="max-width:400px;margin:24px auto;"></div>
+
+      <p style="font-size:20px;font-weight:900;margin-bottom:4px;">⚛ 10月の猿人</p>
+      <p class="tagline">AIで、次の仕事をつくる。<em>複雑を、シンプルな成果へ。</em></p>
+
+      <div class="divider" style="max-width:400px;margin:24px auto;"></div>
+
+      <div style="display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+        <div style="text-align:center;">
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">✉ MAIL</div>
+          <div style="font-size:14px;font-weight:700;color:var(--accent-cyan);">{メールアドレスを入力}</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">🌐 WEB</div>
+          <div style="font-size:14px;font-weight:700;color:var(--accent-cyan);">{WebサイトURLを入力}</div>
+        </div>
+      </div>
+
+      <p class="note" style="text-align:center;margin-top:24px;">※価格は税別です。内容・期間は要件により調整します。<br>守秘義務のもとでヒアリングし、最適な進め方をご提案します。</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation Arrows -->
+<div class="slide-nav">
+  <button id="prevBtn" onclick="changeSlide(-1)">◀</button>
+  <button id="nextBtn" onclick="changeSlide(1)">▶</button>
+</div>
+
+<script>
+  let current = 1;
+  const total = 10;
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next < 1 || next > total) return;
+    document.querySelector(`.slide[data-slide="${current}"]`).classList.remove('active');
+    current = next;
+    document.querySelector(`.slide[data-slide="${current}"]`).classList.add('active');
+    document.getElementById('currentPage').textContent = current;
+    document.getElementById('progressBar').style.width = (current / total * 100) + '%';
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      changeSlide(1);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      changeSlide(-1);
+    }
+  });
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      changeSlide(diff > 0 ? 1 : -1);
+    }
+  });
+</script>
+
+</body>
+</html>
