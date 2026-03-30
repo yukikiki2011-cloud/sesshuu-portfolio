@@ -2093,7 +2093,7 @@
         法人提案・継続案件 歓迎
       </div>
     </div>
-    <form action="mailto:yukikiki2011@gmail.com" method="post" enctype="text/plain">
+    <form action="mailto:yukikiki2011+work@gmail.com" method="post" enctype="text/plain">
       <label class="contact-form-label">お名前</label>
       <input class="contact-form-field" type="text" name="name" placeholder="山田 太郎" />
       <label class="contact-form-label">メールアドレス</label>
@@ -2255,6 +2255,18 @@
 </footer>
 
 <script>
+  // Smooth scroll for all anchor links (nav Contact button etc.)
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href').slice(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
   // GitHub contribution graph
   const container = document.getElementById('ghDots2');
   const levels = ['', 'l1', 'l2', 'l3', 'l4'];
