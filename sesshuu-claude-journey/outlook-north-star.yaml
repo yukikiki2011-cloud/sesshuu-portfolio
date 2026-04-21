@@ -1,0 +1,130 @@
+# sesshuu-anima / 9P「NORTH」— ポスター風タイポグラフィ仕様（YAML v2）
+#
+# v1 の「星・モノリス・光線」は廃止（宗教的・オカルト連想の画像生成を誘発しやすいため）。
+# 方向性: テキストの大小・字間・行間・配置だけで情報設計する。画像AIは使わず、
+# HTML / Figma / Keynote で再現することを推奨。
+#
+# KAWAI スキル準拠:
+#   - sesshuu-anima/KAWAI/skills/SKILL_SLIDE_BUILDER.md（F1〜F8、Slide Design System）
+#   - スライドテンプレカタログ・閲覧: https://kawai-slide.pages.dev/ （認証はサイト指示に従う）
+#   - 本9Pはレイアウト型 **F1 ステートメント** を拡張した「1画面ポスター」に相当
+
+meta:
+  title: "NORTH — 次の座標（ポスター・タイポ版）"
+  version: "2.0"
+  locale: "ja-JP"
+  related_html: "presentations/sesshuu-claude-journey/index.html"
+  repo_ref: "sesshuu-anima/README.md · CLAUDE.md"
+  kawai_skill: "KAWAI/skills/SKILL_SLIDE_BUILDER.md — slide-h1/h2/h3/body 階層、CRAP、1メッセージ"
+  external_catalog: "https://kawai-slide.pages.dev/"
+
+design_tokens:
+  # index.html デッキと整合
+  navy: "#0F1629"
+  crimson: "#C8184A"
+  sky: "#7BAAB8"
+  claude_orange: "#d97757"
+  paper: "#FAFAF8"
+  # slide-builder 推奨に近い補助
+  ink_primary: "#FAFAF8"
+  ink_muted: "rgba(250,250,248,0.55)"
+
+# ビッグワード — HTML と同一（ソース・オブ・トゥルース）
+big_words:
+  - { id: expansion, text: "能力拡張" }
+  - { id: one_repo, text: "one repo · one truth" }
+  - { id: tomoya_kiuchi, text: "TOMOYA × KIUCHI" }
+  - { id: strategy_field, text: "戦略 ⊗ 場" }
+  - { id: four_axes, text: "4 axes" }
+  - { id: shiftpro, text: "SHIFTpro 接続" }
+  - { id: dna, text: "静謐 · 構造 · 美" }
+
+# -----------------------------------------------------------------------------
+# 長文コンセプト（ポスターに畳み込む原文 — 編集の出発点）
+# -----------------------------------------------------------------------------
+concept_paragraphs:
+  founding_one_liner: >
+    雪舟館 Anima（2026）— AIは代替ではなく能力拡張。人間の美意識と戦略眼を、AIで無限に拡大する。
+  business_axes: "AI × デザイン × SEO × コンサル"
+  repo_role: >
+    sesshuu-anima は組織設計書。CLAUDE.md は COO 層の最高規範。SNOW・各メンバー SKILLS・presentations が
+    同一リポジトリで循環する。
+  twin_engine: >
+    TOMOYA は戦略・構造と Claude Code 上の実装の整合。KIUCHI は経営戦略・コミュニティと sesshuu-anima 更新面。
+    「戦略」と「場」を並走させる。
+  deploy_line: >
+    このHTMLを sesshuu-anima にコミットし、GitHub Pages のルートを presentations/sesshuu-claude-journey/ に向けると、
+    そのまま共有URLになる。
+
+# -----------------------------------------------------------------------------
+# KAWAI Slide Design System との対応（相対スケール — cqw 実装時の目安）
+# slide-title ≈ ×2.2 / slide-h2 ×1.6 / slide-h3 ×1.2 / slide-body ×1.0 / 行間 1.6 / 字間 0.05em
+# -----------------------------------------------------------------------------
+typography_scale:
+  roles:
+    - { role: kicker, ratio: 0.55, weight: 400, case: "uppercase", tracking: "0.14em", use: "CLOSE など1語" }
+    - { role: poster_title, ratio: 2.2, weight: 600, tracking: "0.08em", use: "NORTH — 次の座標" }
+    - { role: hero_phrase, ratio: 1.8, weight: 600, use: "能力拡張（最も大きい語1つだけ）" }
+    - { role: sub_hero, ratio: 1.35, weight: 500, use: "TOMOYA × KIUCHI（アクセント色）" }
+    - { role: chip, ratio: 1.0, weight: 500, tracking: "0.06em", use: "残りのビッグワード — 枠線カード" }
+    - { role: caption, ratio: 0.62, weight: 300, use: "Pages デプロイ1行 — 視認最低限" }
+
+# 16:9 ポスター1枚のグリッド（slide-builder と同趣旨）
+layout:
+  canvas: "1920×1080 / 16:9"
+  grid_columns: 12
+  margin_px: 80
+  content_gap_min_px: 40
+  alignment: "左軸 baseline（日本語は中央揃えより左揃えの方が読みやすい — 9Pは左寄せ推奨）"
+  kawai_layout_family: "F1 ステートメント × ブリッジ要素なし — 語の群れでリズムを作る"
+
+# ブロック順（上→下）— テキスト_balance の芯
+text_stack:
+  - block: kicker
+    copy: "Close"
+    color: sky
+  - block: poster_title
+    copy: "NORTH — 次の座標"
+    color: paper
+  - block: hero_phrase
+    copy: "能力拡張"
+    color: crimson
+    note: "概念の核はこの1語に最大面積"
+  - block: sub_columns
+    type: "2カラム（左: 構造 / 右: 場）テキストのみ"
+    left:
+      headline_scale: 1.2
+      lines: ["TOMOYA", "戦略 · Claude Code", "one repo · one truth"]
+    right:
+      headline_scale: 1.2
+      lines: ["KIUCHI", "経営 · コミュニティ", "SHIFTpro 接続"]
+  - block: chip_row
+    style: "flex-wrap / 均等ではなく長さでリズム（英短・和長を混ぜる）"
+    copies: ["戦略 ⊗ 場", "4 axes", "静謐 · 構造 · 美"]
+  - block: caption
+    copy_ref: concept_paragraphs.deploy_line
+    max_chars: 120
+
+# 画像生成: 原則オフ。どうしてもラスタが必要な場合のみ — タイポのみ
+raster_generation:
+  use: "非推奨。HTML/CSS で components を組むのが最優先。"
+  if_unavoidable:
+    prompt_en: >
+      Pure typographic poster mockup, 16:9, dark navy #0F1629 background, ONLY real Japanese characters
+      as vector-sharp text, Swiss-Japanese editorial style, left-aligned, generous margins, no icons,
+      no symbols, no stars, no crosses, no halos, no spiritual motifs, no photographs, no illustrations,
+      no gradients except subtle flat color blocks. CRAP design, strong hierarchy, crimson #C8184A and
+      muted teal #7BAAB8 for accents on text only. Looks like a lecture slide title page made in InDesign.
+    avoid:
+      - "star shapes or celestial motifs"
+      - "religious or ritual symbolism"
+      - "glowing rays or monolith silhouettes"
+      - "stock photos"
+
+html_asset:
+  path: "presentations/sesshuu-claude-journey/index.html"
+  note: "デッキ本体"
+
+poster_html:
+  path: "presentations/sesshuu-claude-journey/north-poster.html"
+  note: "単体ポスター（16:9・タイポのみ・index と同一 CSS 変数）"

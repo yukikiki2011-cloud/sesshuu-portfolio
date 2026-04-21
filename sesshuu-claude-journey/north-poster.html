@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NORTH — 次の座標 | sesshuu-anima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* sesshuu-claude-journey index.html と同一トークン（outlook-north-star.yaml v2） */
+    :root {
+      --crimson: #C8184A;
+      --crimson-dark: #9E1238;
+      --navy: #0F1629;
+      --white: #FAFAF8;
+      --sky: #7BAAB8;
+      --claude-orange: #d97757;
+      --crimson-line: rgba(200, 24, 74, 0.22);
+      --ink-muted: rgba(250, 250, 248, 0.55);
+      --poster-pad: clamp(48px, 5.2vw, 80px);
+      --radius: 2px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      background: #0a0f1a;
+    }
+
+    body {
+      font-family: "Noto Sans JP", system-ui, sans-serif;
+      font-weight: 300;
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    /* 16:9 ポスター面（KAWAI slide-builder: マージン約80px 相当） */
+    .poster {
+      container-type: inline-size;
+      container-name: poster;
+      width: min(96vw, 1280px);
+      aspect-ratio: 16 / 9;
+      background: var(--navy);
+      border-radius: var(--radius);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 95% 8%, rgba(200, 24, 74, 0.07), transparent 50%),
+        radial-gradient(ellipse 50% 40% at 0% 90%, rgba(123, 170, 184, 0.06), transparent 48%);
+      pointer-events: none;
+    }
+
+    .poster-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: var(--poster-pad);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: clamp(12px, 2vh, 24px);
+    }
+
+    .poster-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+      gap: clamp(0.5rem, 1.5vh, 1rem);
+    }
+
+    .kicker {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(0.58rem, 1.1cqw, 0.72rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sky);
+    }
+
+    .poster-title {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      font-size: clamp(1.35rem, 4.2cqw, 2.75rem);
+      letter-spacing: 0.08em;
+      line-height: 1.12;
+      color: var(--white);
+    }
+
+    /* hero: 面積の王様 */
+    .hero-word {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 8cqw, 4.5rem);
+      letter-spacing: 0.06em;
+      line-height: 1.05;
+      color: var(--crimson);
+      margin-top: clamp(0.15rem, 0.8vh, 0.5rem);
+    }
+
+    .sub-hero {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      font-size: clamp(1.1rem, 3.4cqw, 1.85rem);
+      letter-spacing: 0.06em;
+      color: var(--claude-orange);
+      margin-top: 0.15em;
+    }
+
+    /* 二本柱 */
+    .twin-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      margin-top: clamp(0.5rem, 1.5vh, 1rem);
+      padding-top: clamp(0.75rem, 2vh, 1.25rem);
+      border-top: 1px solid var(--crimson-line);
+    }
+
+    @media (max-width: 640px) {
+      .twin-columns {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .twin-col h3 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(0.65rem, 1.4cqw, 0.8rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sky);
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+
+    .twin-col .name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1rem, 2.4cqw, 1.35rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+    }
+
+    .twin-col p {
+      font-size: clamp(0.65rem, 1.45cqw, 0.82rem);
+      line-height: 1.65;
+      letter-spacing: 0.03em;
+      color: rgba(250, 250, 248, 0.88);
+    }
+
+    /* チップ行 */
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      margin-top: clamp(0.35rem, 1vh, 0.65rem);
+    }
+
+    .chip {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(0.85rem, 2.1cqw, 1.2rem);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--crimson);
+      padding: 0.3rem 0.45rem 0.35rem;
+      border: 1px solid var(--crimson-line);
+      background: rgba(200, 24, 74, 0.09);
+      border-radius: var(--radius);
+    }
+
+    .chip--muted {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(0.58rem, 1.25cqw, 0.72rem);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--sky);
+      border-color: rgba(123, 170, 184, 0.35);
+      background: rgba(123, 170, 184, 0.06);
+    }
+
+    .poster-footer {
+      flex-shrink: 0;
+    }
+
+    .caption {
+      font-size: clamp(0.58rem, 1.2cqw, 0.72rem);
+      line-height: 1.55;
+      color: var(--ink-muted);
+      max-width: 52em;
+    }
+
+    .caption code {
+      font-family: ui-monospace, monospace;
+      font-size: 0.92em;
+      opacity: 0.95;
+    }
+
+    .tagline {
+      margin-top: 0.65rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(0.65rem, 1.2cqw, 0.8rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250, 250, 248, 0.38);
+    }
+  </style>
+</head>
+<body>
+  <article class="poster" aria-label="NORTH ポスター">
+    <div class="poster-inner">
+      <div class="poster-main">
+        <p class="kicker">Close</p>
+        <h1 class="poster-title">NORTH — 次の座標</h1>
+        <p class="hero-word">能力拡張</p>
+        <p class="sub-hero">TOMOYA × KIUCHI</p>
+
+        <div class="twin-columns">
+          <div class="twin-col">
+            <h3>構造</h3>
+            <p class="name">TOMOYA</p>
+            <p>戦略 · Claude Code</p>
+            <p>one repo · one truth</p>
+          </div>
+          <div class="twin-col">
+            <h3>場</h3>
+            <p class="name">KIUCHI</p>
+            <p>経営 · コミュニティ</p>
+            <p>SHIFTpro 接続</p>
+          </div>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">戦略 ⊗ 場</span>
+          <span class="chip chip--muted">4 axes</span>
+          <span class="chip">静謐 · 構造 · 美</span>
+        </div>
+      </div>
+
+      <footer class="poster-footer">
+        <p class="caption">
+          このHTMLを <code>sesshuu-anima</code> リポジトリにコミットし、GitHub Pages のルートを
+          <code>presentations/sesshuu-claude-journey/</code> に向けると、そのまま共有URLになります。
+        </p>
+        <p class="tagline">Designed to move souls.</p>
+      </footer>
+    </div>
+  </article>
+</body>
+</html>
