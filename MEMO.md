@@ -1,7 +1,14 @@
 # sesshuu portfolio 作業メモ
 
-## 公開URL
+## 公開URL（ブラウザで見る）
+
+**ポートフォリオ全体（トップ）**  
 https://yukikiki2011-cloud.github.io/sesshuu-portfolio/
+
+**完成スライド（Claude Code デッキ・全画面）**  
+https://yukikiki2011-cloud.github.io/sesshuu-portfolio/sesshuu-claude-journey/index.html  
+
+トップページの **Works** セクションからも同じデッキに遷移できる。
 
 ## GitHubリポジトリ
 https://github.com/yukikiki2011-cloud/sesshuu-portfolio
