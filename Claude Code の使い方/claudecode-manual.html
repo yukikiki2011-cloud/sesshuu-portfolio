@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 個人マニュアル｜雪舟デザイン</title>
+  <style>
+    :root {
+      --color-bg: #f8f9fc;
+      --color-surface: #ffffff;
+      --color-card: #ffffff;
+      --color-border: #e2e6ef;
+      --color-accent: #7c3aed;
+      --color-accent2: #0891b2;
+      --color-accent3: #d97706;
+      --color-text: #1e1e2e;
+      --color-text-muted: #64748b;
+      --color-code-bg: #f1f5f9;
+      --font-sans: 'Hiragino Sans', 'Yu Gothic UI', 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ヘッダー */
+    header {
+      background: linear-gradient(135deg, #ede9fe 0%, #e0f2fe 50%, #f0fdf4 100%);
+      border-bottom: 1px solid var(--color-border);
+      padding: 60px 40px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(8,145,178,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139,92,246,0.2);
+      border: 1px solid rgba(139,92,246,0.4);
+      color: #c4b5fd;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #7c3aed, #0891b2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-desc {
+      color: var(--color-text-muted);
+      font-size: 16px;
+      max-width: 600px;
+    }
+
+    .header-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-text-muted);
+      font-size: 13px;
+    }
+
+    .meta-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+    }
+
+    /* ナビゲーション */
+    nav {
+      background: #ffffff;
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    nav a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      padding: 16px 20px;
+      font-size: 13px;
+      white-space: nowrap;
+      transition: color 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover {
+      color: var(--color-text);
+      border-bottom-color: var(--color-accent);
+    }
+
+    /* メインコンテンツ */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+
+    /* セクション */
+    section {
+      margin-bottom: 64px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #6d28d9;
+      margin-bottom: 12px;
+      margin-top: 24px;
+    }
+
+    /* カード */
+    .card {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    /* テーブル */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--color-border);
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f3f0ff;
+    }
+
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6d28d9;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-border);
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    tr:hover td {
+      background: #faf8ff;
+    }
+
+    /* コードブロック */
+    pre, code {
+      font-family: var(--font-mono);
+    }
+
+    pre {
+      background: var(--color-code-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+
+    code {
+      background: #ede9fe;
+      color: #6d28d9;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    pre code {
+      background: none;
+      color: #1e293b;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* キーバッジ */
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid #c7c7d4;
+      border-bottom: 2px solid #c7c7d4;
+      border-radius: 5px;
+      padding: 2px 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    /* タグ */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .tag-purple {
+      background: #ede9fe;
+      color: #6d28d9;
+      border: 1px solid #c4b5fd;
+    }
+
+    .tag-cyan {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .tag-amber {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .tag-green {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* 合言葉ボックス */
+    .highlight-box {
+      background: linear-gradient(135deg, #f5f3ff, #e0f2fe);
+      border: 1px solid #c4b5fd;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .highlight-box strong {
+      color: #6d28d9;
+    }
+
+    /* 警告・ヒント */
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    .callout-warn {
+      background: rgba(245,158,11,0.1);
+      border-left: 3px solid #f59e0b;
+    }
+
+    .callout-tip {
+      background: rgba(6,182,212,0.1);
+      border-left: 3px solid #06b6d4;
+    }
+
+    .callout-icon {
+      flex-shrink: 0;
+      font-size: 16px;
+      margin-top: 1px;
+    }
+
+    /* フッター */
+    footer {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      padding: 32px 40px;
+      color: var(--color-text-muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* スクロールバー */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--color-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      header, nav, main { padding-left: 20px; padding-right: 20px; }
+      .card-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header>
+  <div class="header-inner">
+    <div class="badge">⚡ 個人マニュアル</div>
+    <h1><span>Claude Code</span> の使い方<br>自分専用リファレンス</h1>
+    <p class="header-desc">デザイナー×ライターのための実用ガイド。スラッシュコマンド・ショートカット・自動化・MCP設定まで網羅。</p>
+    <div class="header-meta">
+      <div class="meta-item"><div class="meta-dot"></div> 雪舟デザイン</div>
+      <div class="meta-item"><div class="meta-dot" style="background:#06b6d4"></div> 2026.04 更新</div>
+      <div class="meta-item"><div class="meta-dot" style="background:#f59e0b"></div> Claude Sonnet 4.6</div>
+    </div>
+  </div>
+</header>
+
+<!-- ナビゲーション -->
+<nav>
+  <div class="nav-inner">
+    <a href="#basics">基本操作</a>
+    <a href="#slash">コマンド</a>
+    <a href="#shortcuts">ショートカット</a>
+    <a href="#claude-md">CLAUDE.md</a>
+    <a href="#mcp">MCP</a>
+    <a href="#hooks">Hooks</a>
+    <a href="#settings">設定</a>
+    <a href="#tips">Tips</a>
+    <a href="#keywords">合言葉</a>
+  </div>
+</nav>
+
+<!-- メインコンテンツ -->
+<main>
+
+  <!-- 基本操作 -->
+  <section id="basics">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(139,92,246,0.2)">🚀</div>
+      <h2>基本操作</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>起動方法</h3>
+        <pre><code># プロジェクトフォルダで起動
+cd your-project
+claude
+
+# 最後のセッションを再開
+claude --continue
+
+# セッション選択して再開
+claude --resume</code></pre>
+      </div>
+      <div class="card">
+        <h3>非対話モード（スクリプト用）</h3>
+        <pre><code># テキスト出力
+claude -p "ファイルを要約して"
+
+# JSON出力
+claude -p "API一覧をJSON形式で" \
+  --output-format json
+
+# ストリーミング
+claude -p "ログを分析" \
+  --output-format stream-json</code></pre>
+      </div>
+      <div class="card">
+        <h3>権限モード</h3>
+        <pre><code># 自動判定モード
+claude --permission-mode auto -p "lintを修正"
+
+# 編集のみ自動許可
+claude --permission-mode acceptEdits</code></pre>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-top:10px">Shift+Tab でセッション中に切り替え可能</p>
+      </div>
+      <div class="card">
+        <h3>画像を含む指示</h3>
+        <p style="color:var(--color-text-muted);font-size:14px;margin-bottom:10px">スクリーンショットから直接HTMLを作成できる</p>
+        <pre><code># Windowsの場合
+Alt+V  # クリップボード画像を貼り付け
+
+"このデザインをHTMLで実装して"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- スラッシュコマンド -->
+  <section id="slash">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(6,182,212,0.2)">⌨️</div>
+      <h2>スラッシュコマンド</h2>
+    </div>
+    <div class="callout callout-tip">
+      <span class="callout-icon">💡</span>
+      <div>セッション内で <code>/</code> と入力すると候補一覧が出る。タブ補完あり。</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>コマンド</th>
+            <th>機能</th>
+            <th>使いどき</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>/help</code></td><td>ヘルプ表示</td><td>機能確認</td></tr>
+          <tr><td><code>/clear</code></td><td>セッションリセット</td><td>新しいタスク開始時</td></tr>
+          <tr><td><code>/compact</code></td><td>会話履歴を圧縮</td><td>コンテキストが重くなったとき</td></tr>
+          <tr><td><code>/memory</code></td><td>メモリ管理・確認</td><td>CLAUDE.mdや記憶の確認</td></tr>
+          <tr><td><code>/cost</code></td><td>トークン使用量確認</td><td>コスト管理</td></tr>
+          <tr><td><code>/model</code></td><td>モデル切り替え</td><td>Opus↔Sonnet↔Haiku</td></tr>
+          <tr><td><code>/init</code></td><td>CLAUDE.md自動生成</td><td>新プロジェクト開始時</td></tr>
+          <tr><td><code>/review</code></td><td>コードレビュー</td><td>PR確認</td></tr>
+          <tr><td><code>/mcp</code></td><td>MCP接続管理</td><td>外部ツール連携確認</td></tr>
+          <tr><td><code>/permissions</code></td><td>権限確認・変更</td><td>ツール実行ルール管理</td></tr>
+          <tr><td><code>/config</code></td><td>設定メニュー</td><td>テーマ・Vimモード等</td></tr>
+          <tr><td><code>/resume</code></td><td>セッション再開</td><td>過去の会話に戻る</td></tr>
+          <tr><td><code>/continue</code></td><td>最新セッション継続</td><td>前の作業の続きから</td></tr>
+          <tr><td><code>/status</code></td><td>設定ソース確認</td><td>どの設定が効いているか確認</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>このプロジェクトで使えるスキル（カスタムコマンド）</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <code>/init</code>
+          <span class="tag tag-purple">プロジェクト</span>
+        </div>
+        <p style="color:var(--color-text-muted);font-size:13px">CLAUDE.mdを自動生成。新規プロジェクトで最初に実行する。</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <code>/review</code>
+          <span class="tag tag-cyan">コード</span>
+        </div>
+        <p style="color:var(--color-text-muted);font-size:13px">PR or 現在のブランチをレビュー。変更点の品質確認に使う。</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <code>/simplify</code>
+          <span class="tag tag-amber">品質</span>
+        </div>
+        <p style="color:var(--color-text-muted);font-size:13px">変更済みコードを品質・効率・再利用性の観点でレビュー＆修正。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- キーボードショートカット -->
+  <section id="shortcuts">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(245,158,11,0.2)">⚡</div>
+      <h2>キーボードショートカット</h2>
+    </div>
+
+    <h3>基本操作</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>キー</th><th>機能</th></tr></thead>
+        <tbody>
+          <tr><td><span class="kbd">Enter</span></td><td>送信</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">J</span></td><td>改行（送信しない）</td></tr>
+          <tr><td><span class="kbd">\</span> + <span class="kbd">Enter</span></td><td>改行（全ターミナル対応）</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">C</span></td><td>キャンセル・中断</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">D</span></td><td>Claude Code 終了</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">L</span></td><td>画面クリア＆リドロー</td></tr>
+          <tr><td><span class="kbd">Esc</span> × 2</td><td>リワインド＆サマライズメニュー</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>テキスト編集</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>キー</th><th>機能</th></tr></thead>
+        <tbody>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">A</span></td><td>行頭へ移動</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">E</span></td><td>行末へ移動</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">K</span></td><td>カーソルから行末まで削除</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">W</span></td><td>前の単語を削除</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">Y</span></td><td>削除したテキストを貼り付け</td></tr>
+          <tr><td><span class="kbd">Alt</span> + <span class="kbd">F</span></td><td>次の単語へ移動</td></tr>
+          <tr><td><span class="kbd">Alt</span> + <span class="kbd">B</span></td><td>前の単語へ移動</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>モード・UI制御</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>キー</th><th>機能</th></tr></thead>
+        <tbody>
+          <tr><td><span class="kbd">Shift</span> + <span class="kbd">Tab</span></td><td>権限モード切り替え (default → acceptEdits → plan)</td></tr>
+          <tr><td><span class="kbd">Alt</span> + <span class="kbd">P</span></td><td>モデル切り替え</td></tr>
+          <tr><td><span class="kbd">Alt</span> + <span class="kbd">T</span></td><td>拡張思考（Extended Thinking）トグル</td></tr>
+          <tr><td><span class="kbd">Alt</span> + <span class="kbd">O</span></td><td>高速モード（Fast Mode）トグル</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">T</span></td><td>タスクリスト表示切り替え</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">O</span></td><td>トランスクリプト表示切り替え</td></tr>
+          <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">B</span></td><td>バックグラウンドタスク化</td></tr>
+          <tr><td><span class="kbd">Alt</span> + <span class="kbd">V</span></td><td>クリップボード画像貼り付け（Windows）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CLAUDE.md -->
+  <section id="claude-md">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(34,197,94,0.2)">📄</div>
+      <h2>CLAUDE.md — 永続的な指示書</h2>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">💡</span>
+      <div>CLAUDE.mdはセッション開始時に毎回読み込まれる。Claudeへの「お願い書き」。</div>
+    </div>
+
+    <h3>配置場所と優先度</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>場所</th><th>対象範囲</th><th>Git管理</th></tr></thead>
+        <tbody>
+          <tr><td><code>~/.claude/CLAUDE.md</code></td><td>全プロジェクト共通</td><td>不要</td></tr>
+          <tr><td><code>./CLAUDE.md</code></td><td>このプロジェクト全員</td><td>あり</td></tr>
+          <tr><td><code>./CLAUDE.local.md</code></td><td>自分だけ</td><td>.gitignoreへ</td></tr>
+          <tr><td><code>.claude/rules/</code></td><td>ファイルパス別ルール</td><td>あり</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>書くべき内容 / 書かない内容</h3>
+    <div class="card-grid">
+      <div class="card" style="border-color:#bbf7d0">
+        <h3 style="color:#166534">書くべき内容 ✓</h3>
+        <ul style="color:var(--color-text-muted);font-size:14px;padding-left:18px;line-height:2">
+          <li>ビルド・テストコマンド</li>
+          <li>コード規約（インデント・命名規則）</li>
+          <li>アーキテクチャの決定事項</li>
+          <li>よくあるミス・注意点</li>
+          <li>NGな表現・禁止事項</li>
+          <li>文体・トーンの指示</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:#fecaca">
+        <h3 style="color:#991b1b">書かない内容 ✗</h3>
+        <ul style="color:var(--color-text-muted);font-size:14px;padding-left:18px;line-height:2">
+          <li>コードを読めばわかる情報</li>
+          <li>APIドキュメント全文</li>
+          <li>頻繁に変わる情報</li>
+          <li>長い説明・チュートリアル</li>
+          <li>200行以上の冗長な指示</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>確認コマンド</h3>
+    <pre><code>/memory   # CLAUDE.md・自動記憶の一覧確認・編集</code></pre>
+  </section>
+
+  <!-- MCP -->
+  <section id="mcp">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(6,182,212,0.2)">🔌</div>
+      <h2>MCP サーバー — 外部ツール連携</h2>
+    </div>
+
+    <p style="color:var(--color-text-muted);font-size:14px;margin-bottom:20px">
+      MCPサーバーは外部ツール・サービスをClaudeに接続するプロトコル。GitHub・データベース・Slack・Canvaなどと直接連携できる。
+    </p>
+
+    <h3>追加方法（CLIコマンド）</h3>
+    <pre><code># HTTP型（APIサービス）
+claude mcp add --transport http サーバー名 URL \
+  --header "Authorization: Bearer TOKEN"
+
+# stdio型（ローカルツール）
+claude mcp add --transport stdio サーバー名 コマンド</code></pre>
+
+    <h3>設定ファイルで追加（.claude/.mcp.json）</h3>
+    <pre><code>{
+  "mcpServers": {
+    "github": {
+      "transport": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": { "Authorization": "Bearer YOUR_TOKEN" }
+    }
+  }
+}</code></pre>
+
+    <h3>主なMCPサーバー一覧</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>サーバー</th><th>機能</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-purple">GitHub</span></td><td>Issue・PR操作</td><td>GitHub自動化</td></tr>
+          <tr><td><span class="tag tag-cyan">Canva</span></td><td>デザイン読み取り・生成</td><td>デザイン作業</td></tr>
+          <tr><td><span class="tag tag-amber">Google Calendar</span></td><td>予定確認・追加</td><td>スケジュール管理</td></tr>
+          <tr><td><span class="tag tag-green">Playwright</span></td><td>ブラウザ自動化</td><td>スクレイピング・テスト</td></tr>
+          <tr><td><span class="tag tag-purple">Slack</span></td><td>メッセージ送受信</td><td>Slack連携</td></tr>
+          <tr><td><span class="tag tag-cyan">Notion</span></td><td>DB読み書き</td><td>Notion同期</td></tr>
+          <tr><td><span class="tag tag-amber">Gmail</span></td><td>メール操作</td><td>メール自動化</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <pre><code>/mcp   # セッション内でMCP状態を確認・再接続</code></pre>
+  </section>
+
+  <!-- Hooks -->
+  <section id="hooks">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(245,158,11,0.2)">⚙️</div>
+      <h2>Hooks — 自動化トリガー</h2>
+    </div>
+
+    <p style="color:var(--color-text-muted);font-size:14px;margin-bottom:20px">
+      特定のイベント発生時に自動でシェルコマンドを実行する仕組み。<br>
+      「自動化したい動作」はメモリではなくHooksで設定する。
+    </p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <div>「作業後に毎回〇〇して」という指示はHooksで設定しないと確実に実行されない。設定は <code>.claude/settings.json</code> に書く。</div>
+    </div>
+
+    <h3>主要なイベント</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>イベント</th><th>実行タイミング</th><th>用途例</th></tr></thead>
+        <tbody>
+          <tr><td><code>SessionStart</code></td><td>セッション開始時</td><td>環境変数設定・初期化</td></tr>
+          <tr><td><code>UserPromptSubmit</code></td><td>ユーザー入力後</td><td>入力の前処理</td></tr>
+          <tr><td><code>PreToolUse</code></td><td>ツール実行前</td><td>事前確認・ログ</td></tr>
+          <tr><td><code>PostToolUse</code></td><td>ツール実行後</td><td>自動lint・フォーマット</td></tr>
+          <tr><td><code>Stop</code></td><td>セッション終了時</td><td>ログ保存・クリーンアップ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>設定例：ファイル編集後に自動lint</h3>
+    <pre><code>{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "if": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "eslint --fix {{file_path}}",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+  </section>
+
+  <!-- 設定 -->
+  <section id="settings">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(139,92,246,0.2)">🔧</div>
+      <h2>Settings — 設定ファイル</h2>
+    </div>
+
+    <h3>ファイルの場所と優先度</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>スコープ</th><th>場所</th><th>共有</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-amber">User</span></td><td><code>~/.claude/settings.json</code></td><td>不要</td><td>個人設定（全プロジェクト共通）</td></tr>
+          <tr><td><span class="tag tag-purple">Project</span></td><td><code>.claude/settings.json</code></td><td>Git管理</td><td>チーム共通設定</td></tr>
+          <tr><td><span class="tag tag-cyan">Local</span></td><td><code>.claude/settings.local.json</code></td><td>不要</td><td>個人のプロジェクト設定</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>主要な設定項目</h3>
+    <pre><code>{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Read(./src/**)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+  "model": "claude-sonnet-4-6",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}</code></pre>
+  </section>
+
+  <!-- Tips -->
+  <section id="tips">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(6,182,212,0.2)">🎯</div>
+      <h2>Tips — 使いこなし術</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>コンテキスト管理</h3>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-bottom:12px">重くなったら圧縮。定期的に確認する習慣を。</p>
+        <pre><code>/usage   # 使用量確認
+/compact # 履歴圧縮
+/clear   # リセット</code></pre>
+      </div>
+      <div class="card">
+        <h3>効果的な指示の書き方</h3>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-bottom:12px">「何を」「どうしたい」「条件は何か」を明示する</p>
+        <pre><code>❌ 悪い例
+"このコードを改善して"
+
+✅ 良い例
+"@src/parse.ts のparse関数を改善して。
+エッジケース：空文字・null・undefined。
+テストが全パスすることを確認。"</code></pre>
+      </div>
+      <div class="card">
+        <h3>ファイル参照</h3>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-bottom:12px">@-mention でファイルやディレクトリを直接参照</p>
+        <pre><code>@src/components/Button.tsx
+@src/components/  # フォルダ全体
+@src/utils.ts#5-20  # 特定の行</code></pre>
+      </div>
+      <div class="card">
+        <h3>並列処理</h3>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-bottom:12px">複数の独立した作業を同時に依頼できる</p>
+        <pre><code>"以下を並列で実行してください：
+1. src/auth/ のテストを書く
+2. components/ のlintを修正
+3. README.mdを更新"</code></pre>
+      </div>
+      <div class="card">
+        <h3>計画モードの活用</h3>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-bottom:12px">大きな変更前に計画を確認する</p>
+        <pre><code>Shift+Tab  # planモードに切り替え
+"認証システムをリファクタリングして"
+# → 実行前に計画を見せてくれる</code></pre>
+      </div>
+      <div class="card">
+        <h3>デバッグの基本</h3>
+        <p style="color:var(--color-text-muted);font-size:13px;margin-bottom:12px">エラーはそのまま貼り付ける</p>
+        <pre><code>"以下のエラーが出ています：
+[エラーメッセージをそのまま貼り付け]
+
+@src/関連ファイル.ts を確認して原因と修正案を教えて"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合言葉・特殊設定 -->
+  <section id="keywords">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(139,92,246,0.2)">🔑</div>
+      <h2>合言葉・個人設定</h2>
+    </div>
+
+    <div class="highlight-box">
+      <p style="font-size:15px;margin-bottom:12px"><strong>新セッション開始時の合言葉</strong></p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div style="background:#ede9fe;border-radius:8px;padding:14px 20px;border:1px solid #c4b5fd">
+          <div style="font-size:20px;font-weight:700;color:#6d28d9;margin-bottom:4px">「ただいま」</div>
+          <div style="color:var(--color-text-muted);font-size:13px">直近の記憶・進行中の案件を呼び起こす</div>
+        </div>
+        <div style="background:#e0f2fe;border-radius:8px;padding:14px 20px;border:1px solid #bae6fd">
+          <div style="font-size:20px;font-weight:700;color:#0369a1;margin-bottom:4px">「AI会議」</div>
+          <div style="color:var(--color-text-muted);font-size:13px">AIチーム戦略モードに切り替え</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>メモリシステム</h3>
+    <p style="color:var(--color-text-muted);font-size:14px;margin-bottom:12px">
+      記憶は <code>~/.claude/projects/[プロジェクト名]/memory/</code> に保存される。
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>種別</th><th>内容</th><th>ファイル名例</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-purple">user</span></td><td>自分の情報・スキル・好み</td><td><code>user_role.md</code></td></tr>
+          <tr><td><span class="tag tag-cyan">feedback</span></td><td>やり方の修正・承認された判断</td><td><code>feedback_style.md</code></td></tr>
+          <tr><td><span class="tag tag-amber">project</span></td><td>進行中の案件・決定事項</td><td><code>project_current.md</code></td></tr>
+          <tr><td><span class="tag tag-green">reference</span></td><td>外部システムへのポインタ</td><td><code>reference_repos.md</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <div>「〜を覚えておいて」と言えばメモリに保存される。「〜を忘れて」で削除できる。</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- フッター -->
+<footer>
+  <p>Claude Code 個人マニュアル — 雪舟デザイン / 2026.04 作成 / Claude Sonnet 4.6</p>
+  <p style="margin-top:8px;font-size:12px">このファイルは適宜更新すること。最新情報は <code>claude.ai/code</code> で確認。</p>
+</footer>
+
+</body>
+</html>
