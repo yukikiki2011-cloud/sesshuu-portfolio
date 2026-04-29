@@ -147,7 +147,6 @@
       color: var(--crimson);
       font-style: italic;
       display: inline-block;
-      animation: nlAccentSnap 0.4s cubic-bezier(0.22, 1, 0.28, 1.25) 0.06s both;
     }
     .nav-logo .nl-accent-inner {
       display: inline-block;
@@ -199,14 +198,12 @@
     }
     .nav-logo .nl-main {
       display: inline-block;
-      animation: nlMainSnap 0.38s cubic-bezier(0.22, 1, 0.28, 1.2) both;
     }
     @media (prefers-reduced-motion: no-preference) {
       nav {
         animation: navBarSnap 0.36s cubic-bezier(0.17, 0.9, 0.32, 1) both;
       }
       nav::after {
-        animation: navRailShine 1.75s linear infinite;
       }
       .nav-links li:nth-child(1) a { animation: navLinkPop 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both; }
       .nav-links li:nth-child(2) a { animation: navLinkPop 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both; }
