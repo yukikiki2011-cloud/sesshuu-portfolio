@@ -1,38 +1,38 @@
 # sesshuu portfolio 作業メモ
 
-## 公開URL（ブラウザで見る）
+## 公開URL�E�ブラウザで見る�E�E
 
-**ポートフォリオ全体（トップ）**  
+**ポ�Eトフォリオ全体（トチE�E�E�E*  
 https://yukikiki2011-cloud.github.io/sesshuu-portfolio/
 
-**完成スライド（Claude Code デッキ・全画面）**  
-https://yukikiki2011-cloud.github.io/sesshuu-portfolio/sesshuu-claude-journey/index.html  
+**完�Eスライド！Elaude Code チE��キ・全画面�E�E*  
+https://yukikiki2011-cloud.github.io/sesshuu-portfolio/atelier-slide/index.html  
 
-トップページの **Works** セクションからも同じデッキに遷移できる。
+トップ�Eージの **Works** セクションからも同じデチE��に遷移できる、E
 
 ## GitHubリポジトリ
 https://github.com/yukikiki2011-cloud/sesshuu-portfolio
 
-## ホスティング
-GitHub Pages（無料）
+## ホスチE��ング
+GitHub Pages�E�無料！E
 - Branch: main / root
-- 設定場所: Settings → Pages
+- 設定場所: Settings ↁEPages
 
-## 2026-03-30 の修正内容
+## 2026-03-30 の修正冁E��
 
 ### 1. Contactボタンのスムーズスクロール修正
-- NAVバーの「Contact」ボタンをクリックするとページ最下部のお問い合わせ欄までスクロールするように修正
-- JavaScriptで全アンカーリンク（`href="#..."`）に対してスムーズスクロールを実装
-- 対象ファイル: `index.html`（`<script>`内）
+- NAVバ�Eの「Contact」�EタンをクリチE��するとペ�Eジ最下部のお問ぁE��わせ欁E��でスクロールするように修正
+- JavaScriptで全アンカーリンク�E�Ehref="#..."`�E�に対してスムーズスクロールを実裁E
+- 対象ファイル: `index.html`�E�E<script>`冁E��E
 
 ### 2. フォーム送信先メールアドレス変更
-- 変更前: `yukikiki2011@gmail.com`
-- 変更後: `yukikiki2011+work@gmail.com`
-- 対象ファイル: `index.html`（line 2096 の `<form action="mailto:...">` 部分）
+- 変更剁E `yukikiki2011@gmail.com`
+- 変更征E `yukikiki2011+work@gmail.com`
+- 対象ファイル: `index.html`�E�Eine 2096 の `<form action="mailto:...">` 部刁E��E
 
-## GitHub Pages 公開手順（覚え書き）
-1. GitHubリポジトリの Settings → Pages を開く
+## GitHub Pages 公開手頁E��覚え書き！E
+1. GitHubリポジトリの Settings ↁEPages を開ぁE
 2. Source: Deploy from a branch
-3. Branch: main / / (root) → Save
-4. 数分後に公開URL が発行される
-5. ローカルの変更は `git push origin main` でサイトに反映される
+3. Branch: main / / (root) ↁESave
+4. 数刁E��に公開URL が発行される
+5. ローカルの変更は `git push origin main` でサイトに反映されめE
