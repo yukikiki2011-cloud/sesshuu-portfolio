@@ -1305,8 +1305,8 @@
       margin-top: 2px;
     }
 
-    /* ===== EXPERTISE ===== */
-    #expertise {
+    /* ===== BRANDOPS (旧EXPERTISE) ===== */
+    #brandops {
       padding: 120px 0;
       background: var(--navy);
       position: relative;
@@ -1422,6 +1422,114 @@
       font-weight: 300;
       color: var(--sky);
       margin-top: 8px;
+    }
+
+    /* ===== BRANDOPS: Mission / Vision ===== */
+    .brandops-mv {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 40px 0;
+    }
+    .brandops-mv-card {
+      background: var(--navy-mid);
+      padding: 40px 36px;
+      border-top: 2px solid var(--crimson);
+    }
+    .brandops-mv-label {
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 16px;
+    }
+    .brandops-mv-text {
+      font-family: var(--font-jp);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 2;
+      color: var(--white);
+    }
+
+    /* ===== BRANDOPS: Identity card ===== */
+    .brandops-identity {
+      margin-top: 40px;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 36px 40px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .brandops-identity-brand {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: var(--white);
+      white-space: nowrap;
+    }
+    .brandops-identity-brand small {
+      display: block;
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-top: 6px;
+    }
+    .brandops-id-row {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 14px;
+    }
+    .brandops-id-row:last-child { margin-bottom: 0; }
+    .brandops-id-row strong {
+      color: var(--white);
+      font-weight: 500;
+      margin-right: 8px;
+    }
+    .brandops-id-tags { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+    .brandops-id-tag {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--sky);
+      border: 1px solid rgba(123,170,184,0.5);
+      padding: 4px 12px;
+    }
+
+    /* ===== BRANDOPS: BizDev Principle quote ===== */
+    .brandops-principle {
+      margin-top: 56px;
+      padding: 8px 0 0;
+      text-align: center;
+    }
+    .brandops-principle .quote-mark {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      color: var(--crimson);
+      line-height: 1;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .brandops-principle p {
+      font-family: var(--font-jp);
+      font-size: 19px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--white);
+      max-width: 640px;
+      margin: 0 auto 16px;
+    }
+    .brandops-principle .attribution {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sky);
     }
 
     /* ===== PHILOSOPHY ===== */
@@ -2501,8 +2609,8 @@
       .section-heading { font-size: 24px; }
       .section-heading .num-highlight { font-size: 3.5em; }
 
-      /* Expertise */
-      #expertise { padding: 80px 0; }
+      /* BrandOps */
+      #brandops { padding: 80px 0; }
       .expertise-inner { padding: 0 24px; }
       .expertise-header { grid-template-columns: 1fr; }
       .expertise-cards { grid-template-columns: 1fr; }
@@ -2767,8 +2875,8 @@
   </div>
 </section>
 
-<!-- ===== EXPERTISE ===== -->
-<section id="expertise">
+<!-- ===== BRANDOPS (旧EXPERTISE) ===== -->
+<section id="brandops">
   <div class="expertise-bg"></div>
   <div class="expertise-inner">
     <div class="expertise-header">
@@ -2776,14 +2884,27 @@
         <div class="section-label">
           <span class="section-label-num" style="color:var(--sky);">03</span>
           <div class="section-label-line" style="background:var(--sky);"></div>
-          <span class="section-label-text" style="color:var(--sky);">Expertise</span>
+          <span class="section-label-text" style="color:var(--sky);">BrandOps</span>
         </div>
-        <h2 class="section-heading section-heading-white has-num"><span class="num-highlight">4</span><span class="num-text-wrap">つの専門領域、<br><em>唯一のポジション</em></span></h2>
+        <h2 class="section-heading section-heading-white" style="font-size:clamp(62px, 9vw, 114px); font-weight:600; letter-spacing:-0.01em;">Brand<em>Ops</em></h2>
       </div>
       <p class="expertise-sub">
-        戦略設計・SEO・デザイン・AI活用の4領域を横断できるクリエイターは希少です。それぞれの専門性が相互に強化し合い、単一領域では実現できない統合的な価値を提供します。
+        BrandOpsは、雪舟館Animaが手がける事業の名前です。戦略設計・SEO・デザイン・AI活用という4つの軸を組み合わせ、ブランド価値と事業成果を継続的に改善する仕組みです。地域の宿泊施設・飲食店・美容サロン・商工会周辺の事業者と、複数の実績を積み重ねています。
       </p>
     </div>
+
+    <div class="brandops-mv">
+      <div class="brandops-mv-card">
+        <div class="brandops-mv-label">Mission</div>
+        <p class="brandops-mv-text">地域の小規模事業者が、AIを活用しながらブランド価値と事業成果を継続的に改善できるよう支援する。<br>AIは目的ではなく、ブランド価値を育てるための手段です。</p>
+      </div>
+      <div class="brandops-mv-card">
+        <div class="brandops-mv-label">Vision</div>
+        <p class="brandops-mv-text">BrandOpsはAIを売る事業ではありません。ブランド価値を育て、地域企業が長く愛され、利益を出し続ける仕組みを提供する。<br>AIはそのための手段です。</p>
+      </div>
+    </div>
+
+    <h3 class="section-heading section-heading-white has-num" style="font-size:31px; margin:0 0 32px;"><span class="num-highlight" style="font-size:4.2em;">4</span><span class="num-text-wrap">つの軸が、<br><em>ひとつの仕組みになる</em></span></h3>
     <div class="expertise-cards">
       <div class="expertise-card">
         <div class="expertise-card-num">01</div>
@@ -2844,6 +2965,31 @@
         <div class="ai-metric-num">35%</div>
         <div class="ai-metric-label">デザイン効率 改善</div>
       </div>
+    </div>
+
+    <div class="brandops-identity">
+      <div class="brandops-identity-brand">
+        Sesshuu Design
+        <small>雪舟館 Anima</small>
+      </div>
+      <div>
+        <div class="brandops-id-row"><strong>Working Style</strong>
+          <span class="brandops-id-tags">
+            <span class="brandops-id-tag">AI</span>
+            <span class="brandops-id-tag">Design</span>
+            <span class="brandops-id-tag">SEO</span>
+            <span class="brandops-id-tag">Strategy</span>
+          </span>
+        </div>
+        <div class="brandops-id-row"><strong>対象</strong>地域小規模事業者・商工会・宿泊施設・飲食店・美容サロン</div>
+        <div class="brandops-id-row"><strong>Case Studies</strong>宿泊・建築DX・店舗×コミュニティ、業態を横断する複数の実績</div>
+      </div>
+    </div>
+
+    <div class="brandops-principle">
+      <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+      <p>市場調査も競合分析も、目的ではない。最初の顧客に出会う方法と、次に取る行動を明らかにするための手段である。</p>
+      <div class="attribution">BrandOps — BizDev Principle</div>
     </div>
   </div>
 </section>
@@ -3573,7 +3719,7 @@
       { id: 'kawaiStrip', label: 'Method' },
       { id: 'story', label: 'Story' },
       { id: 'about', label: 'About' },
-      { id: 'expertise', label: 'Expertise' },
+      { id: 'brandops', label: 'BrandOps' },
       { id: 'philosophy', label: 'Philosophy' },
       { id: 'works', label: 'Works' },
       { id: 'process', label: 'Process' },
