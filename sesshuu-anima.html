@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sesshuu-Anima / 雪舟館 Anima は、AI・デザイン・SEO・戦略で地域事業者のブランドを再構築するBrandOpsチームです。" />
+  <title>Sesshuu-Anima | BrandOps Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #10131d;
+      --navy: #0f1629;
+      --midnight: #171d32;
+      --paper: #fbfaf7;
+      --mist: #edf1f2;
+      --crimson: #c8184a;
+      --sky: #7baab8;
+      --lime: #c7d47a;
+      --line: rgba(16, 19, 29, 0.14);
+      --white-line: rgba(251, 250, 247, 0.16);
+      --font-jp: "Noto Sans JP", sans-serif;
+      --font-en: "Space Grotesk", sans-serif;
+      --font-serif: "Cormorant Garamond", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 82px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-jp);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 clamp(22px, 5vw, 72px);
+      background: rgba(15, 22, 41, 0.88);
+      border-bottom: 1px solid var(--white-line);
+      backdrop-filter: blur(18px);
+    }
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 25px;
+      font-weight: 700;
+      color: var(--paper);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .logo em { color: var(--crimson); font-style: italic; }
+    .nav ul {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .nav a:not(.logo) {
+      color: rgba(251, 250, 247, 0.72);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav a:not(.logo):hover { color: var(--paper); }
+    .nav-cta {
+      padding: 9px 14px;
+      border: 1px solid rgba(200, 24, 74, 0.7);
+      background: rgba(200, 24, 74, 0.22);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.62fr);
+      align-items: stretch;
+      background: var(--navy);
+      color: var(--paper);
+      overflow: hidden;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 100vh;
+      padding: 148px clamp(24px, 7vw, 92px) 72px;
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 100vh;
+      background: var(--navy);
+      border-left: 1px solid var(--white-line);
+      overflow: hidden;
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(15, 22, 41, 0.72), transparent 42%),
+        repeating-linear-gradient(0deg, transparent 0 36px, rgba(251, 250, 247, 0.045) 37px);
+      mix-blend-mode: screen;
+    }
+    .hero-image-rail {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-image-rail img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      filter: saturate(0.9) contrast(1.04);
+      animation: heroImageFade 18s ease-in-out infinite;
+    }
+    .hero-image-rail img:nth-child(2) { animation-delay: 6s; }
+    .hero-image-rail img:nth-child(3) { animation-delay: 12s; }
+    @keyframes heroImageFade {
+      0% { opacity: 0; transform: scale(1.04); }
+      8%, 30% { opacity: 1; transform: scale(1); }
+      38%, 100% { opacity: 0; transform: scale(1.025); }
+    }
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 30px;
+      color: var(--sky);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .kicker::before {
+      content: "";
+      width: 42px;
+      height: 2px;
+      background: var(--crimson);
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(60px, 11vw, 152px);
+      line-height: 0.86;
+      letter-spacing: 0;
+    }
+    h1 em {
+      display: block;
+      color: var(--crimson);
+      font-style: italic;
+    }
+    .hero-lead {
+      max-width: 820px;
+      margin: 34px 0 0;
+      font-size: clamp(19px, 2.2vw, 31px);
+      font-weight: 500;
+      line-height: 1.7;
+    }
+    .hero-body {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: rgba(251, 250, 247, 0.72);
+      font-size: 14px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 11px 18px;
+      border: 1px solid currentColor;
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .btn-primary { background: var(--crimson); border-color: var(--crimson); color: var(--paper); }
+    .btn-secondary { color: var(--paper); border-color: rgba(251, 250, 247, 0.45); }
+    .hero-strip {
+      position: absolute;
+      right: clamp(20px, 4vw, 52px);
+      bottom: 48px;
+      z-index: 3;
+      width: min(330px, 42vw);
+      padding: 18px 0 0;
+      border-top: 1px solid rgba(251, 250, 247, 0.38);
+      color: rgba(251, 250, 247, 0.82);
+      font-size: 12px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-image-rail img { animation: none; opacity: 0; }
+      .hero-image-rail img:first-child { opacity: 1; }
+    }
+    .hero-strip strong {
+      display: block;
+      color: var(--paper);
+      font-family: var(--font-en);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    section { padding: 112px clamp(24px, 7vw, 92px); }
+    .dark { background: var(--navy); color: var(--paper); }
+    .soft { background: var(--mist); }
+    .section-head {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: clamp(28px, 5vw, 76px);
+      align-items: start;
+      margin-bottom: 52px;
+    }
+    .label {
+      color: var(--crimson);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 6vw, 82px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+    .title .line {
+      display: block;
+    }
+    .title-two-line {
+      font-size: clamp(38px, 5.2vw, 72px);
+    }
+    .title-two-line .line {
+      white-space: nowrap;
+    }
+    .lead {
+      max-width: 860px;
+      margin: 22px 0 0;
+      font-size: clamp(16px, 1.55vw, 21px);
+      line-height: 2;
+    }
+    .dark .lead { color: rgba(251, 250, 247, 0.7); }
+
+    .statement {
+      max-width: 980px;
+    }
+    .statement p {
+      margin: 0 0 22px;
+      font-size: 16px;
+    }
+    .identity-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin-top: 48px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+    .identity {
+      min-height: 250px;
+      padding: 28px;
+      background: var(--paper);
+    }
+    .identity::before {
+      content: "";
+      display: block;
+      width: 38px;
+      height: 2px;
+      margin-bottom: 22px;
+      background: linear-gradient(90deg, var(--crimson), var(--sky), var(--lime));
+    }
+    .identity h3 {
+      margin: 0 0 12px;
+      font-family: var(--font-en);
+      font-size: 23px;
+      letter-spacing: 0;
+    }
+    .identity p {
+      margin: 0;
+      color: rgba(16, 19, 29, 0.68);
+      font-size: 14px;
+    }
+
+    .brandops-wrap {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+      gap: 58px;
+      align-items: start;
+    }
+    .brandops-word {
+      position: sticky;
+      top: 112px;
+      font-family: var(--font-serif);
+      font-size: clamp(64px, 9vw, 124px);
+      line-height: 0.86;
+    }
+    .brandops-word em {
+      display: block;
+      color: var(--crimson);
+      font-style: italic;
+    }
+    .principle {
+      padding: 34px;
+      border: 1px solid var(--white-line);
+      background: linear-gradient(135deg, rgba(23, 29, 50, 0.98), rgba(15, 22, 41, 0.98));
+    }
+    .principle p {
+      margin: 0;
+      color: rgba(251, 250, 247, 0.82);
+      font-size: 17px;
+      line-height: 2;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      margin-top: 28px;
+      border: 1px solid var(--white-line);
+      background: var(--white-line);
+    }
+    .flow-step {
+      min-height: 190px;
+      padding: 24px;
+      background: var(--midnight);
+    }
+    .flow-step span {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--sky);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+    .flow-step h3 { margin: 0 0 10px; font-size: 18px; }
+    .flow-step p { margin: 0; color: rgba(251, 250, 247, 0.64); font-size: 13px; }
+
+    .case-wall {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+    .case {
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px;
+      background: var(--paper);
+    }
+    .case-kicker {
+      color: var(--crimson);
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .case h3 {
+      margin: 26px 0 16px;
+      font-size: 28px;
+      line-height: 1.32;
+    }
+    .case p {
+      margin: 0;
+      color: rgba(16, 19, 29, 0.67);
+      font-size: 14px;
+    }
+    .case-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin-top: 26px;
+      padding: 7px 11px;
+      border: 1px solid rgba(123, 170, 184, 0.6);
+      color: var(--navy);
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .case-status::after {
+      content: "↘";
+      color: var(--crimson);
+      font-size: 12px;
+    }
+    .case-status:hover {
+      border-color: var(--crimson);
+      background: rgba(200, 24, 74, 0.08);
+    }
+    .case-detail-stack {
+      display: grid;
+      gap: 28px;
+      margin-top: 42px;
+    }
+    .case-detail {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.36fr) minmax(0, 1fr);
+      gap: 36px;
+      padding: 34px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      scroll-margin-top: 96px;
+    }
+    .case-detail-side {
+      border-top: 2px solid var(--crimson);
+      padding-top: 18px;
+    }
+    .case-detail-label {
+      color: var(--crimson);
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .case-detail h3 {
+      margin: 14px 0 0;
+      font-size: clamp(26px, 3vw, 42px);
+      line-height: 1.25;
+    }
+    .case-detail-body {
+      display: grid;
+      gap: 22px;
+    }
+    .case-detail-lead {
+      margin: 0;
+      color: rgba(16, 19, 29, 0.74);
+      font-size: 15px;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+    .detail-cell {
+      min-height: 150px;
+      padding: 20px;
+      background: rgba(251, 250, 247, 0.94);
+    }
+    .detail-cell span {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--sky);
+      font-family: var(--font-en);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .detail-cell p {
+      margin: 0;
+      color: rgba(16, 19, 29, 0.7);
+      font-size: 13px;
+    }
+    .detail-link {
+      width: fit-content;
+      color: var(--navy);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(200, 24, 74, 0.45);
+      padding-bottom: 3px;
+    }
+
+    .founder {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1fr);
+      gap: 58px;
+      align-items: center;
+    }
+    .founder img {
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid var(--white-line);
+    }
+    .founder h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(46px, 6vw, 86px);
+      line-height: 0.94;
+    }
+    .founder h2 em { color: var(--crimson); font-style: italic; }
+    .founder p { margin: 24px 0 0; color: rgba(251, 250, 247, 0.72); }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+    .tags span {
+      padding: 6px 10px;
+      border: 1px solid var(--white-line);
+      color: rgba(251, 250, 247, 0.78);
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 42px;
+      align-items: end;
+      padding: 48px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(251, 250, 247, 0.96), rgba(251, 250, 247, 0.82)),
+        url("assets/story_pine.jpg") center / cover no-repeat;
+    }
+    .contact h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 6vw, 84px);
+      line-height: 0.94;
+      white-space: nowrap;
+    }
+    .contact p { max-width: 760px; margin: 22px 0 0; color: rgba(16, 19, 29, 0.72); }
+    .contact-links {
+      display: grid;
+      gap: 10px;
+      min-width: 250px;
+    }
+    .contact-links a {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      background: rgba(251, 250, 247, 0.82);
+      color: var(--navy);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .contact-links a:first-child { background: var(--crimson); border-color: var(--crimson); color: var(--paper); }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 34px clamp(24px, 7vw, 92px);
+      background: var(--navy);
+      color: rgba(251, 250, 247, 0.55);
+      font-size: 12px;
+    }
+    footer strong { color: var(--paper); font-family: var(--font-serif); font-size: 19px; }
+
+    @media (max-width: 1020px) {
+      .nav ul { display: none; }
+      .hero,
+      .brandops-wrap,
+      .founder,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+      .hero-visual {
+        min-height: 42vh;
+        order: -1;
+        border-left: 0;
+        border-bottom: 1px solid var(--white-line);
+      }
+      .hero-copy { min-height: auto; padding-top: 72px; }
+      .hero-strip { position: static; width: auto; margin-top: 28px; }
+      .section-head { grid-template-columns: 1fr; }
+      .identity-grid { grid-template-columns: repeat(2, 1fr); }
+      .case-wall { grid-template-columns: 1fr; }
+      .case-detail { grid-template-columns: 1fr; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .brandops-word { position: static; }
+    }
+    @media (max-width: 640px) {
+      .nav { min-height: 64px; }
+      .logo { font-size: 20px; }
+      .hero-copy { padding: 52px 24px 56px; }
+      h1 { font-size: clamp(58px, 18vw, 84px); }
+      section { padding: 78px 24px; }
+      .identity-grid,
+      .flow { grid-template-columns: 1fr; }
+      .principle,
+      .contact { padding: 28px 24px; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="logo" href="#top">Sesshuu-<em>Anima</em></a>
+    <ul>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#brandops">BrandOps</a></li>
+      <li><a href="#cases">Cases</a></li>
+      <li><a href="#founder">Founder</a></li>
+      <li><a class="nav-cta" href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-copy">
+      <div class="kicker">Brand Rebuild Studio / AI Team Company</div>
+      <h1>Sesshuu<em>Anima</em></h1>
+      <p class="hero-lead">デザイン実績とAI実装力で、地域事業者のブランドを再構築する。</p>
+      <p class="hero-body">雪舟館 Animaは、ただのAIチームではありません。映像・空間・グラフィック・Web・SEO・事業設計を横断し、ブランドの美しさと事業成果を同時に育てるBrandOps集団です。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#brandops">BrandOpsを見る</a>
+        <a class="btn btn-secondary" href="#cases">実績領域を見る</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-image-rail">
+        <img src="assets/story_pen.jpg" alt="" />
+        <img src="assets/story_studio.jpg" alt="" />
+        <img src="assets/story_pine.jpg" alt="" />
+      </div>
+      <div class="hero-strip">
+        <strong>Design is operation.</strong>
+        作って終わりではなく、選ばれ続けるための見え方と動き方を設計する。
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="studio">
+      <div class="section-head">
+        <div class="label">01 / Studio</div>
+        <div>
+          <h2 class="title">美意識を、事業の運用力へ。</h2>
+          <p class="lead">Sesshuu-Animaは、代表のデザイン背景とAIチームの実行力を束ね、地域事業者の「伝わらない」「整わない」「続かない」を再構築する小さなブランドスタジオです。</p>
+        </div>
+      </div>
+      <div class="statement">
+        <div>
+          <p>ブランドは、ロゴやWebだけで成立しません。誰に、何を、どんな順番で伝え、どの接点で信頼を積み重ねるか。その全体設計があって初めて、見た目は事業の力になります。</p>
+          <p>Sesshuu-Animaは、AIを制作速度の道具としてだけでなく、調査・言語化・比較・改善のためのチームメンバーとして扱います。美しさを保ちながら、現場が動ける形へ落とし込むことを重視します。</p>
+        </div>
+      </div>
+      <div class="identity-grid" aria-label="Sesshuu-Anima capabilities">
+        <article class="identity">
+          <h3>Design</h3>
+          <p>映像・空間・Web・グラフィックの感覚を統合し、ブランドの第一印象を設計します。</p>
+        </article>
+        <article class="identity">
+          <h3>AI</h3>
+          <p>調査、資料、文章、改善案を高速に組み立て、人の判断で磨き込みます。</p>
+        </article>
+        <article class="identity">
+          <h3>SEO</h3>
+          <p>検索される言葉、比較される理由、地域で見つけられる導線を整えます。</p>
+        </article>
+        <article class="identity">
+          <h3>Strategy</h3>
+          <p>市場・競合・顧客理解をもとに、次に取る行動を具体化します。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dark" id="brandops">
+      <div class="brandops-wrap">
+        <div class="brandops-word">Brand<em>Ops</em></div>
+        <div>
+          <div class="label">02 / Core Service</div>
+          <h2 class="title title-two-line"><span class="line">ブランドを、</span><span class="line">作って終わりにしない。</span></h2>
+          <p class="lead">BrandOpsは、ブランド価値と事業成果を継続的に改善するための中核サービスです。AI導入、デザイン、SEO、提案、運営改善を単品で売るのではなく、事業者の現在地に合わせて組み合わせます。</p>
+          <div class="principle">
+            <p>競合分析の目的は、競合を調べることではありません。最初の顧客と出会う方法、選ばれる理由、次に取る行動を明確にするための材料として扱います。</p>
+          </div>
+          <div class="flow">
+            <article class="flow-step">
+              <span>01</span>
+              <h3>顧客と市場を読む</h3>
+              <p>地域、業種、顧客の声、競合の動きを整理し、勝ち筋の前提を作ります。</p>
+            </article>
+            <article class="flow-step">
+              <span>02</span>
+              <h3>ブランドの芯を定義する</h3>
+              <p>選ばれる理由を言葉とビジュアルに変え、Webや資料へ展開します。</p>
+            </article>
+            <article class="flow-step">
+              <span>03</span>
+              <h3>AIチームで実装する</h3>
+              <p>制作、調査、文章化、提案書、運用改善を並行して進めます。</p>
+            </article>
+            <article class="flow-step">
+              <span>04</span>
+              <h3>改善サイクルを育てる</h3>
+              <p>作った後の反応と現場の変化を見ながら、次の一手へつなげます。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="soft" id="cases">
+      <div class="section-head">
+        <div class="label">03 / Case Fields</div>
+        <div>
+          <h2 class="title"><span class="line">業種を横断する、</span><span class="line">ブランド再構築。</span></h2>
+          <p class="lead">公開ページでは、クライアント名ではなく業種と支援領域を中心に掲載します。相談段階の案件は、提案フェーズとして明確に分けています。</p>
+        </div>
+      </div>
+      <div class="case-wall">
+        <article class="case">
+          <div>
+            <div class="case-kicker">Hospitality / Implemented</div>
+            <h3>宿泊施設向けBrandOps</h3>
+            <p>ホテルのブランドコンセプト、Webサイト、客室体験、運営支援、競合調査を横断して整理。Sakura Sands等のホテルページは、クライアント案件の成果物として位置づけています。</p>
+          </div>
+          <a class="case-status" href="https://yukikiki2011-cloud.github.io/OPEN2026/sakura-sands-suites/" target="_blank" rel="noopener noreferrer">Case Study</a>
+        </article>
+        <article class="case">
+          <div>
+            <div class="case-kicker">Architecture DX / Proposal</div>
+            <h3>建築・CAD領域への応用</h3>
+            <p>専門領域の業務課題を言語化し、AI活用と提案設計を組み合わせることで、導入の入口と優先順位を整理しました。</p>
+          </div>
+          <a class="case-status" href="https://note.com/sesshuu_2020/n/n1ab4ae2f89a0" target="_blank" rel="noopener noreferrer">Applied Field</a>
+        </article>
+        <article class="case">
+          <div>
+            <div class="case-kicker">Food & Community / Validation</div>
+            <h3>店舗運営 × 教育コミュニティ</h3>
+            <p>注文管理、メニュー更新、SNS運用、空間活用をテーマにAI活用提案書を作成。BrandOps v2の事業計画に沿った検証フェーズのケースです。</p>
+          </div>
+          <a class="case-status" href="brandops-food-community-proposal.html" target="_blank" rel="noopener noreferrer">Proposal Phase</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="dark" id="founder">
+      <div class="founder">
+        <img src="assets/icon_new.jpg" alt="文月雪舟 / Sesshuu-Anima founder portrait" />
+        <div>
+          <div class="label">04 / Founder</div>
+          <h2>文月雪舟<br><em>sesshuu design</em></h2>
+          <p>テレビ、映像、空間、デザイン、AI活用の経験を横断し、地域事業者の言葉になっていない価値を掘り起こす。Sesshuu-Animaでは、代表の美意識とAIチームの実行力をつなぎ、事業者の次の一手を形にします。</p>
+          <div class="tags">
+            <span>Brand Rebuild</span>
+            <span>AI Team Direction</span>
+            <span>Design Strategy</span>
+            <span>Local Business</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="soft" id="contact">
+      <div class="contact">
+        <div>
+          <div class="label">05 / Contact</div>
+          <h2>まずは、相談から。</h2>
+          <p>AIを導入したい、ブランドを整えたい、WebやSNSを事業につなげたい。まだ課題がはっきりしていない段階でも、現在地の整理から始められます。</p>
+        </div>
+        <div class="contact-links">
+          <a href="https://x.com/sesshuuX" target="_blank" rel="noopener noreferrer">X / Contact</a>
+          <a href="https://note.com/sesshuu_2020/all" target="_blank" rel="noopener noreferrer">note</a>
+          <a href="https://www.instagram.com/sesshuu_design/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>Sesshuu-Anima</strong><br />BrandOps by 雪舟館 Anima</div>
+    <div>© 2026 文月雪舟 / Sesshuu-Anima. All rights reserved.</div>
+  </footer>
+</body>
+</html>
