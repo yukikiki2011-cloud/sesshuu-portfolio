@@ -514,10 +514,32 @@
       gap: 58px;
       align-items: center;
     }
+    .founder-portrait {
+      position: relative;
+      display: block;
+      border: 1px solid var(--white-line);
+      background:
+        linear-gradient(135deg, rgba(251, 250, 247, 0.08), rgba(200, 24, 74, 0.08)),
+        var(--navy);
+      padding: clamp(12px, 2vw, 22px);
+      overflow: hidden;
+    }
+    .founder-portrait::after {
+      content: "";
+      position: absolute;
+      inset: auto 16px 16px auto;
+      width: 34%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(200, 24, 74, 0.44);
+      border-radius: 50%;
+      opacity: 0.8;
+      pointer-events: none;
+    }
     .founder img {
       aspect-ratio: 4 / 5;
       object-fit: cover;
-      border: 1px solid var(--white-line);
+      border: 1px solid rgba(251, 250, 247, 0.2);
+      filter: contrast(1.04) saturate(0.9);
     }
     .founder h2 {
       margin: 0;
@@ -540,6 +562,33 @@
       font-family: var(--font-en);
       font-size: 11px;
       letter-spacing: 0.08em;
+    }
+    .founder-profile-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 12px 18px;
+      min-height: 46px;
+      border: 1px solid var(--crimson);
+      background: var(--crimson);
+      color: var(--paper);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .founder-profile-link::after {
+      content: "↗";
+      font-size: 14px;
+      line-height: 1;
+    }
+    .founder-profile-link:hover {
+      background: transparent;
+      color: var(--paper);
+      border-color: rgba(251, 250, 247, 0.64);
     }
 
     .contact {
@@ -774,17 +823,20 @@
 
     <section class="dark" id="founder">
       <div class="founder">
-        <img src="assets/icon_new.jpg" alt="文月雪舟 / Sesshuu-Anima founder portrait" />
+        <a class="founder-portrait" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/vol.2/" target="_blank" rel="noopener" aria-label="文月雪舟の新プロフィールを見る">
+          <img src="assets/founder-profile-washi.png" alt="文月雪舟 / SESSHUU DESIGN profile portrait" />
+        </a>
         <div>
           <div class="label">04 / Founder</div>
           <h2>文月雪舟<br><em>sesshuu design</em></h2>
-          <p>テレビ、映像、空間、デザイン、AI活用の経験を横断し、地域事業者の言葉になっていない価値を掘り起こす。Sesshuu-Animaでは、代表の美意識とAIチームの実行力をつなぎ、事業者の次の一手を形にします。</p>
+          <p>文月雪舟 / SESSHUU DESIGNは、ブランドの見え方、言葉、情報構造、AI活用、運用の動線をまとめて考えるデザイナー / ライター / AI活用設計者です。デザインを装飾として扱うのではなく、事業の魅力が伝わり、使われ、続いていくための設計として扱います。</p>
           <div class="tags">
             <span>Brand Rebuild</span>
             <span>AI Team Direction</span>
             <span>Design Strategy</span>
             <span>Local Business</span>
           </div>
+          <a class="founder-profile-link" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/vol.2/" target="_blank" rel="noopener">Profile Vol.2</a>
         </div>
       </div>
     </section>
