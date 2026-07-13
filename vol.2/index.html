@@ -1,0 +1,1534 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文月雪舟 / 雪舟 | SESSHUU DESIGN Profile</title>
+  <meta name="description" content="文月雪舟 / SESSHUU DESIGN のプロフィール。美意識、デザイン、言葉、AI、情報整理を横断し、事業の運用力へつなげる活動を紹介します。">
+  <style>
+    :root {
+      --paper: #fbfaf6;
+      --paper-rgb: 251, 250, 246;
+      --paper-deep: #f1f0eb;
+      --ink: #20272a;
+      --ink-soft: #445057;
+      --muted: #6a777b;
+      --wash: #dfe8eb;
+      --wash-deep: #b9c8ce;
+      --line: rgba(32, 39, 42, .16);
+      --seal: #9f6f63;
+      --accent: #c23a8f;
+      --accent-soft: rgba(194, 58, 143, .14);
+      --accent-line: rgba(194, 58, 143, .34);
+      --shadow: 0 24px 70px rgba(32, 39, 42, .10);
+      --serif: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "MS PMincho", serif;
+      --sans: "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.86;
+      background:
+        linear-gradient(rgba(var(--paper-rgb), .82), rgba(var(--paper-rgb), .90)),
+        url("../assets/extracted-washi-snow-sample.png"),
+        var(--paper);
+      background-size: auto, auto 100vh, auto;
+      background-repeat: no-repeat, repeat-x, repeat;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: .62;
+      background-image:
+        radial-gradient(circle at 18% 22%, rgba(255,255,255,.70) 0 1px, transparent 2px),
+        radial-gradient(circle at 72% 64%, rgba(120,130,132,.07) 0 1px, transparent 2px),
+        linear-gradient(96deg, rgba(72,75,72,.026) 0 1px, transparent 1px),
+        linear-gradient(6deg, rgba(72,75,72,.018) 0 1px, transparent 1px);
+      background-size: 38px 38px, 57px 57px, 13px 13px, 17px 17px;
+      mix-blend-mode: multiply;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .page { position: relative; z-index: 2; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .section { padding: 112px 0; border-top: 1px solid var(--line); }
+    .section:first-of-type { border-top: 0; }
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(180px, 280px) 1fr;
+      gap: clamp(32px, 6vw, 88px);
+      align-items: start;
+    }
+    .kicker {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin: 0 0 18px;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-weight: 400; }
+    .jp-serif { font-family: var(--serif); }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(251,250,246,.78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      white-space: nowrap;
+    }
+    .nav-brand strong {
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 400;
+      letter-spacing: .18em;
+    }
+    .nav-brand span {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: var(--ink-soft);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .nav-links a {
+      padding: 8px 0;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-links a:hover { border-color: var(--ink-soft); }
+
+    .snow-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .snow-field span {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--s);
+      height: var(--s);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 30%, rgba(255,255,255,.95), rgba(239,240,237,.82) 42%, rgba(154,164,168,.20) 74%, transparent 100%);
+      box-shadow: inset -2px -2px 4px rgba(80,92,96,.08), 0 2px 7px rgba(32,39,42,.07);
+      opacity: var(--o);
+      animation: snowDrift var(--d) ease-in-out infinite alternate;
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: block;
+      padding: 70px 0 78px;
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      pointer-events: none;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 4;
+      width: min(680px, 100%);
+      padding-top: min(58vh, 520px);
+    }
+    .hero-label {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(44px, 7vw, 96px);
+      line-height: 1.12;
+      letter-spacing: .18em;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    .hero-title-ja {
+      display: inline-flex;
+      gap: .06em;
+      align-items: baseline;
+      cursor: default;
+      min-width: min(100%, 620px);
+      min-height: 1.22em;
+    }
+    .title-change-root {
+      display: inline-flex;
+      white-space: nowrap;
+      color: var(--ink);
+      transition: color .28s ease, text-shadow .28s ease;
+    }
+    .title-change-root.is-alt {
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(194,58,143,.14);
+    }
+    .title-change-char {
+      display: inline-block;
+      width: 1.12em;
+      text-align: center;
+      transform-origin: 50% 70%;
+    }
+    .title-change-root.is-moving .title-change-char {
+      animation: inkBreath .38s ease-in-out infinite alternate;
+      animation-delay: calc(var(--i, 0) * .035s);
+    }
+    .title-change-char.is-ink {
+      color: var(--ink);
+      text-shadow: none;
+    }
+    .title-change-char.is-ink-seq {
+      color: var(--accent);
+      animation: inkRevealBlack 1.05s ease forwards;
+      animation-delay: calc(var(--ink-order, 0) * .36s);
+    }
+    .motion-char {
+      display: inline-block;
+      transform-origin: 50% 72%;
+      animation: inkSettle .9s cubic-bezier(.18,.9,.25,1) both;
+      animation-delay: calc(var(--i, 0) * .065s);
+    }
+    .hero-title-ja:hover .motion-char {
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(194,58,143,.16);
+      animation: inkBreath 1.35s ease-in-out infinite alternate;
+      animation-delay: calc(var(--i, 0) * .045s);
+    }
+    .hero-name-en {
+      position: relative;
+      display: inline-flex;
+      gap: .42em;
+      width: min(100%, 560px);
+      min-height: 1.6em;
+      align-items: center;
+      font-family: var(--serif);
+      letter-spacing: .22em;
+      font-size: clamp(15px, 2vw, 22px);
+      margin-bottom: 54px;
+      color: var(--ink);
+      transition: color .35s ease;
+    }
+    .hero-name-en::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: .36em;
+      bottom: -.72em;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(32,39,42,.22), var(--accent-line), transparent);
+      transform-origin: left center;
+      animation: logoLineDrift 5.2s ease-in-out infinite;
+    }
+    .hero-name-en em {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .typog-scramble-root {
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .typog-scramble-char {
+      display: inline-block;
+      width: .72em;
+      transform-origin: 50% 62%;
+      text-align: center;
+    }
+    .typog-scramble-root--hero.typog-motion-active .typog-scramble-char {
+      animation-name: typogMicroShakeHero;
+      animation-duration: .52s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-delay: calc(var(--ti, 0) * .026s);
+    }
+    .typog-scramble-char--glitch {
+      color: var(--accent);
+      text-shadow:
+        1.5px 0 rgba(194,58,143,.38),
+        -1.5px 0 rgba(82,97,102,.24),
+        0 0 14px rgba(194,58,143,.20);
+    }
+    .hero-statement {
+      font-family: var(--serif);
+      font-size: clamp(30px, 5vw, 62px);
+      line-height: 1.35;
+      letter-spacing: .08em;
+      margin-bottom: 28px;
+    }
+    .hero-lead {
+      max-width: 640px;
+      color: var(--ink-soft);
+      font-size: 16px;
+      line-height: 2.05;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+      padding: 0 2px;
+      border-bottom: 1px solid rgba(32,39,42,.42);
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: .1em;
+    }
+    .text-link::after { content: "->"; font-family: var(--sans); letter-spacing: 0; }
+    .text-link:hover { color: var(--seal); border-color: var(--seal); }
+
+    .hero-art {
+      position: absolute;
+      z-index: 3;
+      left: 0;
+      right: 0;
+      top: 6vh;
+      height: min(48vh, 470px);
+      pointer-events: none;
+    }
+    .hero-sumi-band {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 48%;
+      opacity: .98;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 18px 20px rgba(32,39,42,.045));
+      animation: boatFloat 6.5s ease-in-out infinite;
+    }
+    .section-title {
+      position: sticky;
+      top: 92px;
+    }
+    .section-title .num {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .16em;
+      margin-bottom: 16px;
+    }
+    .section-title h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 50px);
+      line-height: 1.36;
+      letter-spacing: .08em;
+      margin: 0;
+    }
+    .section-body > p {
+      color: var(--ink-soft);
+      font-size: 16px;
+      line-height: 2.08;
+      max-width: 780px;
+    }
+    .lead-large {
+      font-family: var(--serif);
+      color: var(--ink);
+      font-size: clamp(26px, 4vw, 48px);
+      line-height: 1.48;
+      letter-spacing: .06em;
+      margin-bottom: 28px;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .story-card {
+      min-height: 330px;
+      background: rgba(251,250,246,.86);
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .story-card .era {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .story-card h3 {
+      font-family: var(--serif);
+      font-size: 27px;
+      line-height: 1.4;
+      letter-spacing: .06em;
+      margin-bottom: 18px;
+    }
+    .story-card p {
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.92;
+      margin-bottom: 0;
+    }
+
+    .method-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    .method-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 22px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .method-num {
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 28px;
+    }
+    .method-item h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .method-item p {
+      color: var(--ink-soft);
+      margin-bottom: 0;
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .capability-visual {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.05fr) minmax(260px, .95fr);
+      gap: 18px;
+      margin-bottom: 18px;
+      align-items: stretch;
+    }
+    .visual-stage {
+      min-height: 360px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(32,39,42,.18);
+      background: var(--paper);
+      isolation: isolate;
+    }
+    .visual-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(var(--paper-rgb), .90) 0 16%, rgba(var(--paper-rgb), .28) 52%, rgba(var(--paper-rgb), .88) 100%),
+        url("../assets/extracted-washi-snow-sample.png");
+      background-size: auto, auto 100%;
+      background-repeat: no-repeat, repeat-x;
+      mix-blend-mode: screen;
+      opacity: .72;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .visual-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.04);
+      filter: grayscale(.55) saturate(.78) contrast(1.08);
+      transition: opacity .45s ease, transform .7s ease, filter .45s ease;
+      z-index: 1;
+    }
+    .visual-image.is-active {
+      opacity: .84;
+      transform: scale(1);
+      filter: grayscale(.25) saturate(.92) contrast(1.06);
+    }
+    .visual-caption {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 24px;
+      z-index: 3;
+      color: var(--ink);
+    }
+    .visual-caption span {
+      display: block;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .visual-caption strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: clamp(24px, 3vw, 38px);
+      font-weight: 400;
+      line-height: 1.35;
+    }
+    .visual-actions {
+      display: grid;
+      gap: 8px;
+    }
+    .visual-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.30);
+      color: var(--ink);
+      min-height: 54px;
+      padding: 0 18px;
+      font: inherit;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .visual-btn:hover,
+    .visual-btn.is-active {
+      border-color: var(--accent-line);
+      background: linear-gradient(90deg, var(--accent-soft), rgba(255,255,255,.28));
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+    .capability-card {
+      min-height: 188px;
+      padding: 26px;
+      background: rgba(255,255,255,.34);
+      border: 1px solid var(--line);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      color: inherit;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .capability-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 42px;
+      height: 1px;
+      background: var(--ink-soft);
+      transition: background .2s ease, width .2s ease;
+    }
+    .capability-card:hover,
+    .capability-card:focus-visible {
+      border-color: var(--accent-line);
+      background: rgba(255,255,255,.52);
+      transform: translateY(-3px);
+    }
+    .capability-card:hover::before,
+    .capability-card:focus-visible::before {
+      width: 74px;
+      background: var(--accent);
+    }
+    .capability-card h3 {
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.28;
+      margin-bottom: 16px;
+    }
+    .capability-card p {
+      color: var(--ink-soft);
+      font-size: 14px;
+      flex: 1;
+    }
+    .capability-card .card-link-label {
+      display: inline-flex;
+      margin-top: 20px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--accent-line);
+      margin-bottom: 0;
+    }
+
+    .proof-band {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .proof-item {
+      padding: 28px;
+      background: rgba(251,250,246,.84);
+    }
+    .proof-item strong {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .proof-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .privacy-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+    .credential-showcase {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .credential-card {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 18px;
+      align-items: center;
+      min-height: 128px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.38);
+    }
+    .credential-logo {
+      width: 86px;
+      height: 86px;
+      object-fit: contain;
+      filter: saturate(.82) contrast(1.04);
+    }
+    .credential-card span {
+      display: block;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .credential-card strong {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .credential-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .depth-layout {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 420px);
+      gap: 36px;
+      align-items: center;
+    }
+    .depth-image {
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .depth-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+    .depth-track::-webkit-scrollbar { display: none; }
+    .depth-slide {
+      flex: 0 0 100%;
+      margin: 0;
+      position: relative;
+      scroll-snap-align: start;
+    }
+    .depth-slide img {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      filter: grayscale(.36) saturate(.7) contrast(1.08);
+      transform: scale(1.02);
+      transition: transform .7s ease, filter .5s ease;
+    }
+    .depth-image:hover .depth-slide img {
+      transform: scale(1.07);
+      filter: grayscale(.18) saturate(.82) contrast(1.08);
+    }
+    .depth-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(var(--paper-rgb), .18), rgba(var(--paper-rgb), .76));
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .depth-caption {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 18px;
+      z-index: 2;
+      color: var(--paper);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 12px rgba(32,39,42,.72);
+    }
+    .depth-controls {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      z-index: 3;
+      display: flex;
+      gap: 8px;
+    }
+    .depth-control {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,.62);
+      background: rgba(251,250,246,.38);
+      color: var(--ink);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .depth-dots {
+      position: absolute;
+      left: 20px;
+      bottom: 48px;
+      z-index: 3;
+      display: flex;
+      gap: 8px;
+    }
+    .depth-dot {
+      width: 26px;
+      height: 2px;
+      border: 0;
+      padding: 0;
+      background: rgba(255,255,255,.48);
+      cursor: pointer;
+    }
+    .depth-dot.is-active { background: var(--accent); }
+
+    .bridge {
+      padding: 44px;
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(110deg, rgba(var(--paper-rgb), .94) 0 42%, rgba(var(--paper-rgb), .72) 68%, rgba(var(--paper-rgb), .52) 100%),
+        url("../assets/story-pine.jpg") right center / 48% auto no-repeat,
+        rgba(255,255,255,.28);
+    }
+    .bridge::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, var(--accent-soft));
+      opacity: .38;
+      pointer-events: none;
+    }
+    .bridge > * {
+      position: relative;
+      z-index: 1;
+    }
+    .bridge h3 {
+      font-family: var(--serif);
+      font-size: clamp(25px, 4vw, 42px);
+      line-height: 1.4;
+      letter-spacing: .05em;
+      margin-bottom: 18px;
+    }
+    .bridge p {
+      color: var(--ink-soft);
+      max-width: 720px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .contact-link {
+      min-height: 86px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.26);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .contact-link strong {
+      font-size: 14px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .contact-link span {
+      color: var(--muted);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    .contact-link:hover {
+      border-color: rgba(159,111,99,.54);
+      color: var(--seal);
+    }
+    .contact-seal {
+      width: 132px;
+      margin: 34px 0 0 auto;
+      opacity: .42;
+      filter: sepia(.35) saturate(1.2) hue-rotate(285deg) contrast(1.04);
+      mix-blend-mode: multiply;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 36px 0 48px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes snowDrift {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(18px, 24px, 0); }
+    }
+    @keyframes inkFlow {
+      from { transform: translateX(-3vw) rotate(-7deg); opacity: .4; }
+      to { transform: translateX(3vw) rotate(-5deg); opacity: .62; }
+    }
+    @keyframes boatFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes inkSettle {
+      from { opacity: 0; transform: translateY(18px) rotate(-2deg); filter: blur(5px); }
+      to { opacity: 1; transform: translateY(0) rotate(0); filter: blur(0); }
+    }
+    @keyframes inkBreath {
+      from { transform: translateY(0); }
+      to { transform: translateY(-3px); }
+    }
+    @keyframes logoLineDrift {
+      0%, 100% { transform: scaleX(.42); opacity: .42; }
+      45% { transform: scaleX(1); opacity: .82; }
+    }
+    @keyframes typogMicroShakeHero {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      11% { transform: translate(-.9px, .6px) rotate(-.55deg); }
+      25% { transform: translate(.7px, -.75px) rotate(.45deg); }
+      40% { transform: translate(-.55px, -.75px) rotate(-.35deg); }
+      58% { transform: translate(.85px, .45px) rotate(.38deg); }
+      74% { transform: translate(-.45px, .7px) rotate(-.25deg); }
+    }
+    @keyframes inkRevealBlack {
+      0% {
+        color: var(--accent);
+        text-shadow: 0 0 18px rgba(194,58,143,.20);
+      }
+      100% {
+        color: var(--ink);
+        text-shadow: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-inner { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-links { justify-content: flex-start; gap: 14px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 56px; }
+      .hero-copy { padding-top: 0; }
+      .section { padding: 80px 0; }
+      .section-grid { grid-template-columns: 1fr; gap: 28px; }
+      .section-title { position: static; }
+      .story-grid, .capability-grid, .capability-visual, .proof-band, .credential-showcase, .contact-grid { grid-template-columns: 1fr; }
+      .story-card { min-height: auto; gap: 28px; }
+      .depth-layout { grid-template-columns: 1fr; }
+      .visual-stage { min-height: 300px; }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 28px, 1120px); }
+      .hero h1 { letter-spacing: .1em; }
+      .hero-name-en { letter-spacing: .12em; gap: .24em; }
+      .hero-statement { letter-spacing: .04em; }
+      .method-item { grid-template-columns: 44px 1fr; gap: 14px; }
+      .bridge { padding: 28px; }
+      .nav-links a { font-size: 11px; }
+      .depth-controls { top: 12px; right: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="snow-field" aria-hidden="true">
+    <span style="--x:7%;--y:14%;--s:8px;--o:.62;--d:8s"></span>
+    <span style="--x:18%;--y:29%;--s:5px;--o:.42;--d:9s"></span>
+    <span style="--x:31%;--y:11%;--s:7px;--o:.52;--d:7s"></span>
+    <span style="--x:46%;--y:23%;--s:10px;--o:.44;--d:10s"></span>
+    <span style="--x:63%;--y:9%;--s:6px;--o:.48;--d:8s"></span>
+    <span style="--x:78%;--y:21%;--s:9px;--o:.40;--d:11s"></span>
+    <span style="--x:91%;--y:13%;--s:5px;--o:.52;--d:9s"></span>
+    <span style="--x:12%;--y:62%;--s:6px;--o:.44;--d:10s"></span>
+    <span style="--x:58%;--y:67%;--s:8px;--o:.38;--d:8s"></span>
+    <span style="--x:85%;--y:73%;--s:7px;--o:.46;--d:9s"></span>
+  </div>
+
+  <nav class="nav">
+    <div class="shell nav-inner">
+      <a class="nav-brand" href="#top" aria-label="文月雪舟 Profile トップへ">
+        <strong>文月雪舟</strong>
+        <span>SESSHUU DESIGN</span>
+      </a>
+      <div class="nav-links" aria-label="ページ内ナビゲーション">
+        <a href="#story">Story</a>
+        <a href="#about">About</a>
+        <a href="#method">Method</a>
+        <a href="#proof">Proof</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page" id="top">
+    <header class="shell hero">
+      <div class="hero-copy reveal">
+        <div class="hero-label">Fumizuki Sesshuu / Profile</div>
+        <h1 class="hero-title-ja" aria-label="文月雪舟">
+          <span id="heroTitleChange" class="title-change-root" data-title-states="文月雪舟|FUMITUKI|SESSHUU|雪舟館">文月雪舟</span>
+        </h1>
+        <p class="hero-name-en" aria-label="SESSHUU DESIGN">
+          <span class="typog-scramble-root typog-scramble-root--hero" data-typog="SESSHUU">SESSHUU</span>
+          <em><span class="typog-scramble-root typog-scramble-root--hero" data-typog="DESIGN">DESIGN</span></em>
+        </p>
+        <p class="hero-statement">美意識を、<br>事業の運用力へ。</p>
+        <p class="hero-lead">
+          空間演出、ブランド設計、デザイン、AI活用、情報整理を横断し、事業の魅力が現場で使われ続ける形まで整えます。
+          見た目だけではなく、言葉、構造、動線、続けられる仕組みまで含めて設計します。
+        </p>
+        <div class="hero-actions">
+          <a class="text-link" href="#contact">Contact</a>
+          <a class="text-link" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/sesshuu-anima.html" target="_blank" rel="noopener">BrandOps</a>
+        </div>
+      </div>
+
+      <div class="hero-art reveal" aria-label="白雪と水墨の舟をモチーフにした名刺連動ビジュアル">
+        <img class="hero-sumi-band" src="../assets/extracted-sumi-boat-band.png" alt="">
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="story">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">01 / Story</span>
+            <h2>過去、現在、<br>これから。</h2>
+          </div>
+          <div class="section-body reveal">
+            <div class="story-grid">
+              <article class="story-card">
+                <div>
+                  <div class="era">Past</div>
+                  <h3>空間と映像から、伝わる設計へ。</h3>
+                </div>
+                <p>造形と空間演出を基盤に、デザイン領域で長く経験を積んできました。人が何を見て、どの順番で理解し、どこで心を動かすのか。その視点が現在の仕事の土台です。</p>
+              </article>
+              <article class="story-card">
+                <div>
+                  <div class="era">Present</div>
+                  <h3>デザイン、言葉、AIを横断する。</h3>
+                </div>
+                <p>ブランド設計、Web、ライティング、SEO、AI活用、情報整理を横断し、ばらばらの素材を再利用できる知識と表現へ整えます。AIは速度だけでなく、判断と発想を広げる相棒です。</p>
+              </article>
+              <article class="story-card">
+                <div>
+                  <div class="era">Future</div>
+                  <h3>使われ続ける形へ。</h3>
+                </div>
+                <p>地域の事業者が自分たちの魅力を言葉にし、見せ方を整え、継続して動かせる状態をつくる。そのための美意識と運用力をつなぐ仕事を育てています。</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">02 / About</span>
+            <h2>制作する人ではなく、<br>設計できる人。</h2>
+          </div>
+          <div class="section-body reveal">
+            <p class="lead-large">見た目を整える前に、何を伝えるべきかを整える。</p>
+            <p>
+              文月雪舟 / SESSHUU DESIGNは、ブランドの見え方、言葉、情報構造、AI活用、運用の動線をまとめて考えるデザイナー / ライター / AI活用設計者です。
+              デザインを装飾として扱うのではなく、事業の魅力が伝わり、使われ、続いていくための設計として扱います。
+            </p>
+            <p>
+              本業に関わる具体的な案件名や所属情報は公開せず、ここでは個人としての活動領域と思想を中心に紹介しています。
+              相談では、目的、読者、事業の現在地を確認しながら、必要な表現や仕組みを一緒に整理します。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="method">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">03 / Method</span>
+            <h2>5つの<br>設計思想。</h2>
+          </div>
+          <div class="section-body reveal">
+            <div class="method-list">
+              <article class="method-item">
+                <div class="method-num">01</div>
+                <div>
+                  <h3>目的から逆算して設計する</h3>
+                  <p>何を作るかの前に、誰に何を届け、どんな行動につなげたいのかを確認します。</p>
+                </div>
+              </article>
+              <article class="method-item">
+                <div class="method-num">02</div>
+                <div>
+                  <h3>構造を整えて成果につなげる</h3>
+                  <p>情報の順番、読み手の迷い、比較される理由を整理し、見た目の前に骨格を作ります。</p>
+                </div>
+              </article>
+              <article class="method-item">
+                <div class="method-num">03</div>
+                <div>
+                  <h3>デザインは装飾ではなく成果設計</h3>
+                  <p>美しさと機能性を切り分けず、伝わること、使えること、続けられることを同時に考えます。</p>
+                </div>
+              </article>
+              <article class="method-item">
+                <div class="method-num">04</div>
+                <div>
+                  <h3>SEOは流入ではなく動線設計</h3>
+                  <p>検索上位だけを目的にせず、見つけられた後に自然な理解と相談へ進む流れを整えます。</p>
+                </div>
+              </article>
+              <article class="method-item">
+                <div class="method-num">05</div>
+                <div>
+                  <h3>AIは代替ではなく能力拡張</h3>
+                  <p>AIは人間の創造性を奪うのではなく、判断・発想・整理の力を増幅させるツールです。生成AIパスポートとG検定を取得し、実務に近い形でAI活用を深めています。</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="capability">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">04 / Capability</span>
+            <h2>横断する<br>職能。</h2>
+          </div>
+          <div class="section-body reveal">
+            <div class="capability-visual" aria-label="職能ごとのビジュアルプレビュー">
+              <div class="visual-stage">
+                <img class="visual-image is-active" data-visual="brand" src="../assets/story-pine.jpg" alt="">
+                <img class="visual-image" data-visual="design" src="../assets/capability-graphic-web.png" alt="">
+                <img class="visual-image" data-visual="writing" src="../assets/story-pen.jpg" alt="">
+                <img class="visual-image" data-visual="ai" src="../assets/capability-ai-workflow.png" alt="">
+                <img class="visual-image" data-visual="knowledge" src="../assets/capability-knowledge.png" alt="">
+                <img class="visual-image" data-visual="space" src="../assets/dancer-depth.png" alt="">
+                <div class="visual-caption">
+                  <span id="visual-kicker">Brand Direction</span>
+                  <strong id="visual-title">美意識を、運用できる構造へ。</strong>
+                </div>
+              </div>
+              <div class="visual-actions">
+                <button class="visual-btn is-active" type="button" data-target-visual="brand" data-kicker="Brand Direction" data-title="美意識を、運用できる構造へ。">Brand Direction</button>
+                <button class="visual-btn" type="button" data-target-visual="design" data-kicker="Graphic / Web Design" data-title="空間感覚を、紙とWebの体験へ。">Graphic / Web Design</button>
+                <button class="visual-btn" type="button" data-target-visual="writing" data-kicker="Writing / SEO" data-title="言葉と検索導線を、伝わる順番へ。">Writing / SEO</button>
+                <button class="visual-btn" type="button" data-target-visual="ai" data-kicker="AI Workflow" data-title="AIを、判断と制作の拡張へ。">AI Workflow</button>
+                <button class="visual-btn" type="button" data-target-visual="knowledge" data-kicker="Knowledge Organization" data-title="散らばる知識を、再利用できる資産へ。">Knowledge Organization</button>
+                <button class="visual-btn" type="button" data-target-visual="space" data-kicker="Space / Experience" data-title="身体感覚を、記憶に残る体験へ。">Space / Experience</button>
+              </div>
+            </div>
+            <div class="capability-grid">
+              <a class="capability-card" href="https://yukikiki2011-cloud.github.io/OPEN2026/sakura-sands-suites/brand-guide.html" target="_blank" rel="noopener" data-target-visual="brand" data-kicker="Brand Direction" data-title="美意識を、運用できる構造へ。">
+                <h3>Brand<br>Direction</h3>
+                <p>魅力、強み、届けたい相手を整理し、ブランドの芯を言葉と構造にします。</p>
+                <span class="card-link-label">View Brand Guide</span>
+              </a>
+              <a class="capability-card" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/#works" target="_blank" rel="noopener" data-target-visual="design" data-kicker="Graphic / Web Design" data-title="空間感覚を、紙とWebの体験へ。">
+                <h3>Graphic /<br>Web Design</h3>
+                <p>紙、Web、SNS、資料の見え方を、使う場面に合わせて設計します。</p>
+                <span class="card-link-label">View Works</span>
+              </a>
+              <a class="capability-card" href="https://note.com/sesshuu_2020/all" target="_blank" rel="noopener" data-target-visual="writing" data-kicker="Writing / SEO" data-title="言葉と検索導線を、伝わる順番へ。">
+                <h3>Writing /<br>SEO</h3>
+                <p>読者の理解と検索導線を意識し、文章、構成、見出しを整えます。</p>
+                <span class="card-link-label">View note</span>
+              </a>
+              <a class="capability-card" href="https://yukikiki2011-cloud.github.io/OPEN2026/sakura-sands-suites/management-system/ai-checkup-demo.html" target="_blank" rel="noopener" data-target-visual="ai" data-kicker="AI Workflow" data-title="AIを、判断と制作の拡張へ。">
+                <h3>AI<br>Workflow</h3>
+                <p>調査、壁打ち、整理、制作補助をAIと組み合わせ、判断しやすい状態を作ります。</p>
+                <span class="card-link-label">View AI Demo</span>
+              </a>
+              <a class="capability-card" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/assets/SAAL_The_Operational_Engine_compressed.pdf" target="_blank" rel="noopener" data-target-visual="knowledge" data-kicker="Knowledge Organization" data-title="散らばる知識を、再利用できる資産へ。">
+                <h3>Knowledge<br>Organization</h3>
+                <p>散らばった資料、会話、アイデア、調査結果を、再利用できる知識へ整えます。</p>
+                <span class="card-link-label">View PDF</span>
+              </a>
+              <a class="capability-card" href="../sesshuu-space-experience.html" data-target-visual="space" data-kicker="Space / Experience" data-title="身体感覚を、記憶に残る体験へ。">
+                <h3>Space /<br>Experience</h3>
+                <p>空間や身体感覚を含め、印象に残る体験としてのデザインを考えます。</p>
+                <span class="card-link-label">View Experience</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="proof">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">05 / Proof</span>
+            <h2>背景と<br>信頼材料。</h2>
+          </div>
+          <div class="section-body reveal">
+            <div class="proof-band">
+              <div class="proof-item">
+                <strong>Design Background</strong>
+                <span>武蔵野美術大学 空間演出デザイン学科を基盤に、デザイン領域で長く経験。</span>
+              </div>
+              <div class="proof-item">
+                <strong>International View</strong>
+                <span>ヘルシンキ芸術デザイン大学への組織留学を通じ、北欧デザイン思想に触れる。</span>
+              </div>
+              <div class="proof-item">
+                <strong>AI Literacy</strong>
+                <span>生成AIパスポート / G検定。AIを実務に近い文脈で学び続ける。</span>
+              </div>
+              <div class="proof-item">
+                <strong>Community</strong>
+                <span>ShiftAI ELITEサポーター。AI活用と学習コミュニティに継続参加。</span>
+              </div>
+              <div class="proof-item">
+                <strong>Traditional Culture</strong>
+                <span>日本着装百合の会 師範免許。所作、身体、文化への感度を持つ。</span>
+              </div>
+              <div class="proof-item">
+                <strong>Output</strong>
+                <span>note、Substack、GitHub、Web制作を通じ、学びと思考を公開。</span>
+              </div>
+            </div>
+            <div class="credential-showcase" aria-label="資格・認定">
+              <article class="credential-card">
+                <img class="credential-logo" src="../assets/logo-generative-ai-passport.png" alt="生成AIパスポート 認定ロゴ">
+                <div>
+                  <span>Certification</span>
+                  <strong>生成AIパスポート</strong>
+                  <p>2025年10月取得。生成AIのリスク、活用、基本リテラシーを実務文脈で扱うための基礎。</p>
+                </div>
+              </article>
+              <article class="credential-card">
+                <img class="credential-logo" src="../assets/logo-g-certification-2026.png" alt="G検定 2026 認定ロゴ">
+                <div>
+                  <span>Certification</span>
+                  <strong>G検定</strong>
+                  <p>2026年5月取得。AIを単なる制作補助ではなく、判断と設計の道具として扱うための学習基盤。</p>
+                </div>
+              </article>
+            </div>
+            <p class="privacy-note">本業に関わる具体的な所属、案件名、内部情報は掲載していません。個人活動として公開可能な範囲で、経験と思想を整理しています。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="depth">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">06 / Personal Depth</span>
+            <h2>身体で<br>考える。</h2>
+          </div>
+          <div class="section-body reveal">
+            <div class="depth-layout">
+              <div>
+                <p class="lead-large">空間、身体、所作、文化。美意識は画面の外にもある。</p>
+                <p>
+                  ダンスや着装文化への関心は、見た目の装飾ではなく、身体の動き、間合い、視線、所作への感度につながっています。
+                  Webや紙面のレイアウトでも、読み手がどこで立ち止まり、どこへ進むかを、空間の体験として捉えます。
+                </p>
+              </div>
+              <div class="depth-image depth-carousel" aria-label="身体性を表すビジュアルスライダー">
+                <div class="depth-track" id="depthTrack">
+                  <figure class="depth-slide">
+                    <img src="../assets/dancer-depth.png" alt="身体性と空間感覚を表すダンスビジュアル">
+                    <figcaption class="depth-caption">Dance / Spatial Sense</figcaption>
+                  </figure>
+                  <figure class="depth-slide">
+                    <img src="../assets/dancer01.png" alt="ダンス表現のビジュアル">
+                    <figcaption class="depth-caption">Movement / Rhythm</figcaption>
+                  </figure>
+                  <figure class="depth-slide">
+                    <img src="../assets/noa_180731.png" alt="NOA IMPACT ダンス記録 2018年7月31日">
+                    <figcaption class="depth-caption">NOA Impact / 2018.07</figcaption>
+                  </figure>
+                  <figure class="depth-slide">
+                    <img src="../assets/noa_180508.png" alt="NOA IMPACT ダンス記録 2018年5月8日">
+                    <figcaption class="depth-caption">NOA Impact / 2018.05</figcaption>
+                  </figure>
+                </div>
+                <div class="depth-controls" aria-label="画像切り替え">
+                  <button class="depth-control" type="button" data-depth-dir="-1" aria-label="前の画像">‹</button>
+                  <button class="depth-control" type="button" data-depth-dir="1" aria-label="次の画像">›</button>
+                </div>
+                <div class="depth-dots" aria-label="画像選択">
+                  <button class="depth-dot is-active" type="button" data-depth-index="0" aria-label="1枚目"></button>
+                  <button class="depth-dot" type="button" data-depth-index="1" aria-label="2枚目"></button>
+                  <button class="depth-dot" type="button" data-depth-index="2" aria-label="3枚目"></button>
+                  <button class="depth-dot" type="button" data-depth-index="3" aria-label="4枚目"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="brandops">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">07 / BrandOps</span>
+            <h2>事業支援の<br>詳しい内容。</h2>
+          </div>
+          <div class="section-body reveal">
+            <div class="bridge">
+              <h3>地域の魅力を、伝わる形へ。</h3>
+              <p>
+                事業支援の詳しい内容は、BrandOps by 雪舟館 Animaとして整理しています。
+                ブランド設計、AI活用、SEO、デザイン、情報整理を組み合わせ、地域事業者の価値が伝わり続ける仕組みを作るためのページです。
+              </p>
+              <a class="text-link" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/sesshuu-anima.html" target="_blank" rel="noopener">Sesshuu-Anima を見る</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="shell section-grid">
+          <div class="section-title reveal">
+            <span class="num">08 / Contact</span>
+            <h2>つながる。</h2>
+          </div>
+          <div class="section-body reveal">
+            <p class="lead-large">まずは、現在地の整理から。</p>
+            <p>ブランド、発信、Web、AI活用、情報整理。まだ相談内容が固まっていない段階でも、話しながら論点を整えられます。</p>
+            <div class="contact-grid" aria-label="連絡先一覧">
+              <a class="contact-link" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/sesshuu-anima.html" target="_blank" rel="noopener">
+                <strong>Web</strong>
+                <span>sesshuu-anima.html</span>
+              </a>
+              <a class="contact-link" href="https://x.com/sesshuuX" target="_blank" rel="noopener">
+                <strong>X</strong>
+                <span>@sesshuuX</span>
+              </a>
+              <a class="contact-link" href="https://note.com/sesshuu_2020/all" target="_blank" rel="noopener">
+                <strong>note</strong>
+                <span>sesshuu_2020</span>
+              </a>
+              <a class="contact-link" href="https://substack.com/@sesshuu" target="_blank" rel="noopener">
+                <strong>Substack</strong>
+                <span>@sesshuu</span>
+              </a>
+              <a class="contact-link" href="https://www.instagram.com/sesshuu_design/" target="_blank" rel="noopener">
+                <strong>Instagram</strong>
+                <span>@sesshuu_design</span>
+              </a>
+              <a class="contact-link" href="mailto:yukikiki2011+work@gmail.com">
+                <strong>Email</strong>
+                <span>yukikiki2011+work@gmail.com</span>
+              </a>
+            </div>
+            <img class="contact-seal" src="../assets/seal-reference.png" alt="" aria-hidden="true">
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <div class="shell">文月雪舟 / SESSHUU DESIGN Profile</div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const visualImages = document.querySelectorAll('.visual-image');
+    const visualControls = document.querySelectorAll('[data-target-visual]');
+    const visualKicker = document.getElementById('visual-kicker');
+    const visualTitle = document.getElementById('visual-title');
+
+    function setVisual(target, kicker, title) {
+      visualImages.forEach((image) => {
+        image.classList.toggle('is-active', image.dataset.visual === target);
+      });
+      document.querySelectorAll('.visual-btn').forEach((button) => {
+        button.classList.toggle('is-active', button.dataset.targetVisual === target);
+      });
+      if (kicker && visualKicker) visualKicker.textContent = kicker;
+      if (title && visualTitle) visualTitle.textContent = title;
+    }
+
+    visualControls.forEach((control) => {
+      const show = () => setVisual(control.dataset.targetVisual, control.dataset.kicker, control.dataset.title);
+      control.addEventListener('mouseenter', show);
+      control.addEventListener('focus', show);
+      if (control.classList.contains('visual-btn')) control.addEventListener('click', show);
+    });
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      const pool = 'アイウエオカキクケコサシスセソ文月雪舟0124789░▒⌁※';
+
+      const heroTitleChange = document.getElementById('heroTitleChange');
+      if (heroTitleChange) {
+        const titleStates = heroTitleChange.dataset.titleStates.split('|');
+        let titleIndex = 0;
+
+        function shouldKeepInk(text, char, index) {
+          if (text === 'FUMITUKI') return char === 'M' || char === 'K';
+          if (text === '雪舟館') return char === '舟';
+          if (text === 'SESSHUU') return char === 'S' || char === 'U';
+          return false;
+        }
+
+        function renderTitle(text, moving) {
+          heroTitleChange.textContent = '';
+          let sesshuuInkOrder = 0;
+          Array.from(text).forEach((char, index) => {
+            const span = document.createElement('span');
+            span.className = 'title-change-char';
+            if (shouldKeepInk(text, char, index)) {
+              span.classList.add('is-ink');
+              if (text === 'SESSHUU' && (char === 'S' || char === 'U') && !moving) {
+                span.classList.add('is-ink-seq');
+                span.style.setProperty('--ink-order', String(sesshuuInkOrder));
+                sesshuuInkOrder += 1;
+              }
+            }
+            span.style.setProperty('--i', String(index));
+            span.textContent = char;
+            heroTitleChange.appendChild(span);
+          });
+          heroTitleChange.classList.toggle('is-alt', text !== '文月雪舟');
+          heroTitleChange.classList.toggle('is-moving', Boolean(moving));
+        }
+
+        function changeHeroTitle(nextText) {
+          let frame = 0;
+          const max = Math.max(heroTitleChange.textContent.length, nextText.length);
+          heroTitleChange.classList.add('is-moving');
+          const timer = window.setInterval(() => {
+            frame += 1;
+            const temp = Array.from({ length: max }, (_, index) => {
+              if (frame > 6 + index) return nextText[index] || '';
+              return pool.charAt(Math.floor(Math.random() * pool.length));
+            }).join('');
+            renderTitle(temp, true);
+            heroTitleChange.classList.toggle('is-alt', nextText !== '文月雪舟');
+            if (frame > 15) {
+              window.clearInterval(timer);
+              renderTitle(nextText, false);
+              window.setTimeout(heroLogoBurst, 160);
+            }
+          }, 42);
+        }
+
+        renderTitle(titleStates[0], false);
+        function scheduleNextTitleChange() {
+          titleIndex = (titleIndex + 1) % titleStates.length;
+          const nextText = titleStates[titleIndex];
+          changeHeroTitle(nextText);
+          window.setTimeout(scheduleNextTitleChange, nextText === 'SESSHUU' ? 4300 : 2600);
+        }
+        window.setTimeout(scheduleNextTitleChange, 2600);
+      }
+
+      function wrapTypog(root) {
+        const text = root.getAttribute('data-typog');
+        if (!text || root.dataset.typogReady === 'true') return;
+        root.textContent = '';
+        Array.from(text).forEach((char, index) => {
+          const span = document.createElement('span');
+          span.className = 'typog-scramble-char';
+          span.style.setProperty('--ti', String(index));
+          span.dataset.ch = char;
+          span.textContent = char === ' ' ? '\u00a0' : char;
+          root.appendChild(span);
+        });
+        root.dataset.typogReady = 'true';
+      }
+
+      function glitchTick(root) {
+        const chars = root.querySelectorAll('.typog-scramble-char');
+        if (!chars.length) return;
+        const bursts = 1 + (Math.random() > .68 ? 1 : 0);
+        for (let i = 0; i < bursts; i += 1) {
+          const target = chars[Math.floor(Math.random() * chars.length)];
+          const original = target.dataset.ch;
+          if (!original || original === ' ') continue;
+          target.textContent = pool.charAt(Math.floor(Math.random() * pool.length));
+          target.classList.add('typog-scramble-char--glitch');
+          window.setTimeout(() => {
+            target.textContent = original;
+            target.classList.remove('typog-scramble-char--glitch');
+          }, 48 + Math.random() * 70);
+        }
+      }
+
+      function clearTypog(root) {
+        root.querySelectorAll('.typog-scramble-char').forEach((char) => {
+          const original = char.dataset.ch;
+          char.textContent = original === ' ' ? '\u00a0' : original;
+          char.classList.remove('typog-scramble-char--glitch');
+        });
+      }
+
+      const heroTypogRoots = [];
+      document.querySelectorAll('.typog-scramble-root[data-typog]').forEach((root) => {
+        wrapTypog(root);
+        if (root.classList.contains('typog-scramble-root--hero')) {
+          root._typogGlitchIv = null;
+          heroTypogRoots.push(root);
+        }
+      });
+
+      function setHeroLogoMotion(on) {
+        heroTypogRoots.forEach((root) => {
+          root.classList.toggle('typog-motion-active', on);
+          if (root._typogGlitchIv) {
+            window.clearInterval(root._typogGlitchIv);
+            root._typogGlitchIv = null;
+          }
+          if (on) {
+            root._typogGlitchIv = window.setInterval(() => glitchTick(root), 86 + Math.random() * 42);
+          } else {
+            clearTypog(root);
+          }
+        });
+      }
+
+      function heroLogoBurst() {
+        setHeroLogoMotion(true);
+        window.setTimeout(() => setHeroLogoMotion(false), 2600);
+      }
+
+      if (heroTypogRoots.length) {
+        window.setTimeout(heroLogoBurst, 500);
+      }
+    }
+
+    const depthTrack = document.getElementById('depthTrack');
+    const depthDots = document.querySelectorAll('.depth-dot');
+    const depthSlides = document.querySelectorAll('.depth-slide');
+    let depthIndex = 0;
+    let depthTimer = null;
+
+    function setDepth(index) {
+      if (!depthTrack || !depthSlides.length) return;
+      depthIndex = (index + depthSlides.length) % depthSlides.length;
+      depthTrack.scrollTo({ left: depthTrack.clientWidth * depthIndex, behavior: reduceMotion ? 'auto' : 'smooth' });
+      depthDots.forEach((dot, i) => dot.classList.toggle('is-active', i === depthIndex));
+    }
+
+    function restartDepthTimer() {
+      if (depthTimer) window.clearInterval(depthTimer);
+      if (!reduceMotion) depthTimer = window.setInterval(() => setDepth(depthIndex + 1), 3600);
+    }
+
+    document.querySelectorAll('[data-depth-dir]').forEach((button) => {
+      button.addEventListener('click', () => {
+        setDepth(depthIndex + Number(button.dataset.depthDir));
+        restartDepthTimer();
+      });
+    });
+    depthDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        setDepth(Number(dot.dataset.depthIndex));
+        restartDepthTimer();
+      });
+    });
+    if (depthTrack) {
+      depthTrack.addEventListener('scroll', () => {
+        const next = Math.round(depthTrack.scrollLeft / Math.max(1, depthTrack.clientWidth));
+        if (next !== depthIndex) {
+          depthIndex = next;
+          depthDots.forEach((dot, i) => dot.classList.toggle('is-active', i === depthIndex));
+        }
+      }, { passive: true });
+      restartDepthTimer();
+    }
+  </script>
+</body>
+</html>

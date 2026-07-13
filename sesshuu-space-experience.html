@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Space / Experience | 文月雪舟</title>
+  <meta name="description" content="文月雪舟のSpace / Experience。空間演出、身体表現、ダンス、着装文化を背景に、体験としてのデザインを考えるページです。">
+  <style>
+    :root {
+      --paper: #fbfaf6;
+      --paper-rgb: 251, 250, 246;
+      --ink: #20272a;
+      --ink-soft: #445057;
+      --muted: #6a777b;
+      --line: rgba(32,39,42,.16);
+      --accent: #c23a8f;
+      --accent-soft: rgba(194,58,143,.14);
+      --serif: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "MS PMincho", serif;
+      --sans: "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.86;
+      background:
+        linear-gradient(rgba(var(--paper-rgb), .82), rgba(var(--paper-rgb), .90)),
+        url("assets/extracted-washi-snow-sample.png"),
+        var(--paper);
+      background-size: auto, auto 100vh, auto;
+      background-repeat: no-repeat, repeat-x, repeat;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(var(--paper-rgb), .78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      font-family: var(--serif);
+      letter-spacing: .16em;
+      font-size: 18px;
+    }
+    .back {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(32,39,42,.28);
+    }
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(280px, .9fr) minmax(360px, 1.1fr);
+      align-items: center;
+      gap: clamp(32px, 6vw, 86px);
+      padding: 72px 0;
+    }
+    .label {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-weight: 400; }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: 1.16;
+      letter-spacing: .08em;
+      margin-bottom: 28px;
+    }
+    .lead {
+      color: var(--ink-soft);
+      font-size: 16px;
+      line-height: 2.05;
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 560px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 560px;
+      object-fit: cover;
+      filter: grayscale(.22) saturate(.78) contrast(1.08);
+      transform: scale(1.02);
+    }
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(var(--paper-rgb), .06), rgba(var(--paper-rgb), .36)),
+        radial-gradient(circle at 80% 18%, var(--accent-soft), transparent 34%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .section {
+      padding: 96px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(180px, 280px) 1fr;
+      gap: clamp(30px, 6vw, 82px);
+      align-items: start;
+    }
+    .section-title {
+      position: sticky;
+      top: 92px;
+    }
+    .num {
+      display: block;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .16em;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.36;
+      letter-spacing: .06em;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .card {
+      min-height: 190px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.34);
+    }
+    .card strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      filter: grayscale(.18) saturate(.76) contrast(1.04);
+    }
+    .gallery-stack {
+      display: grid;
+      gap: 12px;
+    }
+    .note {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .action {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(32,39,42,.42);
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: .1em;
+    }
+    .action:hover { color: var(--accent); border-color: var(--accent); }
+    footer {
+      padding: 34px 0 48px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    @media (max-width: 900px) {
+      .hero, .section-grid, .cards, .gallery { grid-template-columns: 1fr; }
+      .section-title { position: static; }
+      .hero-visual, .hero-visual img { min-height: 380px; }
+    }
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 28px, 1120px); }
+      .nav-inner { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="sesshuu-profile.html">文月雪舟</a>
+      <a class="back" href="sesshuu-profile.html#capability">Back to Capability</a>
+    </div>
+  </nav>
+
+  <header class="shell hero">
+    <div>
+      <div class="label">Space / Experience</div>
+      <h1>身体で考え、<br>空間で伝える。</h1>
+      <p class="lead">
+        空間演出、身体表現、ダンス、着装文化。画面の中だけではなく、人が立ち、動き、視線を移し、記憶するまでをデザインの対象として捉えます。
+      </p>
+      <div class="actions">
+        <a class="action" href="#dance">Dance</a>
+        <a class="action" href="#culture">Traditional Culture</a>
+        <a class="action" href="https://www.instagram.com/sesshuu_design/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="assets/dancer-depth.png" alt="ダンスと空間感覚を表すビジュアル">
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="thinking">
+      <div class="shell section-grid">
+        <div class="section-title">
+          <span class="num">01 / Sense</span>
+          <h2>体験としての<br>デザイン。</h2>
+        </div>
+        <div>
+          <p class="lead">
+            レイアウトは、紙や画面の上の配置だけではありません。読み手がどこで立ち止まり、どこに視線を動かし、どの順番で理解するか。その流れは、空間体験に近いものです。
+          </p>
+          <div class="cards">
+            <article class="card">
+              <strong>間合い</strong>
+              <span>情報の詰め込みではなく、読むための余白、止まるための余白を設計する。</span>
+            </article>
+            <article class="card">
+              <strong>動線</strong>
+              <span>視線、スクロール、比較、問い合わせまでの自然な流れをつくる。</span>
+            </article>
+            <article class="card">
+              <strong>記憶</strong>
+              <span>見た瞬間の印象だけでなく、あとから思い出せる輪郭を残す。</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dance">
+      <div class="shell section-grid">
+        <div class="section-title">
+          <span class="num">02 / Dance</span>
+          <h2>身体で<br>表現する。</h2>
+        </div>
+        <div>
+          <p class="lead">
+            ハウス＆ヒップホップダンサーとして、大規模ダンスイベント「ESSP（East Side Spring Party）」に三年連続で出演。身体で表現する経験は、デザインを静止画ではなく、動きと間合いのある体験として考える感覚につながっています。
+          </p>
+          <div class="cards">
+            <article class="card"><strong>ESSP 2023</strong><span>East Side Spring Party 出演</span></article>
+            <article class="card"><strong>ESSP 2024</strong><span>East Side Spring Party 出演</span></article>
+            <article class="card"><strong>ESSP 2025</strong><span>East Side Spring Party 出演</span></article>
+          </div>
+          <div class="gallery">
+            <img src="assets/dancer-depth.png" alt="ダンスビジュアル 1">
+            <div class="gallery-stack">
+              <img src="assets/dancer-depth-02.png" alt="ダンスビジュアル 2">
+              <img src="assets/story-studio.jpg" alt="空間演出を想起させるビジュアル">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="culture">
+      <div class="shell section-grid">
+        <div class="section-title">
+          <span class="num">03 / Culture</span>
+          <h2>所作と<br>着装文化。</h2>
+        </div>
+        <div>
+          <p class="lead">
+            日本着装百合の会 師範免許を取得。着装文化への関心は、装飾としての和ではなく、姿勢、所作、手順、相手への見え方まで含めた設計感覚として捉えています。
+          </p>
+          <div class="gallery">
+            <img src="assets/kimono-01.jpg" alt="着装文化のビジュアル">
+            <div class="gallery-stack">
+              <img src="assets/kimono-02.jpg" alt="着装文化のビジュアル 2">
+              <img src="assets/yuri-kai.png" alt="日本着装百合の会">
+            </div>
+          </div>
+          <p class="note">本ページは、ProfileのSpace / Experienceカードからの着地先として、旧プロフィールページの身体性・文化性の情報を整理し直したものです。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">Space / Experience | 文月雪舟</div>
+  </footer>
+</body>
+</html>
