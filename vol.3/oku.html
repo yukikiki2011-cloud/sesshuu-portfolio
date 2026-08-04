@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雪舟館｜奥の画室</title>
+<!-- 試作版（非公開・品質ゲート審査用）。検問（KURO/LUPIN）未通過。公開時は通過日を§検問に記載すること -->
+<!-- F2: Asset 3（OGP）。公開時は絶対URLに差し替える -->
+<meta property="og:title" content="雪舟館｜奥の画室">
+<meta property="og:description" content="墨に五彩あり。美意識を、事業の運用力へ。">
+<meta property="og:image" content="assets/generated/asset3-ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --midnight:#171d32; --ink:#10131d; --ink2:#20272a;
+  --paper:#fbfaf6; --paper-dim:rgba(251,250,246,.72); --paper-faint:rgba(251,250,246,.38);
+  --tomoya:#ffffff; --kawai:#ff0000; --gai:#ffff00; --tera:#f0f8ff; --yanagi:#8a2be2;
+  --kuro:#000000; --lupin:#ffd700; --snow:#fffafa; --snow-on:#00ffff;
+  --kiuchi:#228b22; --kiuchi2:#008080;
+  --serif:"Yu Mincho","YuMincho","Hiragino Mincho ProN","MS PMincho",serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper-dim);font-family:var(--serif);
+  line-height:1.86;overflow-x:hidden}
+::selection{background:var(--paper);color:var(--ink)}
+
+/* ===== 入口ゲート ===== */
+#gate{position:fixed;inset:0;z-index:9999;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:opacity 1s ease}
+#gate.hide{opacity:0;pointer-events:none}
+#gate-label{font-family:var(--serif);color:var(--paper);font-size:clamp(16px,2.4vw,20px);
+  letter-spacing:.6em;text-indent:.6em;
+  border:1px solid rgba(251,250,246,.35);padding:1.1em 2.6em;
+  animation:gatePulse 2.6s ease-in-out infinite}
+@keyframes gatePulse{0%,100%{opacity:.75}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  #gate{transition:none}
+  #gate-label{animation:none}
+}
+
+/* ===== 共通：幕・にじみ出現 ===== */
+.act{position:relative;padding:22vh 6vw}
+.stage{max-width:720px;margin:0 auto}
+.reveal{opacity:0;filter:blur(8px);transform:translateY(14px);
+  transition:opacity 1.6s ease,filter 1.6s ease,transform 1.6s ease}
+.reveal.on{opacity:1;filter:blur(0);transform:none}
+.reveal.d1{transition-delay:.35s}.reveal.d2{transition-delay:.7s}.reveal.d3{transition-delay:1.05s}
+h1,h2{font-weight:500;letter-spacing:.18em;color:var(--paper)}
+h2{font-size:clamp(24px,4.4vw,40px);margin-bottom:1.6em}
+p{font-size:clamp(14px,1.9vw,17px);letter-spacing:.08em}
+.lead{color:var(--paper);font-size:clamp(16px,2.4vw,21px);letter-spacing:.14em}
+.small{font-size:18.75px;color:var(--paper-dim);letter-spacing:.1em} /* 1.5倍・明るく（2026-07-20） */
+.kanji-cue{writing-mode:vertical-rl;letter-spacing:.5em;color:var(--paper-faint);
+  font-size:13px;position:absolute;right:6vw;bottom:8vh}
+
+/* ===== 幕0 墨の間（FV） ===== */
+#fv{height:178vh;padding:0}
+#fv .pin{position:sticky;top:0;height:100vh;overflow:hidden}
+/* F2 Asset 1：墨テクスチャを下敷きに（Canvas演出の保険）。canvasは透明描画でこの上に重なる */
+#sumiBase{position:absolute;inset:0;background:#10131d
+  url('assets/generated/asset1-sumi-desktop.webp') center/cover}
+@media (max-width:640px){
+  #sumiBase{background-image:url('assets/generated/asset1-sumi-mobile.webp')}
+}
+@media (prefers-reduced-motion:reduce){
+  #sumiBase{background-image:url('assets/generated/asset2-haboku.webp')}
+}
+#sumi{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+#fv .copy{position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;pointer-events:none;
+  padding:0 8vw}
+#fv .reveal{transition-duration:3.2s}
+#fv .reveal.d2{transition-delay:1.4s}
+#fv .reveal.d3{transition-delay:2.1s}
+#fv h1{font-size:clamp(30px,6vw,58px);letter-spacing:.3em;text-indent:.3em}
+#fv .sub{margin-top:2.2em;color:var(--paper-dim);font-size:18.75px}
+#fv .touch-hint{margin-top:3.4em;font-size:12px;color:var(--paper-faint);letter-spacing:.3em}
+#fv .oku-cue{position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);
+  color:var(--paper-faint);font-size:13px;letter-spacing:.6em;text-indent:.6em;
+  animation:cue 3.2s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.35;transform:translate(-50%,0)}50%{opacity:.85;transform:translate(-50%,8px)}}
+
+/* ===== 幕1 五彩の証明 ===== */
+#gosai .strokes{margin-top:4em;display:grid;gap:1.35em}
+#gosai .stage p{font-size:18.75px}
+/* 列幅は固定pxにして、説明文の長さで行ごとに列がずれないようにする */
+.stroke{display:grid;grid-template-columns:170px auto;gap:1.2em;align-items:center}
+.stroke .bar{height:3px;width:0;border-radius:2px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.stroke.on .bar{width:100%}
+.stroke .bar.edged{box-shadow:0 0 0 1px rgba(251,250,246,.28)}
+.stroke .meta{font-size:12.5px;letter-spacing:.12em;color:var(--paper-faint);white-space:nowrap}
+.stroke .meta b{color:var(--paper-dim);font-weight:500;margin-right:.8em;
+  display:inline-block;width:100px}
+.stroke .hex{font-family:Consolas,monospace;margin-right:.8em}
+
+/* ===== 幕2 一枚が描かれるまで ===== */
+#koutei{padding:16vh 6vw}
+#koutei .pin{min-height:72vh;display:flex;
+  flex-direction:column;justify-content:center;align-items:center}
+#frame{cursor:pointer}
+#tap-hint{margin-top:1.2em;font-size:12px;color:var(--paper-faint);
+  letter-spacing:.3em;animation:cue2 2.4s ease-in-out infinite}
+@keyframes cue2{0%,100%{opacity:.35}50%{opacity:.9}}
+#ph-dots{display:flex;gap:.7em;justify-content:center;margin-top:1.6em}
+#ph-dots span{width:7px;height:7px;border-radius:50%;
+  background:rgba(251,250,246,.18);transition:background .3s,transform .3s}
+#ph-dots span.on{background:var(--paper);transform:scale(1.25)}
+/* 余白〜静止：四角ベースなし。黒の背景に直接描画（雪舟指示 2026-07-20） */
+#frame{position:relative;width:min(84vw,680px);aspect-ratio:16/9;
+  background:#0c0f18;transition:filter .9s ease;overflow:hidden}
+/* F2 Asset 5：工程スチル6枚。同一構図の連作をクロスフェードで切り替える */
+#frame .phimg{position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:0;transition:opacity 1.2s ease}
+#frame .phimg.on{opacity:1}
+#frame .phimg[data-p="0"]{background-image:url('assets/generated/asset5-phase1.webp')}
+#frame .phimg[data-p="1"]{background-image:url('assets/generated/asset5-phase2.webp')}
+#frame .phimg[data-p="2"]{background-image:url('assets/generated/asset5-phase3.webp')}
+#frame .phimg[data-p="3"]{background-image:url('assets/generated/asset5-phase4.webp')}
+#frame .phimg[data-p="4"]{background-image:url('assets/generated/asset5-phase5.webp')}
+#frame .phimg[data-p="5"]{background-image:url('assets/generated/asset5-phase6.webp')}
+#frame .mist{position:absolute;left:14%;top:26%;width:46%;height:46%;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,139,34,.55),transparent 68%);
+  filter:blur(26px);opacity:0;transition:opacity .5s ease;transform:translateZ(0)}
+#frame .mist.teal{background:radial-gradient(circle,rgba(0,128,128,.5),transparent 68%)}
+@keyframes mistLive{
+  0%,100%{opacity:.65;transform:scale(1);filter:blur(26px) hue-rotate(0deg)}
+  50%{opacity:1;transform:scale(1.14);filter:blur(30px) hue-rotate(50deg)}}
+#frame .mist.live{animation:mistLive 2.6s ease-in-out infinite}
+#frame svg{position:absolute;inset:0;width:100%;height:100%}
+/* 筆速：始筆はゆっくり、終筆へ向けて加速し払う */
+.rline{fill:none;stroke:rgba(240,248,255,.75);stroke-linecap:round;
+  stroke-dasharray:600;stroke-dashoffset:600;
+  transition:stroke-dashoffset 8.1s cubic-bezier(.75,.02,1,.22)}
+#ridge{stroke-width:1.7}
+#ridge2{stroke-width:.6;stroke:rgba(240,248,255,.45);transition-delay:.3s}
+#ridge3{stroke-width:.9;stroke:rgba(240,248,255,.28);transition-delay:.15s}
+#rgroup{transition:opacity 1s ease}
+#dot{position:absolute;left:63%;top:38%;width:13px;height:13px;border-radius:50%;
+  background:var(--kawai);opacity:0;transform:scale(.2);
+  transition:opacity .3s ease,transform .45s cubic-bezier(.3,1.6,.4,1)}
+#veil{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .45s ease}
+#settle{position:absolute;inset:0;background:linear-gradient(160deg,rgba(16,19,29,.86),rgba(16,19,29,.6));
+  opacity:0;transition:opacity .8s ease,box-shadow 1.4s ease;
+  box-shadow:inset 0 0 0 0 rgba(6,8,14,0)}
+#settle.on{opacity:1;box-shadow:inset 0 0 140px 70px rgba(6,8,14,.92)}
+/* 墨が締める：黒和紙a/b/cを順にゆっくりクロスフェード、枠なしで画を封じる（雪舟指示 2026-07-20：3枚全採用） */
+.washiLayer{position:absolute;inset:0;opacity:0;z-index:3;pointer-events:none;
+  background:#0d1017;background-size:cover;background-position:center;
+  transform:scale(1.05);
+  transition:opacity 1.8s ease,transform 1.8s ease}
+.washiLayer.on{opacity:.94;transform:scale(1)}
+.washiLayer[data-w="a"]{background-image:url('assets/generated/asset7-black-washi-a.webp')}
+.washiLayer[data-w="b"]{background-image:url('assets/generated/asset7-black-washi-b.webp')}
+.washiLayer[data-w="c"]{background-image:url('assets/generated/asset7-black-washi-c.webp')}
+#caption{margin-top:2.2em;text-align:center;min-height:7.5em;width:min(100%,640px);padding:0 8vw}
+#caption .ph-title{color:var(--paper);letter-spacing:.5em;text-indent:.5em;
+  font-size:clamp(18px,3vw,26px);margin-bottom:.9em}
+#caption .ph-body{color:var(--paper-dim);font-size:clamp(13px,1.8vw,15.5px);white-space:nowrap}
+/* 工程テキストは墨がにじむようにゆっくり現れ、ゆっくり消える */
+#ph-title,#ph-body{opacity:1;filter:none;
+  transition:opacity 1.8s ease,filter 1.8s ease}
+#ph-title.cap-hide,#ph-body.cap-hide{opacity:0;filter:blur(7px);
+  transition-duration:1.2s}
+#kuro-card{position:relative;left:50%;transform:translateX(-50%);
+  margin-top:1.4em;display:inline-block;width:max-content;border:1px solid rgba(251,250,246,.25);
+  padding:.9em 1.4em;font-size:25px;color:var(--paper-faint);letter-spacing:.1em;
+  white-space:nowrap;opacity:0;transition:opacity .5s ease}
+.phase-hide{opacity:0 !important}
+
+/* ===== 幕3 二つの検問 ===== */
+/* 検問の儀：納品物（一枚の紙）が二つの門を順に通る */
+#gateStage{position:relative;height:96px;margin-top:3.2em}
+#gateStage .lane{position:absolute;left:0;right:0;top:50%;height:1px;
+  background:rgba(251,250,246,.12)}
+.gate-bar{position:absolute;top:50%;transform:translateY(-50%);width:3px;height:64px}
+.gate-bar.k{left:33%;background:#000;box-shadow:0 0 0 1px rgba(251,250,246,.35)}
+.gate-bar.l{left:66%;background:var(--lupin)}
+#parcel{position:absolute;top:50%;width:15px;height:21px;background:var(--paper);
+  transform:translate(-50%,-50%);opacity:0;border-radius:1px}
+#gateStage.on #parcel{animation:pass 8s linear infinite}
+#gateStage.on .gate-bar.k{animation:gateK 8s linear infinite}
+#gateStage.on .gate-bar.l{animation:gateL 8s linear infinite}
+@keyframes pass{
+  0%{left:-4%;opacity:0;background:var(--paper)}
+  6%{left:8%;opacity:1}
+  28%{left:33%}
+  40%{left:33%;filter:brightness(.4)}   /* KURO：止まり、影が差す */
+  46%{filter:brightness(1)}
+  62%{left:66%;background:var(--paper);width:15px;height:21px;border-radius:1px}
+  67%{background:var(--lupin);width:16px;height:16px;border-radius:50%} /* LUPINに触れ、金の丸に */
+  72%{left:66%;filter:drop-shadow(0 0 6px rgba(255,215,0,.5))}
+  78%{filter:none}
+  94%{left:102%;opacity:1;background:var(--lupin);width:16px;height:16px;border-radius:50%}
+  100%{left:104%;opacity:0;background:var(--lupin);width:16px;height:16px;border-radius:50%}
+}
+@keyframes gateK{
+  28%,46%{box-shadow:0 0 0 1px rgba(251,250,246,.35)}
+  36%{box-shadow:0 0 0 1px rgba(251,250,246,.95)}}
+@keyframes gateL{
+  62%{filter:none}
+  68%{filter:drop-shadow(0 0 10px rgba(255,215,0,.85))}
+  78%{filter:none}}
+#kenmon .gates{display:grid;grid-template-columns:1fr 1fr;gap:2.4em;margin-top:3.4em}
+#kenmon .gate{border-top:2px solid;padding-top:1.4em}
+#kenmon .gate.k{border-color:#000;box-shadow:0 -1px 0 rgba(251,250,246,.3)}
+#kenmon .gate.l{border-color:var(--lupin)}
+#kenmon .gate h3{font-weight:500;letter-spacing:.3em;color:var(--paper);margin-bottom:.6em;font-size:17px}
+/* KURO/LUPINのロゴモーション（sesshuu-profile.htmlのinkSettle/inkBreath文法を踏襲） */
+#kenmon .gate h3 .lchar{display:inline-block;transform-origin:50% 72%;
+  opacity:0;filter:blur(5px);transform:translateY(14px) rotate(-2deg)}
+.gate.on h3 .lchar{
+  animation:gateInkSettle .9s cubic-bezier(.18,.9,.25,1) both;
+  animation-delay:calc(var(--i,0)*.06s)}
+.gate.on h3 .lchar.breathe{
+  animation:gateInkBreath 2.6s ease-in-out infinite alternate;
+  animation-delay:calc(var(--i,0)*.09s)}
+@keyframes gateInkSettle{
+  from{opacity:0;transform:translateY(14px) rotate(-2deg);filter:blur(5px)}
+  to{opacity:1;transform:translateY(0) rotate(0);filter:blur(0)}}
+@keyframes gateInkBreath{
+  from{opacity:1;filter:blur(0);transform:translateY(0)}
+  to{opacity:1;filter:blur(0);transform:translateY(-2.4px)}}
+
+/* ===== 幕4 一色の証 ===== */
+#akashi{text-align:center;padding-bottom:8vh}
+#akashi .stage{margin-top:-200px}
+/* カードは純粋な画像のみ（雪舟指示 2026-07-20：画像上のテキスト・丸を撤去） */
+#akashi .a4{margin:3.6em auto 0;width:min(86vw,640px);aspect-ratio:16/5;
+  position:relative;overflow:hidden;background:var(--paper);
+  box-shadow:0 24px 70px rgba(0,0,0,.55)}
+/* 光が当たり、オーロラの光源に変わるOL（073001→073002へクロスフェード） */
+#akashi .a4-a,#akashi .a4-b{position:absolute;inset:0;background-size:cover;background-position:center}
+#akashi .a4-a{background-image:url('assets/generated/073001.png')}
+#akashi .a4-b{background-image:url('assets/generated/073002.png');opacity:0;
+  transition:opacity 2.6s ease}
+/* 一度クロスフェードで灯った後、オーロラの光が呼吸するようにON/OFFを繰り返す */
+#akashi .a4.lit .a4-b{opacity:1;animation:auroraPulse 6s ease-in-out 2.6s infinite}
+@keyframes auroraPulse{
+  0%,100%{opacity:1}
+  50%{opacity:.25}
+}
+/* ボタンはオーロラの色調（バラ・橙・黄緑・緑・青緑・青・紫）を纏う */
+#akashi .cta{position:relative;display:inline-block;margin-top:3.4em;padding:1.1em 3.2em;
+  border:1px solid transparent;
+  color:var(--paper);text-decoration:none;
+  letter-spacing:.3em;text-indent:.3em;font-size:15px;
+  box-shadow:0 0 22px rgba(255,214,163,.22),0 0 34px rgba(150,200,235,.16);
+  transition:background .5s,color .5s,box-shadow .5s}
+/* 縁だけをオーロラのグラデーションで発光させ、内側はマスクで透明にくり抜く（グラデーションを流すため） */
+#akashi .cta::before{content:"";position:absolute;inset:0;padding:1px;pointer-events:none;
+  background:linear-gradient(100deg,#f2a8c2,#f5c98d,#eee9a3,#a7dfbd,#8fd6d2,#9fbde8,#c6a8e0,#f2a8c2);
+  background-size:300% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  animation:auroraFlow2 8s linear infinite}
+#akashi .cta:hover{background:var(--paper);color:var(--ink);
+  box-shadow:0 0 30px rgba(255,214,163,.38),0 0 46px rgba(150,200,235,.28)}
+@keyframes auroraFlow2{
+  from{background-position:0% 0%}
+  to{background-position:300% 0%}
+}
+#akashi .scope{margin-top:1.8em}
+/* 見出しは1秒早く出す。ボタンは他の要素が出終わってから最後に単独で出す */
+#akashi h2.reveal{transition-duration:.6s}
+#akashi .reveal.d1{transition-delay:.3s}
+#akashi .reveal.d2{transition-delay:.6s}
+#akashi .reveal.d3{transition-delay:.9s}
+#akashi .cta{transition:opacity 1.6s ease,filter 1.6s ease,transform 1.6s ease,background .5s,color .5s;
+  transition-delay:2.8s}
+
+/* ===== 幕5・6 ===== */
+#kiroku,#kanshu{text-align:center}
+/* 幕5：描いてきたもの——奥に動画（薄く）・中景に静止画3枚（ゆっくり交代）・手前にテキスト */
+#kiroku{position:relative;overflow:hidden;min-height:100vh;padding-top:6vh;margin-top:100px}
+/* 幕4の黒から地続きに見えるよう、映像の上端をフェードインさせて継ぎ目を消す */
+#kiroku .bloom{position:absolute;inset:0;z-index:0;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 14vh);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 14vh)}
+#kiroku .bloom-video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:.4}
+#kiroku .bloom-stills{position:absolute;inset:0}
+#kiroku .bloom-stills img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:0;transition:opacity 3.6s ease}
+/* .on でも奥の動画が透けるよう不透明度を1未満に留める（動画のMOTIONを止めない） */
+#kiroku .bloom-stills img.on{opacity:.78}
+#kiroku .stage{position:relative;z-index:2;padding-top:6vh}
+#kiroku .stage h2,#kiroku .stage p{text-shadow:0 2px 22px rgba(16,19,29,.9),0 0 46px rgba(16,19,29,.7)}
+#kiroku .stage p{font-size:clamp(17.5px,2.375vw,21.25px)}
+#kiroku .kiroku-note{position:relative;z-index:2;margin:330px 6vw 0;padding-bottom:0;
+  color:#000;font-size:clamp(17.5px,2.375vw,21.25px);letter-spacing:.1em;text-align:center;
+  text-shadow:0 0 4px var(--paper),0 2px 20px rgba(251,250,246,.95),0 0 42px rgba(251,250,246,.9)}
+/* 蔵ボタン：黒地に太い筆文字の「蔵」を発光させる */
+#kiroku .kura-cta{position:relative;z-index:2;display:flex;flex-direction:column;
+  align-items:center;gap:.3em;width:fit-content;margin:2em auto 9vh;
+  padding:.8em 3em;background:#000;border:1px solid #000;text-decoration:none;
+  box-shadow:0 10px 34px rgba(0,0,0,.5);transition:box-shadow .5s ease}
+#kiroku .kura-cta:hover{box-shadow:0 10px 34px rgba(0,0,0,.5),0 0 30px rgba(255,221,150,.55)}
+#kiroku .kura-cta .kura-kanji{font-family:var(--serif);font-weight:900;
+  font-size:clamp(32px,6vw,46px);color:#fffdf6;letter-spacing:.06em;
+  text-shadow:0 0 6px rgba(255,251,235,.95),0 0 16px rgba(255,224,150,.85),
+    0 0 34px rgba(255,200,110,.6),0 0 60px rgba(255,180,90,.35)}
+#kiroku .kura-cta .wip{font-size:10px;letter-spacing:.2em;color:rgba(255,251,235,.55)}
+/* 幕5のテキストはゆっくりにじみ出る。d1が出終わってからd2が出る（順々に・重ならない） */
+#kiroku .reveal{transition-duration:3.2s}
+#kiroku .reveal.d1{transition-delay:.7s}
+#kiroku .reveal.d2{transition-delay:4.2s}
+/* 幕6：主文が一文字ずつにじみ出る */
+#kanshu .thesis span{opacity:0;filter:blur(6px);display:inline-block;
+  transition:opacity 1.1s ease,filter 1.1s ease}
+#kanshu .thesis.on span{opacity:1;filter:none}
+#kanshu .sign{margin-top:2.6em;letter-spacing:.4em;color:var(--paper);font-size:15px}
+#kanshu .thesis{margin-top:4em;font-size:clamp(17px,2.8vw,24px);letter-spacing:.22em;color:var(--paper)}
+nav.rooms{margin-top:5em;display:flex;justify-content:center;gap:1.6em;flex-wrap:wrap}
+nav.rooms .room-cta{display:flex;flex-direction:column;align-items:center;gap:.25em;
+  padding:.7em 1.8em;background:#000;border:1px solid #000;text-decoration:none;
+  box-shadow:0 8px 26px rgba(0,0,0,.5);transition:box-shadow .5s ease}
+nav.rooms .room-cta:hover{box-shadow:0 8px 26px rgba(0,0,0,.5),0 0 24px rgba(255,221,150,.4)}
+nav.rooms .room-kanji{font-family:var(--serif);font-weight:900;
+  font-size:clamp(17px,2.4vw,21px);color:#fffdf6;letter-spacing:.06em;
+  text-shadow:0 0 5px rgba(255,251,235,.85),0 0 14px rgba(255,224,150,.6),
+    0 0 28px rgba(255,200,110,.4)}
+nav.rooms .wip{font-size:9px;letter-spacing:.15em;color:rgba(255,251,235,.5)}
+/* 幕6後半：墨の間から和紙の間へ（Profile=vol.2への出口。図地反転で戻す） */
+#kanshu.act{padding-bottom:0}
+#kanshu .bridge{position:relative;left:50%;right:50%;width:100vw;
+  margin:11em -50vw 0;padding:13vh 6vw 15vh;
+  background:var(--paper) url('assets/generated/asset8-kanshu-bridge-desktop.png') top center/100% 100% no-repeat;
+  color:var(--ink2);text-align:center}
+@media (max-width:640px){
+  #kanshu .bridge{background-image:url('assets/generated/asset8-kanshu-bridge-mobile.png')}
+}
+#kanshu .bridge-lead{max-width:560px;margin:0 auto;transform:translateY(-100px);
+  font-size:clamp(17px,2.8vw,24px);letter-spacing:.22em;color:var(--paper)}
+#kanshu .bridge-lead .glow{text-shadow:0 0 8px rgba(255,251,235,1),0 0 26px rgba(255,224,150,.85),0 0 48px rgba(150,200,235,.6),0 0 70px rgba(255,224,150,.35)}
+#kanshu .profile-cta{position:relative;display:inline-flex;flex-direction:column;
+  align-items:center;gap:.4em;margin-top:3em;padding:1.6em 4.6em;text-decoration:none;
+  border:2px solid transparent;
+  background-image:
+    linear-gradient(rgba(251,250,246,.86),rgba(251,250,246,.92)),
+    url('assets/generated/oku-profile-washi.png'),
+    linear-gradient(100deg,#f2a8c2,#f5c98d,#eee9a3,#a7dfbd,#8fd6d2,#9fbde8,#c6a8e0,#f2a8c2);
+  background-size:cover,cover,300% 100%;
+  background-position:center,center,0% 0%;
+  background-origin:padding-box,padding-box,border-box;
+  background-clip:padding-box,padding-box,border-box;
+  color:var(--ink2);
+  box-shadow:0 14px 40px rgba(32,39,42,.18),0 0 30px rgba(255,214,163,.55),0 0 54px rgba(150,200,235,.4),0 0 80px rgba(197,168,224,.3);
+  transition:box-shadow .5s ease,transform .5s ease;
+  animation:auroraFlow 8s linear infinite}
+#kanshu .profile-cta:hover{box-shadow:0 18px 50px rgba(32,39,42,.26),0 0 40px rgba(255,214,163,.7),0 0 70px rgba(150,200,235,.55),0 0 100px rgba(197,168,224,.4);transform:translateY(-2px)}
+@keyframes auroraFlow{
+  from{background-position:center,center,0% 0%}
+  to{background-position:center,center,300% 0%}
+}
+#kanshu .profile-cta-label{font-family:var(--serif);font-size:clamp(20px,3vw,26px);
+  letter-spacing:.32em;text-indent:.32em}
+#kanshu .profile-cta-sub{font-size:11px;letter-spacing:.2em;color:rgba(32,39,42,.6)}
+footer{padding:7vh 6vw 9vh;text-align:center;background:var(--paper)}
+footer .small{color:rgba(32,39,42,.72)}
+
+@media (max-width:640px){
+  #kenmon .gates{grid-template-columns:1fr}
+  .stroke{grid-template-columns:38% auto}
+  .kanji-cue{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;filter:none;transform:none;transition:none}
+  #kanshu .profile-cta{animation:none}
+  #akashi .cta::before{animation:none}
+  #kiroku .bloom-video{display:none}
+  #kiroku .bloom-stills img{transition:none}
+  #akashi .a4-b{opacity:1;transition:none;animation:none}
+  #fv .oku-cue{animation:none}
+  #fv{height:100vh}#koutei{height:auto;padding:22vh 6vw}
+  #koutei .pin{position:static;height:auto}
+  #frame .mist,#dot{opacity:1;transform:none}
+  #kuro-card{opacity:1}
+  #parcel,.gate-bar{animation:none !important}
+  #parcel{opacity:1;left:49%}
+  .rline{stroke-dashoffset:0}
+  .stroke .bar{width:100%}
+  .washiLayer{transition:none}
+  #kenmon .gate h3 .lchar{animation:none !important;opacity:1;filter:none;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 入口ゲート：クリックで映像と音を同時に開始 ========== -->
+<div id="gate" role="button" tabindex="0" aria-label="クリックして始める">
+  <span id="gate-label">入る</span>
+</div>
+
+<!-- ========== 幕0｜墨の間 ========== -->
+<section id="fv" class="act">
+  <div class="pin">
+    <div id="sumiBase"></div>
+    <canvas id="sumi"></canvas>
+    <div class="copy">
+      <h1 class="reveal">墨に五彩あり。</h1>
+      <p class="sub reveal d2">この黒の中に、いくつもの知性と、<br>まだ名のないあなたの色が眠っています。</p>
+      <p class="touch-hint reveal d3">—— 触れてみてください ——</p>
+    </div>
+    <div class="oku-cue">奥へ</div>
+  </div>
+</section>
+
+<!-- ========== 幕1｜五彩の証明 ========== -->
+<section id="gosai" class="act">
+  <div class="stage">
+    <h2 class="reveal">黒は、すべての色を<br>飲み込んだ状態である。</h2>
+    <p class="reveal d1">絵具は、すべて混ぜると黒になります。この館の黒は、専門知性を溶かした状態です。<br>
+      呼ばれたとき、色は墨を離れて仕事をします。</p>
+    <div class="strokes">
+      <div class="stroke"><div class="bar edged" style="background:#ffffff"></div><div class="meta"><b>TOMOYA</b><span class="hex">#ffffff</span>戦略——判断材料を整える</div></div>
+      <div class="stroke"><div class="bar" style="background:#ff0000"></div><div class="meta"><b>KAWAI</b><span class="hex">#ff0000</span>視覚——見せるものを決める</div></div>
+      <div class="stroke"><div class="bar" style="background:#ffff00"></div><div class="meta"><b>GAI</b><span class="hex">#ffff00</span>異端創造——雪舟だけの解を発明する</div></div>
+      <div class="stroke"><div class="bar edged" style="background:#f0f8ff"></div><div class="meta"><b>TERA</b><span class="hex">#f0f8ff</span>言葉——読める状態へ整える</div></div>
+      <div class="stroke"><div class="bar" style="background:#8a2be2"></div><div class="meta"><b>YANAGI</b><span class="hex">#8a2be2</span>実装——触れられる形へ変える</div></div>
+      <div class="stroke"><div class="bar edged" style="background:#000000"></div><div class="meta"><b>KURO</b><span class="hex">#000000</span>検問——完成を疑う</div></div>
+      <div class="stroke"><div class="bar" style="background:#ffd700"></div><div class="meta"><b>LUPIN</b><span class="hex">#ffd700</span>安全——公開の範囲を見きわめる</div></div>
+      <div class="stroke"><div class="bar edged" style="background:#fffafa"></div><div class="meta"><b>SNOW</b><span class="hex">#fffafa</span>記録——軌跡を残す</div></div>
+      <div class="stroke"><div class="bar" style="background:#228b22"></div><div class="meta"><b>KIUCHI</b><span class="hex">#228b22</span>観測——外の変化を見る</div></div>
+    </div>
+    <p class="small reveal" style="margin-top:3.2em;white-space:nowrap;letter-spacing:.04em">未来デザインカードの藍も、山吹も、菫も——この黒から呼び出された色です。</p>
+  </div>
+  <div class="kanji-cue">呼ばれるまで、色は墨のなか</div>
+</section>
+
+<!-- ========== 幕2｜一枚が描かれるまで ========== -->
+<section id="koutei" class="act">
+  <div class="pin">
+    <div id="frame">
+      <div class="phimg" data-p="0"></div>
+      <div class="phimg" data-p="1"></div>
+      <div class="phimg" data-p="2"></div>
+      <div class="phimg" data-p="3"></div>
+      <div class="phimg" data-p="4"></div>
+      <div class="phimg" data-p="5"></div>
+      <div class="mist" id="mist"></div>
+      <svg viewBox="0 0 400 225" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <filter id="brush" x="-5%" y="-30%" width="110%" height="160%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.08 0.5" numOctaves="2" seed="8" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5"/>
+          </filter>
+        </defs>
+        <g id="rgroup" filter="url(#brush)">
+          <path id="ridge" class="rline" d="M20,158 C90,112 130,143 180,105 S280,68 380,90"/>
+          <path id="ridge2" class="rline" d="M20,158 C90,112 130,143 180,105 S280,68 380,90" transform="translate(0,-1.8)"/>
+          <path id="ridge3" class="rline" d="M20,158 C90,112 130,143 180,105 S280,68 380,90" transform="translate(0,2.2)"/>
+        </g>
+      </svg>
+      <div id="dot"></div>
+      <div id="veil"></div>
+      <div id="settle"></div>
+      <div class="washiLayer" data-w="a"></div>
+      <div class="washiLayer" data-w="b"></div>
+      <div class="washiLayer" data-w="c"></div>
+    </div>
+    <div id="caption">
+      <div class="ph-title" id="ph-title">余白</div>
+      <div class="ph-body" id="ph-body">まだ描かれていない領域に、問いをひとつ置きます。</div>
+      <div id="kuro-card">この館の仕事は、公開前にかならず一度、止まります。</div>
+      <div id="ph-dots"><span class="on"></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div id="tap-hint">—— 画に触れると、次の工程へ ——</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 幕3｜二つの検問 ========== -->
+<section id="kenmon" class="act">
+  <div class="stage">
+    <h2 class="reveal">二つの検問</h2>
+    <p class="small reveal d1">この館から出るものは、すべて二つの検問を通ります。</p>
+    <div id="gateStage" class="reveal d2" aria-hidden="true">
+      <div class="lane"></div>
+      <div class="gate-bar k"></div>
+      <div class="gate-bar l"></div>
+      <div id="parcel"></div>
+    </div>
+    <div class="gates">
+      <div class="gate k reveal d2"><h3>KURO</h3><p class="small">品質。誇張と、つじつまの合わない箇所を止める検問。完成を祝う前に、一度止まる。</p></div>
+      <div class="gate l reveal d3"><h3>LUPIN</h3><p class="small">安全。公開してよいものか、守るべきものは何かを見る検問。</p></div>
+    </div>
+    <p class="small reveal d3" style="margin-top:2.2em">二つの検問——品質と安全——を通してからお渡しします。</p>
+    <!-- 公開時：本ページ自体の検問通過日をここに記載（検査完了前の先行公開は禁止） -->
+  </div>
+</section>
+
+<!-- ========== 幕4｜一色の証 ========== -->
+<section id="akashi" class="act">
+  <div class="stage">
+    <h2 class="reveal gated">一色の証</h2>
+    <p class="lead reveal gated d1">あなたの事業の一色を、<br>この墨から見つけます。</p>
+    <div class="a4 reveal gated d2"><div class="a4-a"></div><div class="a4-b"></div></div>
+    <p class="scope small reveal gated d3">色の名／選んだ理由／最初にデザインする場所。<br>範囲を限定した、一枚のキャンバスです。</p>
+    <a class="cta reveal gated d3" href="#kanshu">一色の証を見る</a>
+  </div>
+</section>
+
+<!-- ========== 幕5｜描いてきたもの ========== -->
+<section id="kiroku" class="act">
+  <div class="bloom" aria-hidden="true">
+    <video class="bloom-video" autoplay muted loop playsinline>
+      <source src="assets/generated/asset9-kiroku-bloom.mp4" type="video/mp4">
+    </video>
+    <div class="bloom-stills">
+      <img class="on" src="assets/generated/asset9-kiroku-bloom-a.png" alt="">
+      <img src="assets/generated/asset9-kiroku-bloom-b.png" alt="">
+      <img src="assets/generated/asset9-kiroku-bloom-c.png" alt="">
+    </div>
+  </div>
+  <div class="stage">
+    <h2 class="reveal">描いてきたもの</h2>
+    <p class="reveal d1">ある宿の改装では、十三の色に名を与え、<br>部屋ごとの物語にしました。</p>
+  </div>
+  <p class="kiroku-note reveal d2">十三の色は、名を得て、この一枚に宿ります。<br>記録は、蔵に。（蔵——建立中）</p>
+  <a class="kura-cta reveal d2" href="#"><span class="kura-kanji">蔵</span><span class="wip">建立中</span></a>
+</section>
+
+<!-- ========== 幕6｜館主・結び ========== -->
+<section id="kanshu" class="act">
+  <div class="stage">
+    <p class="reveal">色を選ぶ人は、墨を磨るところから始めます。<br>
+      知性を溶かし、必要なときに呼び出し、<br>
+      最後の一色を、自分の目で決める。</p>
+    <p class="sign reveal d1">館主・文月雪舟</p>
+    <p class="thesis reveal d2">美意識を、事業の運用力へ。</p>
+    <nav class="rooms reveal d3">
+      <a class="room-cta" href="#"><span class="room-kanji">表の間</span><span class="wip">建立中</span></a>
+      <a class="room-cta" href="#"><span class="room-kanji">庭</span><span class="wip">建立中</span></a>
+      <a class="room-cta" href="#"><span class="room-kanji">蔵</span><span class="wip">建立中</span></a>
+    </nav>
+  </div>
+  <div class="bridge reveal" aria-label="墨の間から和紙の間へ">
+    <p class="bridge-lead">この黒に溶けていた色は、<br>ここで墨を離れ、<span class="glow">雪舟館</span>という一つの世界になります。</p>
+    <a class="profile-cta" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/vol.2/">
+      <span class="profile-cta-label">Profile</span>
+      <span class="profile-cta-sub">雪舟館より、本殿へ</span>
+    </a>
+  </div>
+</section>
+
+<!-- ========== サウンドON/OFF（本番でも常設） ========== -->
+<button id="soundToggle" type="button" aria-label="音声をOFFにする"
+  style="position:fixed;bottom:14px;left:14px;z-index:99;
+  padding:.6em 1.1em;border-radius:2px;
+  background:rgba(16,19,29,.75);border:1px solid rgba(251,250,246,.25);
+  color:#fbfaf6;font-size:11px;letter-spacing:.15em;cursor:pointer;
+  transition:opacity .3s ease;opacity:.75">音 ON</button>
+
+<footer>
+  <p class="small">最終手入れ：2026-07-30 ／ このページの運用記録は、蔵に。</p>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* 映画は毎回冒頭から：リロード時のスクロール位置復元を無効化して先頭へ */
+if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+scrollTo(0,0);
+
+/* ===== にじみ出現（全幕共通） ===== */
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.target.classList.contains("gated")) return; /* 一色の証は停止後に別制御で出す */
+    if(e.target.classList.contains("stroke")){
+      /* 筆致は、画面に入るたびに動き直す（一度きりにしない） */
+      e.target.classList.toggle("on", e.isIntersecting);
+    } else if(e.isIntersecting){
+      e.target.classList.add("on"); io.unobserve(e.target);
+    }
+  });
+},{threshold:.25});
+document.querySelectorAll(".reveal,.stroke").forEach(function(el){
+  if(el.closest("#fv")) return; /* 幕0はゲート解除時に映像・音を同時に始めるため個別制御 */
+  io.observe(el);
+});
+/* 筆致は上から順に時差で伸びる */
+document.querySelectorAll(".stroke .bar").forEach(function(b,i){
+  b.style.transitionDelay = (i*.13)+"s";
+});
+/* 幕5：静止画3枚を、奥の動画とは無関係にゆっくり入れ替える */
+if(!reduced){
+  var bloomImgs = document.querySelectorAll("#kiroku .bloom-stills img");
+  if(bloomImgs.length){
+    var bloomI = 0;
+    setInterval(function(){
+      bloomImgs[bloomI].classList.remove("on");
+      bloomI = (bloomI+1) % bloomImgs.length;
+      bloomImgs[bloomI].classList.add("on");
+    },6000);
+  }
+}
+/* 幕6：主文を一文字ずつのにじみに分解 */
+(function(){
+  var th = document.querySelector("#kanshu .thesis");
+  var txt = th.textContent; th.textContent = "";
+  txt.split("").forEach(function(ch,i){
+    var s = document.createElement("span");
+    s.textContent = ch;
+    s.style.transitionDelay = (i*.14)+"s";
+    th.appendChild(s);
+  });
+})();
+/* KURO/LUPINをロゴモーション用に一文字ずつ分解（sesshuu-profile.html参照） */
+document.querySelectorAll("#kenmon .gate h3").forEach(function(h){
+  var txt = h.textContent; h.textContent = "";
+  txt.split("").forEach(function(ch,i){
+    var s = document.createElement("span");
+    s.className = "lchar"; s.style.setProperty("--i", i); s.textContent = ch;
+    if(!reduced){
+      s.addEventListener("animationend", function(ev){
+        if(ev.animationName === "gateInkSettle"){ s.classList.add("breathe"); }
+      });
+    }
+    h.appendChild(s);
+  });
+});
+
+/* ===== 幕0：呼吸する墨 ===== */
+var cv = document.getElementById("sumi"), cx = cv.getContext("2d");
+var W,H,DPR = Math.min(devicePixelRatio||1, 2);
+function size(){ W=cv.clientWidth; H=cv.clientHeight;
+  cv.width=W*DPR; cv.height=H*DPR; cx.setTransform(DPR,0,0,DPR,0,0); }
+addEventListener("resize", size); size();
+
+/* 墨溜まりの塊（ごく低速で漂う） */
+var blobs=[], i;
+for(i=0;i<7;i++){ blobs.push({
+  x:Math.random(), y:Math.random(),
+  r:.28+Math.random()*.3,
+  dx:(Math.random()-.5)*.00016, dy:(Math.random()-.5)*.00016,
+  ph:Math.random()*6.28, hue:[["#171d32",.5],["#10131d",.6],["#1b2030",.45]][i%3]
+});}
+
+/* 破墨：触れると割れ、奥の色が一瞬見える */
+var palette=["#ffffff","#ff0000","#ffff00","#f0f8ff","#8a2be2","#ffd700","#fffafa","#228b22","#008080"];
+var rips=[];
+function ripple(x,y){
+  var col = palette[Math.floor(x/W*palette.length)] || "#f0f8ff";
+  rips.push({x:x,y:y,t:0,col:col});
+  if(rips.length>14) rips.shift();
+}
+cv.addEventListener("pointerdown",function(e){ ripple(e.offsetX,e.offsetY); });
+cv.addEventListener("pointermove",function(e){
+  if(e.pressure>0 || e.buttons===1) ripple(e.offsetX,e.offsetY);
+});
+
+var t=0, last=0;
+function render(ts){
+  if(!reduced){
+    if(ts-last > 50){ /* 20fps上限 */
+      last=ts; t+=.016;
+      cx.clearRect(0,0,W,H); /* F2: 塗り潰さない。#sumiBase（Asset 1）が下に見える */
+      blobs.forEach(function(b){
+        b.x+=b.dx; b.y+=b.dy;
+        if(b.x<0||b.x>1)b.dx*=-1; if(b.y<0||b.y>1)b.dy*=-1;
+        var breathe = 1 + Math.sin(t*.5 + b.ph)*.06; /* 呼吸 */
+        var r = b.r*Math.min(W,H)*breathe;
+        var g = cx.createRadialGradient(b.x*W,b.y*H,0,b.x*W,b.y*H,r);
+        g.addColorStop(0,b.hue[0]+"");
+        cx.globalAlpha=b.hue[1];
+        g.addColorStop(1,"rgba(16,19,29,0)");
+        cx.fillStyle=g; cx.beginPath();
+        cx.arc(b.x*W,b.y*H,r,0,6.29); cx.fill();
+        cx.globalAlpha=1;
+      });
+      /* 破墨の割れ目 */
+      for(var j=rips.length-1;j>=0;j--){
+        var rp=rips[j]; rp.t+=.05;
+        if(rp.t>1){ rips.splice(j,1); continue; }
+        var alpha = rp.t<.3 ? rp.t/.3 : 1-(rp.t-.3)/.7;
+        var rad = 12 + rp.t*70;
+        var g2 = cx.createRadialGradient(rp.x,rp.y,0,rp.x,rp.y,rad);
+        g2.addColorStop(0, rp.col);
+        g2.addColorStop(.35,"rgba(16,19,29,.0)");
+        g2.addColorStop(1,"rgba(16,19,29,0)");
+        cx.globalAlpha = alpha*.8;
+        cx.fillStyle=g2; cx.beginPath(); cx.arc(rp.x,rp.y,rad,0,6.29); cx.fill();
+        cx.globalAlpha=1;
+        /* 割れの線 */
+        cx.strokeStyle="rgba(251,250,246,"+(alpha*.25)+")";
+        cx.lineWidth=.8; cx.beginPath();
+        cx.moveTo(rp.x-rad*.9,rp.y+rad*.2);
+        cx.quadraticCurveTo(rp.x,rp.y-rad*.3,rp.x+rad*.9,rp.y+rad*.1);
+        cx.stroke();
+      }
+    }
+    requestAnimationFrame(render);
+  } else {
+    cv.style.display = "none"; /* reduced-motion：#sumiBase（Asset 2破墨スチル）のみ表示 */
+  }
+}
+requestAnimationFrame(render);
+
+/* ===== 幕2：スクロール駆動の描画工程 ===== */
+var phases=[
+  ["余白","まだ描かれていない領域に、問いをひとつ置きます。"],
+  ["観測","KIUCHIの緑が、霧のように輪郭を探ります。"],
+  ["輪郭","TERAの淡青が、言葉の稜線を引きます。"],
+  ["一点","KAWAIの赤が、ただ一点。見逃せない場所に打たれます。"],
+  ["静止","KUROが、全体を止めます。——本当に、これで良いのか。"],
+  ["墨が締める","墨が戻り、色は構図に沈みます。<br><span class='small'>最後の判断は、人間の目が行います。</span>"]
+];
+var sec = document.getElementById("koutei"),
+    mist=document.getElementById("mist"), ridge=document.getElementById("ridge"),
+    dot=document.getElementById("dot"), veil=document.getElementById("veil"),
+    settle=document.getElementById("settle"), card=document.getElementById("kuro-card"),
+    phT=document.getElementById("ph-title"), phB=document.getElementById("ph-body");
+var cur=-1;
+var frameEl = document.getElementById("frame"),
+    washiA = document.querySelector('.washiLayer[data-w="a"]'),
+    washiB = document.querySelector('.washiLayer[data-w="b"]'),
+    washiC = document.querySelector('.washiLayer[data-w="c"]'),
+    spiralId = 0, washiDone = false;
+
+/* 墨が締める：黒和紙a→b→cをゆっくりクロスフェード。終わってから検問へ自動降下 */
+function washiSequence(){
+  if(washiDone) return; washiDone = true;
+  if(reduced){ washiC.classList.add("on"); return; }
+  washiA.classList.add("on");
+  setTimeout(function(){ washiA.classList.remove("on"); washiB.classList.add("on"); }, 2800);
+  setTimeout(function(){ washiB.classList.remove("on"); washiC.classList.add("on"); }, 5600);
+  setTimeout(function(){
+    if(!kenmonGlided){
+      kenmonGlided = true;
+      glideTo(document.getElementById("kenmon").getBoundingClientRect().top + scrollY, function(){
+        /* #gateStageが画面外のままでも金の丸のループを明示的に開始し、幕4への自動降下を止めない */
+        document.getElementById("gateStage").classList.add("on");
+      });
+    }
+  }, 5600 + 1800 + 900);
+}
+
+/* 一点：赤点が稜線に沿って螺旋を描く（表＝線の手前・裏＝線の奥） */
+function stopSpiral(){ if(spiralId){ cancelAnimationFrame(spiralId); spiralId=0; } }
+function startSpiral(){
+  stopSpiral();
+  var L = ridge.getTotalLength(), t0 = performance.now(), DUR = 3400;
+  dot.style.transition = "none"; dot.style.opacity = "1";
+  function step(now){
+    var t = Math.min((now - t0) / DUR, 1);
+    var ease = t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+    var s = ease * L * .78;
+    var pt = ridge.getPointAtLength(s),
+        pt2 = ridge.getPointAtLength(Math.min(s+2, L));
+    var dx = pt2.x-pt.x, dy = pt2.y-pt.y, m = Math.hypot(dx,dy)||1;
+    var nx = -dy/m, ny = dx/m;                 /* 線に垂直な方向 */
+    var wave = Math.sin(t * Math.PI * 6);      /* 3周の螺旋 */
+    var amp = 16 * (1 - t*.55);                /* 徐々に線へ収束 */
+    var fw = frameEl.clientWidth, fh = frameEl.clientHeight;
+    dot.style.left = (pt.x + nx*amp*wave)/400*fw + "px";
+    dot.style.top  = (pt.y + ny*amp*wave)/225*fh + "px";
+    var front = wave >= 0;                     /* 表と裏＝奥行き */
+    dot.style.zIndex = front ? "2" : "0";
+    dot.style.opacity = front ? "1" : ".38";
+    dot.style.transform = "translate(-50%,-50%) scale(" + (front ? 1.05 : .68) + ")";
+    if(t < 1 && cur === 3){ spiralId = requestAnimationFrame(step); }
+    else { spiralId = 0; dot.style.transition = "";
+      dot.style.zIndex = "2"; dot.style.opacity = "1";
+      dot.style.transform = "translate(-50%,-50%) scale(1)"; }
+  }
+  spiralId = requestAnimationFrame(step);
+}
+
+/* 工程テキスト：出現(1.8s)→1秒静止→OLで消える。降下が終わるまでは出さない */
+var capTimer = 0, capTimer2 = 0, capEnabled = false;
+phT.classList.add("cap-hide"); phB.classList.add("cap-hide");
+function showCap(p){
+  clearTimeout(capTimer); clearTimeout(capTimer2);
+  var doShow = function(){
+    phT.textContent = phases[p][0]; phB.innerHTML = phases[p][1];
+    phT.classList.remove("cap-hide"); phB.classList.remove("cap-hide");
+    if(!reduced){
+      /* 出きって1秒おいて消える。「墨が締める」は文字が決まった後さらに1秒FIXしてから */
+      var hold = (p === 5) ? 7600 : 2800; /* 和紙a→b→c(c完了≒7.4s)まで文字を残す */
+      capTimer2 = setTimeout(function(){
+        phT.classList.add("cap-hide"); phB.classList.add("cap-hide");
+        /* 検問への自動降下は washiSequence() 完了後に発火する（a→b→c全部見せてから） */
+      }, hold);
+    }
+  };
+  if(phT.classList.contains("cap-hide")){ doShow(); }
+  else{
+    phT.classList.add("cap-hide"); phB.classList.add("cap-hide");
+    capTimer = setTimeout(doShow, 1250);
+  }
+}
+var phimgs = document.querySelectorAll("#frame .phimg");
+function setPhase(p){
+  if(p===cur) return; cur=p;
+  if(capEnabled) showCap(p);
+  phimgs.forEach(function(el){ el.classList.toggle("on", +el.dataset.p === p); }); /* F2 Asset 5 */
+  mist.style.opacity = (p>=1 && p<5) ? "1" : "0";
+  mist.classList.toggle("teal", p>=2);
+  mist.classList.toggle("live", p>=1 && p<5);   /* 観測：強弱＋色相変化 */
+  document.querySelectorAll(".rline").forEach(function(r){
+    r.style.strokeDashoffset = p>=2 ? "0" : "600";
+  });
+  document.getElementById("rgroup").style.opacity = p>=5 ? ".45" : "1";
+  if(p===3 && !reduced){ startSpiral(); }
+  else {
+    stopSpiral();
+    if(p<3){ dot.style.opacity="0"; dot.style.left=""; dot.style.top="";
+      dot.style.zIndex=""; dot.style.transform="scale(.2)"; }
+    else if(p===4){ dot.style.opacity="1"; }
+    else if(p>=5){ dot.style.opacity=".85";  /* 墨が締める：色が静まる */
+      dot.style.transform = dot.style.left ? "translate(-50%,-50%) scale(.8)" : "scale(.8)"; }
+  }
+  frameEl.style.filter = p===4 ? "brightness(.3)" : "";  /* 静止：画全体が暗く沈む */
+  card.style.opacity = p===4 ? "1":"0";
+  if(p>=5) washiSequence();                     /* 黒和紙a→b→cが順に出現して画を封じる */
+}
+/* クリック／タップで工程を進める（体験型・雪舟指示 2026-07-20） */
+var dots = document.querySelectorAll("#ph-dots span"),
+    hint = document.getElementById("tap-hint"),
+    frame = document.getElementById("frame"), idx = 0, touched = false;
+var _setPhase = setPhase;
+setPhase = function(p){
+  _setPhase(p);
+  dots.forEach(function(d,k){ d.classList.toggle("on", k===p); });
+};
+var autoPh = [];
+function clearAutoPh(){ autoPh.forEach(clearTimeout); autoPh.length = 0; }
+function nextPhase(){
+  clearAutoPh();
+  if(!touched){ touched=true; hint.style.display="none"; }
+  idx = (idx + 1) % 6;
+  setPhase(idx);
+}
+frame.addEventListener("click", nextPhase);
+document.getElementById("caption").addEventListener("click", nextPhase);
+setPhase(reduced ? (idx=5) : 0);
+
+/* 幕2到着時：余白→観測→輪郭までは自動で進む（以降はクリック待ち） */
+if(!reduced){
+  var seen2 = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !seen2){
+        seen2 = true;
+        capEnabled = true; showCap(cur);   /* 降下が終わってから「余白」がOLで出現 */
+        /* 各工程はテキストの一呼吸（出現1.8s＋静止1s＋消滅1.2s）を終えてから進む */
+        autoPh.push(setTimeout(function(){ if(cur===0){ idx=1; setPhase(1); } }, 4200));
+        autoPh.push(setTimeout(function(){ if(cur===1){ idx=2; setPhase(2); } }, 8400));
+        /* 筆線（8.1s）が払い終わってから、赤の一点も自動で */
+        autoPh.push(setTimeout(function(){ if(cur===2){ idx=3; setPhase(3); } }, 17200));
+        /* 螺旋の着地を待って静止、KUROの言葉を読む間を置いて墨が締める */
+        autoPh.push(setTimeout(function(){ if(cur===3){ idx=4; setPhase(4); } }, 21800));
+        autoPh.push(setTimeout(function(){ if(cur===4){ idx=5; setPhase(5); } }, 26600));
+      }
+    });
+  },{threshold:.5}).observe(sec);
+}
+
+/* ===== FVテキスト出現後、自動でゆっくり降りて「余白」で停止 ===== */
+var auto = 0, userMoved = false, kenmonGlided = false, toKirokuTimer = 0, toKanshuTimer = 0,
+    docEl = document.documentElement, SPEED = 4.2;
+function cancelAuto(){
+  userMoved = true;
+  clearTimeout(toKirokuTimer);
+  clearTimeout(toKanshuTimer);
+  if(auto){ cancelAnimationFrame(auto); auto = 0; docEl.style.scrollBehavior = ""; }
+}
+/* 指定位置までゆっくり降下（操作で即中止・完了時にdoneを呼ぶ） */
+function glideTo(target, done){
+  docEl.style.scrollBehavior = "auto";
+  function glide(){
+    var rest = target - scrollY;
+    if(rest <= 2){ if(auto){ cancelAnimationFrame(auto); auto = 0; } docEl.style.scrollBehavior = "";
+      if(done) done(); return; }
+    scrollTo(0, scrollY + Math.min(SPEED, rest));
+    auto = requestAnimationFrame(glide);
+  }
+  auto = requestAnimationFrame(glide);
+}
+
+/* 一色の証：降下が止まってから、にじみ出る */
+var akashiShown = false, akashiGlided = false;
+function akashiShow(){
+  if(akashiShown) return; akashiShown = true;
+  document.querySelectorAll("#akashi .gated").forEach(function(el){ el.classList.add("on"); });
+  /* カード自体が出終わってから、光が当たりオーロラの光源に変わる */
+  setTimeout(function(){
+    document.querySelector("#akashi .a4").classList.add("lit");
+  }, 2400);
+  /* 出終わって少し間を置いたら、ボタンを押していなければ幕5へ自動降下 */
+  if(!reduced){
+    toKirokuTimer = setTimeout(function(){
+      if(userMoved) return;
+      glideTo(document.getElementById("kiroku").getBoundingClientRect().top + scrollY, function(){
+        /* 幕5で3秒静止してから、幕6の主文を通り過ぎ、橋渡し文で止まる */
+        toKanshuTimer = setTimeout(function(){
+          if(userMoved) return;
+          var bridgeLead = document.querySelector("#kanshu .bridge-lead");
+          glideTo(bridgeLead.getBoundingClientRect().top + scrollY);
+        }, 3000);
+      });
+    }, 5500);
+  }
+}
+/* ボタンを押した場合は幕5への自動降下をしない（#kanshuへ直行） */
+document.querySelector("#akashi .cta").addEventListener("click", function(){
+  clearTimeout(toKirokuTimer);
+});
+/* 手動スクロールで来た人への保険（自動降下中は発火させない） */
+new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting && !auto){ akashiShow(); } });
+},{threshold:.6}).observe(document.querySelector("#akashi .a4"));
+/* 検問：金の丸が右へ抜けきったら（アニメ1周の締め）、一色の証へ降下 */
+document.getElementById("parcel").addEventListener("animationiteration", function(){
+  if(akashiGlided || !kenmonGlided) return;
+  akashiGlided = true;
+  setTimeout(function(){
+    glideTo(document.getElementById("akashi").getBoundingClientRect().top + scrollY, akashiShow);
+  }, 0);
+});
+/* スクロール操作のみで中止（FVの墨遊びでは中止しない） */
+["wheel","touchmove","keydown"].forEach(function(ev){
+  addEventListener(ev, cancelAuto, {passive:true});
+});
+/* FVの自動降下は、ページ読み込み時ではなく「入る」ゲートを閉じた瞬間に開始する
+   （映像・音を完全に同じタイミングで始めるため。beginExperience()内で呼ぶ） */
+function startFvAutoDescent(){
+  if(!reduced){
+    setTimeout(function(){
+      if(userMoved) return;                 /* 自分で操作した場合は任せる */
+      glideTo(sec.getBoundingClientRect().top + scrollY);
+    }, 2000);                               /* FV3行が出きったら、すぐに降下開始 */
+  }
+}
+
+/* ===== 入口ゲート：クリックした瞬間に映像（幕0）と音を完全に同時へ始める =====
+   「操作するまで待つ」方式だと、操作するタイミングが人によってバラバラで、
+   音だけ・映像だけが先行してズレる問題が繰り返し起きたため、最初に一度だけ
+   クリックが必要なゲートに変更した。クリック＝確実に有効なユーザー操作なので、
+   音声の自動再生制限にも一切引っかからない。 */
+(function(){
+  var intro = new Audio("assets/generated/audio-intro-suzu-sho.mp3");
+  var loop  = new Audio("assets/generated/audio-ambient-loop.mp3");
+  loop.loop = true;
+  intro.volume = 1; loop.volume = 0;
+  var userMuted = false, introEnded = false, began = false;
+  var btn = document.getElementById("soundToggle");
+  var gate = document.getElementById("gate");
+
+  /* requestAnimationFrameはタブがバックグラウンドになると止まる（描画不要のため）。
+     音声のフェードは画面を見ていなくても進む必要があるので、壁時計基準のsetIntervalで行う */
+  function fade(audio, from, to, ms, done){
+    var steps = Math.max(Math.round(ms / 50), 1), i = 0;
+    audio.volume = from;
+    var id = setInterval(function(){
+      i++;
+      var p = Math.min(i / steps, 1);
+      audio.volume = from + (to - from) * p;
+      if(p >= 1){ clearInterval(id); if(done) done(); }
+    }, 50);
+  }
+
+  function startLoop(){
+    loop.muted = userMuted;
+    loop.play().catch(function(){});
+    fade(loop, 0, .5, 2500);
+  }
+
+  intro.addEventListener("ended", function(){
+    introEnded = true;
+    if(!userMuted) startLoop();
+  });
+
+  function beginExperience(){
+    if(began) return; began = true;
+    if(gate){ gate.classList.add("hide"); setTimeout(function(){ gate.remove(); }, 1000); }
+    /* 映像（幕0の3行）と音（イントロ）をここで同時に起動する */
+    document.querySelectorAll("#fv .reveal").forEach(function(el){ el.classList.add("on"); });
+    startFvAutoDescent();
+    if(!userMuted){
+      intro.play().catch(function(){});
+    }
+  }
+
+  if(gate){
+    gate.addEventListener("click", beginExperience);
+    gate.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); beginExperience(); }
+    });
+  } else {
+    beginExperience(); /* ゲートが無い場合（審査時等）はフォールバックで即開始 */
+  }
+
+  if(btn){
+    btn.addEventListener("click", function(){
+      userMuted = !userMuted;
+      intro.muted = userMuted; loop.muted = userMuted;
+      btn.textContent = userMuted ? "音 OFF" : "音 ON";
+      btn.setAttribute("aria-label", userMuted ? "音声をONにする" : "音声をOFFにする");
+      if(!userMuted && began && intro.paused && !introEnded) intro.play().catch(function(){});
+      if(!userMuted && began && introEnded && loop.paused) startLoop();
+    });
+  }
+})();
+})();
+</script>
+</body>
+</html>
