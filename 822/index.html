@@ -9,7 +9,9 @@
 <style>
 :root{
   /* L1: 雪舟館の場 */
-  --paper:#fbfaf6; --ink:#20272a; --ink-soft:#445057; --muted:#6a777b;
+  --paper:#fbfaf6; --ink:#20272a; --ink-soft:#445057; --muted:#5f6c70;
+  --card-panel:#f2f0e8; /* カード本体の地色。黒は「奥の画室」以降のみ使用する */
+  --seal:#eb6133; /* 朱色 - UIアクセント（検印・強調ライン用） */
 
   /* L2: 人格色（固定・墨枠必須） */
   --tomoya:#ffffff; --kawai:#ff0000; --teramachi:#f0f8ff; --yanagi:#8a2be2;
@@ -31,6 +33,17 @@
 
   --font:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
   --font-ui:"Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+
+  /* タイポグラフィスケール（8段階に統一。フォントは上記2種のみ使用） */
+  --fs-1:10px;  /* 最小ラベル */
+  --fs-2:11px;  /* eyebrow・注記・footer */
+  --fs-3:12.5px;/* 補足本文 */
+  --fs-4:14px;  /* 選択肢・リスト項目 */
+  --fs-5:15.5px;/* 基本の読み文 */
+  --fs-6:18px;  /* 強調する読み文 */
+  --fs-7:22px;  /* 小見出し */
+  --fs-8:28px;  /* セクション見出し */
+  --fs-9:40px;  /* 最大強調（乱用しない） */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -39,9 +52,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--font);line-heigh
 .wrap{max-width:640px;margin:0 auto;padding:0 24px}
 section{padding:64px 0}
 h1,h2{font-weight:600;letter-spacing:.06em}
-.eyebrow{font-family:var(--font-ui);font-size:11px;letter-spacing:.28em;color:var(--muted);
+.eyebrow{font-family:var(--font-ui);font-size:var(--fs-2);letter-spacing:.28em;color:var(--muted);
   text-transform:uppercase;margin-bottom:14px}
-.lead{font-size:15px;line-height:2;color:var(--ink-soft)}
+.lead{font-size:var(--fs-5);line-height:2;color:var(--ink-soft)}
 .center{text-align:center}
 
 /* ===== ① ファーストビュー ===== */
@@ -53,11 +66,11 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   0%  {transform:scale(1.06) translate3d(-3.5%,-1.5%,0)}
   100%{transform:scale(1.06) translate3d( 3.5%, 1.5%,0)}
 }
-.fv-hero-img{position:relative;z-index:1;width:100%;max-height:70vh;object-fit:cover;display:block}
+.fv-hero-img{position:relative;z-index:1;width:100%;max-height:70vh;object-fit:cover;object-position:left center;display:block}
 #fv-textcard-wrap{position:relative;width:100%;overflow:hidden}
 #fv-textcard-wrap::before{
   content:'';position:absolute;inset:-8%;z-index:0;
-  background:url('assets/generated/fv-pigment-frame-bg.png') center/cover;
+  background:url('assets/generated/fv-pigment-frame-bg.png') left center/cover;
   animation:fvDrift 9s ease-in-out infinite alternate;
   will-change:transform;
 }
@@ -67,11 +80,11 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 @media (prefers-reduced-motion: reduce){
   #fv-textcard-wrap::before{animation:none;transform:scale(1.06)}
 }
-.fv-accent{font-size:16px;color:var(--muted);margin-bottom:22px;font-family:var(--font-ui);letter-spacing:.1em;font-weight:600}
-.fv-copy{max-width:540px;font-size:18px;line-height:2;color:var(--ink-soft);margin-bottom:36px}
-.fv-copy .whisper{display:block;margin-top:16px;font-style:italic;color:var(--muted);font-size:16px}
+.fv-accent{font-size:var(--fs-5);color:var(--muted);margin-bottom:22px;font-family:var(--font-ui);letter-spacing:.1em;font-weight:600}
+.fv-copy{max-width:540px;font-size:var(--fs-6);line-height:2;color:var(--ink-soft);margin-bottom:36px}
+.fv-copy .whisper{display:block;margin-top:16px;font-style:italic;color:var(--muted);font-size:var(--fs-5)}
 .btn-start{
-  font-family:var(--font-ui);font-size:19px;font-weight:700;letter-spacing:.06em;
+  font-family:var(--font-ui);font-size:var(--fs-6);font-weight:700;letter-spacing:.06em;
   background:linear-gradient(95deg, var(--imayo) 0%, var(--yamabuki) 24%, var(--koke) 42%, var(--seiji) 58%, var(--ai) 76%, var(--sumire) 100%);
   background-size:220% 100%;
   color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.35);border:none;border-radius:999px;
@@ -83,7 +96,16 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .btn-start:active{transform:translateY(0) scale(1)}
 @keyframes btnStartBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @media (prefers-reduced-motion: reduce){.btn-start{animation:none}}
-.scroll-hint{margin-top:18px;font-size:14px;color:var(--muted);font-family:var(--font-ui);letter-spacing:.12em;font-weight:600}
+.scroll-hint{margin-top:18px;font-size:var(--fs-4);color:var(--muted);font-family:var(--font-ui);letter-spacing:.12em;font-weight:600}
+
+/* ===== ⓪ オープニング（花火） ===== */
+#opening-fireworks{position:relative;min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;align-items:center;overflow:hidden;padding:0 0 40px}
+.opening-fireworks-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;z-index:0}
+.opening-scroll-hint{position:relative;z-index:1;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);
+  animation:openingHintBounce 1.8s ease-in-out infinite}
+@keyframes openingHintBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media (prefers-reduced-motion: reduce){.opening-scroll-hint{animation:none}}
 
 /* ===== ② 30秒体験 ===== */
 /* OPENING（①FVの顔料フレーム・虹色ボタン）に合わせ、淡い虹色の光を背景に敷く */
@@ -111,7 +133,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   .exp-timer-bar{transition:none}
 }
 .exp-timer-labels{display:flex;justify-content:space-between;width:100%;max-width:480px;
-  font-family:var(--font-ui);font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:24px}
+  font-family:var(--font-ui);font-size:var(--fs-2);color:var(--muted);letter-spacing:.05em;margin-bottom:24px}
 .exp-progress{display:flex;gap:8px;margin-bottom:36px}
 .exp-dot{width:8px;height:8px;border-radius:50%;background:var(--ink);opacity:.15;transition:opacity .3s}
 .exp-dot.done{opacity:.9}
@@ -126,9 +148,9 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   background:linear-gradient(135deg, var(--imayo), var(--yamabuki), var(--seiji), var(--ai));
   box-shadow:0 8px 20px rgba(32,39,42,.22);
 }
-.exp-q-label .qn{font-size:21px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.3)}
-.exp-q-label .qt{font-size:10px;opacity:.92;letter-spacing:.04em}
-.exp-q{font-size:28.5px;line-height:1.6;margin-bottom:36px}
+.exp-q-label .qn{font-size:var(--fs-7);font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.exp-q-label .qt{font-size:var(--fs-1);opacity:.92;letter-spacing:.04em}
+.exp-q{font-size:var(--fs-8);line-height:1.6;margin-bottom:36px}
 .exp-options{display:flex;flex-direction:column;gap:12px;width:100%}
 /* 各設問・各選択肢に、L3素材色12種（伝統色）を1対1で対応させる */
 #step-q1 .exp-opt:nth-child(1){--opt:var(--ai)}
@@ -144,7 +166,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 #step-q3 .exp-opt:nth-child(3){--opt:var(--sumire)}
 #step-q3 .exp-opt:nth-child(4){--opt:var(--imayo)}
 .exp-opt{
-  font-family:var(--font);font-size:14.5px;text-align:left;line-height:1.7;
+  font-family:var(--font);font-size:var(--fs-4);text-align:left;line-height:1.7;
   background:color-mix(in srgb, var(--opt,#8a8a8a) 12%, #fff);
   border:1.5px solid color-mix(in srgb, var(--opt,#8a8a8a) 42%, #fff);
   border-radius:14px;
@@ -155,7 +177,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .exp-opt .k{font-family:var(--font-ui);font-weight:700;margin-right:10px;
   display:inline-flex;align-items:center;justify-content:center;
   width:26px;height:26px;border-radius:50%;flex:none;
-  background:var(--opt,var(--muted));color:#fff;font-size:13px;
+  background:var(--opt,var(--muted));color:#fff;font-size:var(--fs-3);
   text-shadow:0 1px 2px rgba(0,0,0,.3)}
 
 /* リビール演出 */
@@ -174,11 +196,15 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   60%{transform:scale(1.08);opacity:1;filter:blur(0px)}
   100%{transform:scale(1);opacity:1}
 }
-.reveal-verb{font-family:var(--font-ui);font-size:13px;letter-spacing:.2em;color:var(--muted);margin-bottom:8px}
-.reveal-name{font-size:20px;margin-bottom:6px}
-.reveal-hex{font-family:var(--font-ui);font-size:11px;color:var(--muted);letter-spacing:.08em;margin-bottom:28px}
+.reveal-verb{font-family:var(--font-ui);font-size:var(--fs-3);letter-spacing:.2em;color:var(--muted);margin-bottom:8px}
+.reveal-verb-integrate{font-size:var(--fs-9);font-weight:700;letter-spacing:.06em;
+  background-image:linear-gradient(100deg,#b3185a,#b3730a,#0f7a68,#1d4fb8,#5e21a8,#b3185a);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent}
+.reveal-name{font-size:var(--fs-7);margin-bottom:6px}
+.reveal-hex{font-family:var(--font-ui);font-size:var(--fs-2);color:var(--muted);letter-spacing:.08em;margin-bottom:28px}
 .persona-chip{
-  display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:11px;
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:var(--fs-2);
   border:1px solid var(--ink);border-radius:999px;padding:4px 12px;color:var(--ink-soft)
 }
 .persona-chip .dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--ink)}
@@ -205,7 +231,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 @keyframes blend{0%{opacity:0;transform:scale(.7) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
 
 /* ===== 未来デザインカード ===== */
-#card{display:none;width:100%;max-width:480px;flex-direction:column;
+#card{display:none;width:100%;max-width:648px;flex-direction:column;
   opacity:0;transform:translateY(-36px);transition:opacity 1.4s ease,transform 1.4s ease}
 #card.active{display:flex}
 #card.reveal-in{opacity:1;transform:translateY(0)}
@@ -222,11 +248,11 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .card-scene-tint{position:absolute;inset:0}
 .card-scene svg{position:absolute;inset:0;width:100%;height:100%}
 @media (prefers-reduced-motion: reduce){.card-scene-img{transition:none}}
-.card-body{padding:28px 26px 30px;background:#14181a;color:#fff}
-.card-title{font-size:24px;margin-bottom:6px;color:#fff}
+.card-body{padding:28px 26px 30px;background:var(--card-panel);color:var(--ink)}
+.card-title{font-size:var(--fs-7);margin-bottom:6px;color:var(--ink)}
 /* 「あなたの未来デザインカード」は画像の上に白発光文字でワイプイン（左→右）する */
 .card-scene-title{position:absolute;left:22px;bottom:18px;z-index:2;max-width:calc(100% - 44px);
-  font-family:var(--font-ui);font-size:19.8px;font-weight:700;letter-spacing:.1em;color:#fff;
+  font-family:var(--font-ui);font-size:var(--fs-6);font-weight:700;letter-spacing:.1em;color:#fff;
   text-shadow:0 0 8px rgba(255,255,255,.95),0 0 22px rgba(255,255,255,.65),0 2px 10px rgba(0,0,0,.35)}
 /* 1文字ずつ、にじむように現れる */
 .card-scene-title span{display:inline-block;opacity:0;filter:blur(5px);transform:translateY(4px);
@@ -235,7 +261,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 @media (prefers-reduced-motion: reduce){.card-scene-title span{opacity:1;filter:none;transform:none;transition:none}}
 /* カード内の出所ラベル */
 .card-block{margin-bottom:22px}
-.block-label{font-family:var(--font-ui);font-size:15.75px;font-weight:700;letter-spacing:.12em;
+.block-label{font-family:var(--font-ui);font-size:var(--fs-5);font-weight:700;letter-spacing:.12em;
   color:var(--seal);margin-bottom:12px;display:flex;align-items:center;gap:9px}
 .block-label::before{content:'';width:21px;height:1.5px;background:var(--seal);display:inline-block}
 /* 3ステップ（風景→方針→一歩） */
@@ -248,62 +274,49 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .step:nth-of-type(1) .step-icon{background:color-mix(in srgb, var(--ai) 24%, #fff)}
 .step:nth-of-type(2) .step-icon{background:color-mix(in srgb, var(--kobai) 26%, #fff)}
 .step:nth-of-type(3) .step-icon{background:color-mix(in srgb, var(--koke) 22%, #fff)}
-.step-title{font-family:var(--font-ui);font-size:14px;font-weight:700;letter-spacing:.06em;color:#fff}
-.step-title small{display:block;font-size:10px;font-weight:400;color:rgba(255,255,255,.6);letter-spacing:.04em;margin-top:1px}
-/* step1 風景：淡い色面の余韻を黒地に重ねる */
-.step-scene{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14)}
-.step-scene .scene-lines{font-size:14px;line-height:2.2;color:#fff;white-space:pre-line;text-wrap:pretty}
-/* step2 方針：黒地＋朱の縦線 */
-.step-plan{background:rgba(255,255,255,.05);border-left:3px solid var(--seal)}
-.step-plan .plan-main{font-size:13.5px;line-height:1.9;color:#fff;text-wrap:pretty}
+.step-title{font-family:var(--font-ui);font-size:var(--fs-4);font-weight:700;letter-spacing:.06em;color:var(--ink)}
+.step-title small{display:block;font-size:var(--fs-1);font-weight:400;color:var(--ink-soft);letter-spacing:.04em;margin-top:1px}
+/* 3ステップ共通：輪郭だけ朱色、地色はcard-bodyと同一の紙色に統一 */
+.step-scene, .step-plan, .step-act{
+  border:1.5px solid rgba(32,39,42,.14);
+  border-radius:10px;
+  background:rgba(255,255,255,.5);
+}
+.step-scene .scene-lines{font-size:var(--fs-4);line-height:2.2;color:var(--ink);white-space:pre-line;text-wrap:pretty}
+.step-plan .plan-main{font-size:var(--fs-3);line-height:1.9;color:var(--ink);text-wrap:pretty}
 .step-plan details{margin-top:8px}
-.step-plan summary{font-family:var(--font-ui);font-size:11px;color:var(--seal);cursor:pointer;list-style:none;letter-spacing:.06em}
+.step-plan summary{font-family:var(--font-ui);font-size:var(--fs-3);font-weight:700;cursor:pointer;
+  list-style:none;letter-spacing:.08em;display:inline-flex;align-items:center;color:var(--seal)}
 .step-plan summary::-webkit-details-marker{display:none}
 .step-plan summary::after{content:' ▾'}
 .step-plan details[open] summary::after{content:' ▴'}
-.step-plan .plain-body{font-size:12.5px;line-height:1.85;color:rgba(255,255,255,.65);margin-top:6px;padding-left:2px}
-/* step3 一歩：白枠で行動を際立たせる */
-.step-act{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.35)}
-.step-act .act-lead{font-size:12px;color:rgba(255,255,255,.6);font-family:var(--font-ui);margin-bottom:4px}
-.step-act .act-main{font-size:14px;line-height:1.8;color:#fff;font-weight:500;text-wrap:pretty}
-.card-signature{font-family:var(--font-ui);font-size:19.5px;letter-spacing:.06em;color:#fff;
+.step-plan .plain-body{font-size:var(--fs-3);line-height:1.85;color:var(--ink-soft);margin-top:6px;padding-left:2px}
+.step-act .act-lead{font-size:var(--fs-3);color:var(--ink-soft);font-family:var(--font-ui);margin-bottom:4px}
+.step-act .act-main{font-size:var(--fs-4);line-height:1.8;color:var(--ink);font-weight:500;text-wrap:pretty}
+.card-signature{font-family:var(--font);font-size:var(--fs-6);letter-spacing:.06em;color:var(--ink);
   display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.card-signature .hexline{width:100%;font-size:15px;color:rgba(255,255,255,.65);letter-spacing:.04em;margin-top:6px}
-.sig-chip{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(255,255,255,.85);display:inline-block}
-.card-scenetext{font-size:14px;line-height:2.1;color:rgba(255,255,255,.8);margin-bottom:16px}
-.card-direction{font-size:13.5px;line-height:1.9;padding:14px 16px;background:rgba(255,255,255,.05);
-  border-left:2px solid var(--seal);margin-bottom:10px;color:#fff}
-.card-direction-plain{font-size:12.5px;line-height:1.85;padding:2px 16px 0;margin-bottom:16px;color:rgba(255,255,255,.65)}
-.card-direction-plain .plain-lead{display:block;font-size:10.5px;letter-spacing:.08em;
+.card-signature .hexline{width:100%;font-size:var(--fs-5);color:var(--ink-soft);letter-spacing:.04em;margin-top:6px}
+.sig-chip{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(32,39,42,.3);display:inline-block}
+.card-scenetext{font-size:var(--fs-4);line-height:2.1;color:var(--ink-soft);margin-bottom:16px}
+.card-direction{font-size:var(--fs-4);line-height:1.9;padding:14px 16px;background:rgba(32,39,42,.04);
+  border-left:2px solid var(--seal);margin-bottom:10px;color:var(--ink)}
+.card-direction-plain{font-size:var(--fs-3);line-height:1.85;padding:2px 16px 0;margin-bottom:16px;color:var(--ink-soft)}
+.card-direction-plain .plain-lead{display:block;font-size:var(--fs-1);letter-spacing:.08em;
   color:var(--seal);margin-bottom:3px;font-family:var(--font-ui)}
-.card-place{font-size:13px;line-height:1.9;color:rgba(255,255,255,.8)}
-.card-place .lead-in{display:block;font-size:11.5px;color:rgba(255,255,255,.6);margin-bottom:6px;font-family:var(--font-ui)}
-/* この体験について（折りたたみ） */
-.card-note{margin-top:20px;border-top:1px solid rgba(255,255,255,.16);padding-top:18px;text-align:center}
-.card-note summary{
-  display:inline-flex;align-items:center;gap:7px;
-  font-family:var(--font-ui);font-size:12px;color:#fff;cursor:pointer;
-  letter-spacing:.06em;list-style:none;
-  padding:.6em 1.4em;border-radius:999px;border:none;
-  background:linear-gradient(95deg, var(--imayo) 0%, var(--yamabuki) 24%, var(--koke) 42%, var(--seiji) 58%, var(--ai) 76%, var(--sumire) 100%);
-  background-size:220% 100%;
-  text-shadow:0 1px 4px rgba(0,0,0,.3);
-  box-shadow:0 6px 18px rgba(32,39,42,.2);
-  transition:transform .2s ease, box-shadow .2s ease, background-position .5s ease}
-.card-note summary:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(32,39,42,.28);background-position:100% 0}
-.card-note summary::-webkit-details-marker{display:none}
-.card-note summary::after{content:'▾';font-size:10px;transition:transform .25s ease}
-.card-note[open] summary::after{transform:rotate(180deg)}
-.card-note .note-body{font-size:12.5px;line-height:2;color:rgba(255,255,255,.8);text-align:left;
-  font-family:var(--font-ui);margin:14px auto 0;max-width:420px;
-  background:rgba(255,255,255,.05);
+.card-place{font-size:var(--fs-4);line-height:1.9;color:var(--ink-soft)}
+.card-place .lead-in{display:block;font-size:var(--fs-2);color:var(--ink-soft);margin-bottom:6px;font-family:var(--font-ui)}
+/* この一枚がどう組み立てられたかの説明。常時表示（折りたたまない） */
+.card-note{margin-top:20px;border-top:1px solid rgba(32,39,42,.12);padding-top:18px}
+.card-note .note-body{font-size:var(--fs-3);line-height:2;color:var(--ink-soft);text-align:left;
+  font-family:var(--font-ui);
+  background:rgba(32,39,42,.03);
   border-radius:10px;padding:16px 18px;
   border-left:3px solid var(--ai)}
 
-.after-card{max-width:480px;width:100%;margin-top:36px;text-align:center;font-size:18.225px;
+.after-card{max-width:648px;width:100%;margin-top:36px;text-align:center;font-size:var(--fs-6);
   line-height:2.1;color:var(--ink-soft)}
 
-.share-cta{margin-top:36px;width:100%;max-width:480px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.share-cta{margin-top:36px;width:100%;max-width:648px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .share-row{display:flex;align-items:flex-end;gap:24px;justify-content:center}
 .share-unit{display:flex;flex-direction:column;align-items:center;gap:6px}
 .btn-share{width:60px;height:60px;border-radius:50%;background:var(--ink);color:var(--paper);
@@ -314,12 +327,12 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   border:1.5px solid rgba(32,39,42,.2);cursor:pointer;font-size:22px;line-height:1;
   display:flex;align-items:center;justify-content:center;transition:transform .2s}
 .btn-copy-icon:hover{transform:translateY(-2px)}
-.share-cap{font-family:var(--font-ui);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.share-cap{font-family:var(--font-ui);font-size:var(--fs-2);color:var(--muted);letter-spacing:.06em}
 
 /* ===== 通常セクション ===== */
-.sec-title{font-size:18px;margin-bottom:20px;letter-spacing:.04em}
-.sec-title-lg{font-size:28.5px}
-.sec-copy{font-size:14.5px;line-height:2.1;color:var(--ink-soft);white-space:pre-line}
+.sec-title{font-size:var(--fs-6);margin-bottom:20px;letter-spacing:.04em}
+.sec-title-lg{font-size:var(--fs-8)}
+.sec-copy{font-size:var(--fs-4);line-height:2.1;color:var(--ink-soft);white-space:pre-line}
 /* OPENING（①FV）と同じ顔料画像を敷く。中央の明るい領域にテキストが乗る構図 */
 .sec-colorful{
   background-image:url('assets/generated/sec4-pigment-frame-bg.png');
@@ -327,7 +340,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   background-position:center;
 }
 .doing-list{display:flex;flex-direction:column;gap:18px;margin:26px 0}
-.doing-item{display:flex;gap:14px;align-items:center;font-size:14px;line-height:1.9;color:var(--ink-soft)}
+.doing-item{display:flex;gap:14px;align-items:center;font-size:var(--fs-4);line-height:1.9;color:var(--ink-soft)}
 .doing-item .emoji{font-size:19px;flex-shrink:0;width:40px;height:40px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 6px 16px rgba(32,39,42,.14)}
@@ -346,7 +359,9 @@ h1,h2{font-weight:600;letter-spacing:.06em}
     var(--paper);
 }
 .gap-list{display:flex;flex-direction:column;gap:14px;margin:28px 0}
-.gap-item{display:flex;align-items:center;gap:14px;font-size:15px;line-height:1.6;color:var(--ink)}
+.gap-item{display:flex;align-items:center;gap:14px;font-size:var(--fs-5);line-height:1.6;color:var(--ink)}
+/* 「なぜ、こんな実験を？」セクションの本文サイズを①FVの.fv-copyと揃える */
+#about-experiment .sec-copy, #about-experiment .gap-item{font-size:var(--fs-6)}
 .gap-item .gn{
   flex-shrink:0;width:32px;height:32px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
@@ -356,8 +371,13 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .gap-item:nth-child(1) .gn{background:var(--kawai)}
 .gap-item:nth-child(2) .gn{background:var(--yamabuki)}
 .gap-item:nth-child(3) .gn{background:var(--koke)}
-.highlight{background:color-mix(in srgb, var(--yamabuki) 32%, transparent);
-  padding:.05em .3em;border-radius:4px;font-weight:600;font-size:1.5em;line-height:1.5}
+/* オーロラ色の強調はページ内で1箇所（結びの見出し）のみに限定する */
+.highlight-aurora{font-weight:700;font-size:1.4em;line-height:1.5;
+  background-image:linear-gradient(100deg,#b3185a,#b3730a,#0f7a68,#1d4fb8,#5e21a8,#b3185a);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent}
+/* それ以外の強調はここ。太字＋朱色のみで統一する */
+.emphasis{font-weight:700;color:var(--seal)}
 /* 奥の画室（oku.html）のProfileボタンと同一デザイン・同一サイズ */
 .profile-row{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
 .profile-row .sec-copy{flex:1;min-width:240px;margin-bottom:0}
@@ -383,34 +403,25 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .profile-cta:hover{opacity:1;box-shadow:0 18px 50px rgba(32,39,42,.26),0 0 40px rgba(255,214,163,.7),0 0 70px rgba(150,200,235,.55),0 0 100px rgba(197,168,224,.4);transform:translateX(90px) translateY(-2px)}
 .profile-cta-label{font-family:var(--font);font-size:clamp(24px,3.6vw,31.2px);
   letter-spacing:.32em;text-indent:.32em}
-.profile-cta-sub{font-family:var(--font-ui);font-size:14px;letter-spacing:.2em;color:rgba(32,39,42,.6)}
+.profile-cta-sub{font-family:var(--font-ui);font-size:var(--fs-4);letter-spacing:.2em;color:rgba(32,39,42,.6)}
 @keyframes profileAuroraFlow{
   from{background-position:center,center,0% 0%}
   to{background-position:center,center,300% 0%}
 }
 @media (prefers-reduced-motion: reduce){.profile-cta{animation:none}}
-.proof-list{margin-top:24px;padding-top:20px;border-top:1px solid rgba(32,39,42,.12)}
-.proof-item{font-size:13px;line-height:2;color:var(--muted)}
+.proof-list{margin-top:24px;padding:20px 20px 4px;background:rgba(251,250,246,.88);border-radius:12px}
+.proof-item{font-size:var(--fs-3);line-height:2;color:var(--ink)}
 .proof-item strong{color:var(--ink)}
 
-.design-flow{display:flex;flex-wrap:wrap;gap:0;margin-top:28px;justify-content:center}
-.design-node{display:flex;flex-direction:column;align-items:center;width:110px;text-align:center;position:relative;padding:0 4px 20px}
-.design-node .swatch{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);margin-bottom:10px;
-  box-shadow:0 4px 12px rgba(32,39,42,.15)}
-.design-node .hex{font-family:var(--font-ui);font-size:10px;color:var(--muted);letter-spacing:.03em;margin-bottom:4px}
-.design-node .pname{font-family:var(--font-ui);font-weight:700;font-size:13px;color:var(--ink);margin-bottom:4px;letter-spacing:.04em}
-.design-node .prole{font-size:11px;line-height:1.6;color:var(--ink-soft)}
-.design-arrow{display:flex;align-items:center;color:var(--muted);font-size:16px;padding:0 2px;margin-top:26px}
 .design-final{position:relative;margin-top:8px;background:var(--paper);border-radius:18px;
   border:1px solid rgba(32,39,42,.3);overflow:hidden;box-shadow:0 16px 36px rgba(32,39,42,.14)}
 .design-final-img{display:block;width:100%;aspect-ratio:1619/641;object-fit:cover;object-position:top center}
 .design-final-overlay{padding:26px 28px 30px;text-align:center}
-.design-final-label{font-family:var(--font-ui);font-size:10px;letter-spacing:.32em;
+.design-final-label{font-family:var(--font-ui);font-size:var(--fs-1);letter-spacing:.32em;
   color:#9f6f63;font-weight:700;margin-bottom:14px}
-.design-final-text{font-family:var(--font);font-size:19px;font-weight:600;letter-spacing:.1em;
+.design-final-text{font-family:var(--font);font-size:var(--fs-6);font-weight:600;letter-spacing:.1em;
   color:var(--ink);line-height:1.7}
-.design-final-text b{color:#9f6f63;font-size:26px;font-weight:700;letter-spacing:.14em;padding:0 2px}
-@media(max-width:520px){.design-arrow{display:none}.design-node{width:30%}}
+.design-final-text b{color:#9f6f63;font-size:var(--fs-7);font-weight:700;letter-spacing:.14em;padding:0 2px}
 
 /* 7円図解（画像に人格テキストを重ねる） */
 .circles-figure{position:relative;width:100%;max-width:940px;margin:0 auto;aspect-ratio:1456/1092}
@@ -419,9 +430,15 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   -webkit-mask-image:radial-gradient(ellipse 68% 68% at 50% 50%, #000 30%, rgba(0,0,0,.35) 55%, transparent 74%);
   mask-image:radial-gradient(ellipse 68% 68% at 50% 50%, #000 30%, rgba(0,0,0,.35) 55%, transparent 74%);}
 .cnode{position:absolute;transform:translate(-50%,calc(-50% - 20px));text-align:center;width:22%;line-height:1.4}
-.cnode .cname{font-family:var(--font-ui);font-weight:700;font-size:clamp(12px,1.5vw,16px);color:var(--ink);letter-spacing:.04em}
-.cnode .chex{font-family:var(--mono,monospace);font-size:clamp(8px,1vw,10px);color:var(--muted);margin:2px 0}
+.cnode .cname{font-family:var(--font-ui);font-weight:700;font-size:clamp(14.4px,1.8vw,19.2px);color:var(--ink);letter-spacing:.04em}
+.cnode .chex{font-family:var(--font-ui);font-size:clamp(8px,1vw,10px);color:var(--muted);margin:2px 0}
 .cnode .crole{font-size:clamp(8px,1vw,11px);color:var(--ink-soft);line-height:1.5}
+/* TOMOYA・SNOWは黒文字のまま、他5人格は各自のカラーを文字色に */
+.cnode.c-kiuchi .cname{color:var(--kiuchi)}
+.cnode.c-kawai .cname{color:var(--kawai)}
+.cnode.c-tera .cname{color:#1d50a2}
+.cnode.c-gai .cname{color:#ff8c00}
+.cnode.c-yanagi .cname{color:var(--yanagi)}
 /* 各円の中心座標（画像に対する％・七角形配置） */
 .c-tomoya  {left:50%;    top:18.58%}
 .c-kiuchi  {left:70.06%; top:31%}
@@ -430,69 +447,56 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 .c-gai     {left:40%;    top:79.42%}
 .c-snow    {left:27%;    top:59.8%}
 .c-yanagi  {left:28.87%; top:31%}
-/* 中央のハブテキスト（光源に重ねて宗教画的印象をやわらげる） */
+/* 中央のハブテキスト */
 .chub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
   text-align:center;pointer-events:none;width:30%}
 .chub .htxt{font-family:var(--font);font-weight:600;font-size:clamp(13px,1.8vw,20px);
-  color:var(--ink);letter-spacing:.08em;text-shadow:0 0 14px rgba(255,252,244,.9),0 0 6px rgba(255,252,244,.9)}
+  color:var(--ink);letter-spacing:.08em}
 .chub .hsub{font-family:var(--font-ui);font-size:clamp(8px,1vw,11px);color:var(--ink-soft);
-  margin-top:4px;letter-spacing:.1em;text-shadow:0 0 10px rgba(255,252,244,.9)}
-/* 光のハロー（各円に重ねる。呼吸＝全円共通・微妙にずらす／glow＝時計回りに巡る） */
-.chalo{position:absolute;width:19%;aspect-ratio:1;border-radius:50%;z-index:2;pointer-events:none;
-  mix-blend-mode:screen;
-  background:radial-gradient(circle, rgba(255,252,244,.95) 0%, rgba(255,249,232,.35) 44%, transparent 70%);
-  opacity:.15;
-  animation:haloBreathe 5.2s ease-in-out infinite, haloGlow 7.2s ease-in-out infinite}
-@keyframes haloBreathe{0%,100%{transform:translate(-50%,-50%) scale(.97)}50%{transform:translate(-50%,-50%) scale(1.06)}}
-@keyframes haloGlow{0%,20%,100%{opacity:.14}7%{opacity:.8}}
-/* 時計回りの巡回：上→右上→右→右下→左下→左→左上（負のdelayで初回待ちなし） */
-.chalo.c-tomoya {animation-delay:0s,        0s}
-.chalo.c-kiuchi {animation-delay:-.85s,  -1.2s}
-.chalo.c-kawai  {animation-delay:-1.7s,  -2.4s}
-.chalo.c-tera   {animation-delay:-2.55s, -3.6s}
-.chalo.c-gai    {animation-delay:-3.4s,  -4.8s}
-.chalo.c-snow   {animation-delay:-4.25s, -6.0s}
-.chalo.c-yanagi {animation-delay:-5.1s,  -7.2s}
-@media (prefers-reduced-motion: reduce){
-  .chalo{animation:none;opacity:.14}
-}
+  margin-top:4px;letter-spacing:.1em}
 @media(max-width:600px){
   .cnode .crole{display:none}
   .cnode{width:24%}
 }
 
+/* KURO・LUPINは「止める」役の検査エージェントのため、この検査シールだけは例外的に黒（KUROの名の由来でもある）を使う */
 .inspect-seal{position:relative;margin-top:20px;padding:30px 28px 26px;background:var(--ink);
   border-radius:18px;text-align:center;overflow:hidden;
   box-shadow:0 20px 44px rgba(32,39,42,.28)}
 .inspect-seal::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
   width:64px;height:3px;border-radius:0 0 3px 3px;
   background:linear-gradient(90deg,var(--kuro,#000),var(--lupin,#ffd700))}
-.inspect-seal-label{font-family:var(--font-ui);font-size:10.5px;letter-spacing:.3em;
+.inspect-seal-label{font-family:var(--font-ui);font-size:var(--fs-1);letter-spacing:.3em;
   text-transform:uppercase;color:#e0b88a;margin-bottom:20px}
 .inspect-seal-row{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap}
 .inspect-seal-item{display:flex;align-items:center;gap:12px}
 .inspect-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;
   box-shadow:0 0 0 4px rgba(255,255,255,.1),0 0 14px currentColor}
 .inspect-seal-text{text-align:left;line-height:1.45}
-.inspect-seal-text b{display:block;font-family:var(--font-ui);font-weight:700;font-size:15px;
+.inspect-seal-text b{display:block;font-family:var(--font-ui);font-weight:700;font-size:var(--fs-5);
   letter-spacing:.1em;color:var(--paper)}
-.inspect-seal-text small{display:block;font-size:11.5px;color:rgba(251,250,246,.65);margin-top:2px}
+.inspect-seal-text small{display:block;font-size:var(--fs-2);color:rgba(251,250,246,.65);margin-top:2px}
 .inspect-seal-div{width:1px;height:34px;background:rgba(251,250,246,.2)}
 .inspect-seal-date{margin-top:20px;padding-top:16px;border-top:1px solid rgba(251,250,246,.16);
-  font-family:var(--font-ui);font-size:11px;color:rgba(251,250,246,.55);letter-spacing:.06em}
+  font-family:var(--font-ui);font-size:var(--fs-2);color:rgba(251,250,246,.55);letter-spacing:.06em}
 @media(max-width:420px){
   .inspect-seal-row{flex-direction:column;gap:18px}
   .inspect-seal-div{width:60%;height:1px}
 }
 
 .card-grid{display:flex;flex-direction:column;gap:14px;margin-top:24px}
-.link-card{display:block;border:1.5px solid rgba(32,39,42,.14);border-radius:14px;padding:18px 20px;font-size:13.5px;
-  line-height:1.8;color:var(--ink-soft);text-decoration:none;transition:border-color .2s,transform .2s}
-.link-card:hover{border-color:var(--ink);transform:translateX(2px)}
-.link-card b{display:block;color:var(--ink);font-size:14.5px;margin-bottom:4px;font-family:var(--font-ui)}
+.link-card{display:block;border:1.5px solid transparent;border-radius:14px;padding:18px 20px;font-size:var(--fs-3);
+  line-height:1.8;color:var(--ink-soft);text-decoration:none;transition:box-shadow .2s,transform .2s;
+  background-image:
+    linear-gradient(var(--paper), var(--paper)),
+    linear-gradient(100deg,#b3185a,#b3730a,#0f7a68,#1d4fb8,#5e21a8,#b3185a);
+  background-origin:padding-box, border-box;
+  background-clip:padding-box, border-box}
+.link-card:hover{transform:translateX(2px);box-shadow:0 8px 20px rgba(32,39,42,.12)}
+.link-card b{display:block;color:var(--ink);font-size:var(--fs-4);margin-bottom:4px;font-family:var(--font-ui)}
 
 .anima-box{margin-top:32px;padding:24px;background:var(--ink);color:var(--paper);border-radius:16px;
-  font-size:13.5px;line-height:2}
+  font-size:var(--fs-3);line-height:2}
 
 .oku-connect{position:relative;overflow:hidden;background-color:#10131d}
 /* 3枚の墨画像をクロスフェードで循環（光の位置が移ろう） */
@@ -521,11 +525,13 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 
 .closing{text-align:center}
 .closing .sec-copy{margin-bottom:30px}
+.closing-signature{font-family:var(--font);font-size:var(--fs-6);letter-spacing:.3em;
+  color:var(--ink-soft);text-align:right;max-width:480px;margin:0 auto}
 
-footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted);font-family:var(--font-ui);letter-spacing:.05em}
+footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(--muted);font-family:var(--font-ui);letter-spacing:.05em}
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);
-  font-family:var(--font-ui);font-size:13px;padding:10px 20px;border-radius:999px;opacity:0;
+  font-family:var(--font-ui);font-size:var(--fs-3);padding:10px 20px;border-radius:999px;opacity:0;
   transition:opacity .3s;pointer-events:none;z-index:50}
 .toast.show{opacity:1}
 
@@ -533,9 +539,32 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   .pigment-pile, .integrate-blob{animation:none !important}
   .btn-start:hover{transform:none}
 }
+
+/* ===== 音声トグル ===== */
+.audio-toggle{position:fixed;top:16px;right:16px;z-index:60;width:44px;height:44px;
+  border-radius:50%;border:1.5px solid rgba(32,39,42,.18);background:rgba(251,250,246,.92);
+  color:var(--ink);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(32,39,42,.16);transition:transform .2s, box-shadow .2s}
+.audio-toggle:hover{transform:scale(1.06);box-shadow:0 6px 18px rgba(32,39,42,.22)}
+.audio-toggle:active{transform:scale(.96)}
 </style>
 </head>
 <body>
+
+<button class="audio-toggle" id="audioToggle" type="button" aria-pressed="false" aria-label="音を有効にする">🔇</button>
+<audio id="audioOpening" preload="auto">
+  <source src="assets/audio/The_Grand_Reveal.mp3" type="audio/mpeg">
+</audio>
+<audio id="audioAmbient" preload="auto" loop>
+  <source src="assets/audio/Slow_Tides_of_Glass.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ⓪ オープニング（花火） -->
+<section id="opening-fireworks">
+  <img class="opening-fireworks-img" src="assets/generated/822-fireworks-thumbnail.png"
+       alt="8.22 会場でお話ししましょう！ 10人と話す、小さな実証企画 文月雪舟">
+  <div class="scroll-hint opening-scroll-hint">↓ スクロールして進む</div>
+</section>
 
 <!-- ① ファーストビュー -->
 <section id="fv">
@@ -547,9 +576,9 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
       <div class="fv-copy">
         今日の実験——3分の対話で、<br>
         「今やること」はひとつ見えるか。<br>
-        その前に30秒。<br>
+        その前に30秒ください。<br>
         あなたのつくりたい未来を、一枚の景色にしてみます。
-        <span class="whisper">——あなたも、今日の体験者のひとりです。</span>
+        <span class="whisper">さあー——あなたも、今日の体験者のひとりです。</span>
       </div>
       <button class="btn-start" id="btnStart">30秒で、未来を一枚に</button>
       <div class="scroll-hint">↓ タップして始まります</div>
@@ -585,10 +614,10 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
     <!-- Q1 reveal -->
     <div class="exp-reveal" id="reveal-q1">
       <div class="pigment-pile" id="pile-q1"></div>
-      <div class="reveal-verb">芯を読む</div>
+      <div class="reveal-verb">型をつかむ</div>
       <div class="reveal-name" id="q1-name"></div>
       <div class="reveal-hex" id="q1-hex"></div>
-      <span class="persona-chip"><span class="dot" style="background:var(--tomoya)"></span>TOMOYAの戦略ルールを適用</span>
+      <span class="persona-chip"><span class="dot" style="background:var(--tomoya)"></span>見立てステップ1：型</span>
       <button class="btn-next" data-next="q2">&#x2192;</button>
     </div>
 
@@ -606,10 +635,10 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
 
     <div class="exp-reveal" id="reveal-q2">
       <div class="pigment-pile" id="pile-q2"></div>
-      <div class="reveal-verb">縁を結ぶ</div>
+      <div class="reveal-verb">届け先を定める</div>
       <div class="reveal-name" id="q2-name"></div>
       <div class="reveal-hex" id="q2-hex"></div>
-      <span class="persona-chip"><span class="dot" style="background:var(--kiuchi)"></span>KIUCHIの関係設計を適用</span>
+      <span class="persona-chip"><span class="dot" style="background:var(--kiuchi)"></span>見立てステップ2：届け先</span>
       <button class="btn-next" data-next="q3">&#x2192;</button>
     </div>
 
@@ -627,18 +656,18 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
 
     <div class="exp-reveal" id="reveal-q3">
       <div class="pigment-pile" id="pile-q3"></div>
-      <div class="reveal-verb">彩を与える</div>
+      <div class="reveal-verb">トーンを選ぶ</div>
       <div class="reveal-name" id="q3-name"></div>
       <div class="reveal-hex" id="q3-hex"></div>
-      <span class="persona-chip"><span class="dot" style="background:var(--kawai);border:1px solid var(--ink)"></span>KAWAIの色彩ルールを適用</span>
+      <span class="persona-chip"><span class="dot" style="background:var(--kawai);border:1px solid var(--ink)"></span>見立てステップ3：トーン</span>
       <button class="btn-next" data-next="integrate">&#x2192;</button>
     </div>
 
     <!-- 統合 -->
     <div id="integrate">
       <div class="integrate-blob" id="integrateBlob"></div>
-      <div class="reveal-verb">統合</div>
-      <div class="lead" style="font-size:13px">雪舟が事前に設計した統合ルールを適用</div>
+      <div class="reveal-verb reveal-verb-integrate">統合</div>
+      <div class="lead" style="font-size:var(--fs-3)">雪舟館 Anima が設計した色彩ルールでこの一枚を組み立てます</div>
     </div>
 
   </div>
@@ -692,15 +721,12 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
 
         </div>
 
-        <details class="card-note">
-          <summary>この一枚は、どうやって生まれた？</summary>
+        <div class="card-note">
           <div class="note-body">
-            これは、あなたが何色の人かを当てる占いではありません。<br>
-            あなたの未来に似合う色の仮説——未来のラフスケッチ（下絵）です。<br>
-            あなたが選んだ3つをもとに、雪舟館 Anima と雪舟が事前に設計した
-            色彩ルールが、この一枚を組み立てました。
+            あなたが選んだ3つをもとに、雪舟館 Anima が設計した色彩ルールでこの一枚を組み立てました。<br>
+            未来に似合う色の仮説——ラフスケッチ（下絵）です。
           </div>
-        </details>
+        </div>
       </div>
     </div>
 
@@ -711,7 +737,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
     </div>
 
     <div class="share-cta">
-      <p style="font-size:19.5px;color:var(--ink-soft);text-align:center;margin-bottom:10px">気に入ったら、誰かに教えてください</p>
+      <p style="font-size:var(--fs-6);color:var(--ink-soft);text-align:center;margin-bottom:10px">気に入ったら、誰かに教えてください</p>
       <div class="share-row">
         <div class="share-unit">
           <button class="btn-share" id="btnShare" aria-label="共有する">&#x2191;</button>
@@ -727,7 +753,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
 </section>
 
 <!-- ③ この実験について -->
-<section class="sec-glow">
+<section class="sec-glow" id="about-experiment">
   <div class="wrap">
     <div class="eyebrow">About This Experiment</div>
     <h2 class="sec-title sec-title-lg">なぜ、こんな実験を？</h2>
@@ -738,18 +764,18 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
       <div class="gap-item"><span class="gn">2</span>魅力が言葉になること</div>
       <div class="gap-item"><span class="gn">3</span>それがAIで見える形になること</div>
     </div>
-    <p class="sec-copy">どの体験が<span class="highlight">「この人、誰かに教えたい」</span>に変わるのか。
-今日お会いした<span class="highlight">10人</span>の反応から、確かめています。</p>
+    <p class="sec-copy" style="margin-top:24px">どの体験が<span class="emphasis">「この人、誰かに教えたい」</span>に変わるのか？<br>
+8.22イベントで出会う<span class="emphasis">10人</span>の方の結果から確かめてゆきます。</p>
   </div>
 </section>
 
-<!-- ④ 雪舟を30秒で -->
+<!-- ④ 雪舟を30秒で（プロフィール＋やっていることを統合） -->
 <section class="sec-colorful">
   <div class="wrap">
     <div class="eyebrow">Sesshuu in 30 seconds</div>
     <h2 class="sec-title sec-title-lg">文月雪舟 / SESSHUU DESIGN</h2>
     <div class="profile-row">
-      <p class="sec-copy" style="color:var(--ink)">デザイナー、ライター、AI活用の設計者。
+      <p class="sec-copy" style="color:var(--ink)">デザイナー、ライター、AI活用のブランド設計者。
 見た目を整えるだけでなく、何を誰にどう伝えるか、
 作ったあとにどう使われ続けるかまで考えています。</p>
       <a class="profile-cta" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/vol.2/" target="_blank" rel="noopener noreferrer">
@@ -757,23 +783,11 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
         <span class="profile-cta-sub">詳しいプロフィールへ</span>
       </a>
     </div>
-    <p class="sec-copy" style="color:var(--ink);margin-top:24px">美意識を、事業の運用力へ。</p>
-  </div>
-</section>
-
-<!-- ⑤ やっていること -->
-<section class="sec-glow">
-  <div class="wrap">
-    <div class="eyebrow">What I'm Doing</div>
-    <h2 class="sec-title sec-title-lg">ふだん、こんなことをしています</h2>
-    <div class="doing-list">
+    <div class="doing-list" style="margin-top:28px">
       <div class="doing-item"><span class="emoji">🧭</span>整理する — 事業や活動の魅力を、話しながら言葉と構造にする</div>
       <div class="doing-item"><span class="emoji">🎨</span>形にする — AIを使って、見せ方・伝え方を具体化する</div>
       <div class="doing-item"><span class="emoji">🔗</span>つなげる — 名刺・サイト・SNS・資料を、ひとつの導線に揃える</div>
     </div>
-    <p class="sec-copy">話したいことがまだ言葉になっていなくても、
-話すうちに「今やることが1つ見える」。
-それが目標です。</p>
     <div class="proof-list">
       <div class="eyebrow" style="margin-bottom:14px">最近の実証・試作から</div>
       <p class="proof-item">・<strong>宿泊施設のブランド支援</strong> — 競合調査からWeb・SNS設計まで、AIチームと試作</p>
@@ -783,31 +797,24 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   </div>
 </section>
 
-<!-- ⑥ このページの設計 -->
+<!-- ⑥ このページの設計（本編の続き。明るい配色） -->
 <section style="background:#fff;padding:48px 24px 0">
   <div class="wrap" style="padding-bottom:8px;text-align:center">
     <div class="eyebrow">How This Page Was Made</div>
     <h2 class="sec-title sec-title-lg">このページの設計</h2>
     <p class="sec-copy" style="text-align:center">この30秒は、その場のAI生成ではありません。
-雪舟館 Animaの人格たちと雪舟が、事前に設計したものです。</p>
+雪舟館 Animaのエージェントたちが組み立て、最後は雪舟自身が実装したものです。</p>
   </div>
   <div class="circles-figure">
     <img src="assets/generated/page-design-circles-bg-v2.png" alt="このページを設計した7つのAI人格">
-    <div class="chalo c-tomoya"></div>
-    <div class="chalo c-kiuchi"></div>
-    <div class="chalo c-kawai"></div>
-    <div class="chalo c-tera"></div>
-    <div class="chalo c-gai"></div>
-    <div class="chalo c-snow"></div>
-    <div class="chalo c-yanagi"></div>
     <div class="chub"><div class="htxt">ここで、ひとつに</div><div class="hsub">7人の設計が集まる場所</div></div>
     <div class="cnode c-tomoya"><div class="cname">TOMOYA</div><div class="chex">#FFFFFF</div><div class="crole">未来の型・戦略ルール</div></div>
     <div class="cnode c-kiuchi"><div class="cname">KIUCHI</div><div class="chex">#228B22</div><div class="crole">届ける相手との関係</div></div>
     <div class="cnode c-kawai"><div class="cname">KAWAI</div><div class="chex">#FF0000</div><div class="crole">伝統色12色・配色</div></div>
-    <div class="cnode c-tera"><div class="cname">TERA</div><div class="chex">#F0F8FF</div><div class="crole">未来タイトルと言葉</div></div>
-    <div class="cnode c-gai"><div class="cname">GAI</div><div class="chex">#FFFF00</div><div class="crole">異端発明・差別化の核</div></div>
+    <div class="cnode c-tera"><div class="cname">TERA</div><div class="chex">#1D50A2</div><div class="crole">未来タイトルと言葉</div></div>
+    <div class="cnode c-gai"><div class="cname">GAI</div><div class="chex">#FF8C00</div><div class="crole">異端発明・差別化の核</div></div>
     <div class="cnode c-snow"><div class="cname">SNOW</div><div class="chex">#FFFAFA</div><div class="crole">配色と反応の記録</div></div>
-    <div class="cnode c-yanagi"><div class="cname">YANAGI</div><div class="chex">#8A2BE2</div><div class="crole">このページの実装</div></div>
+    <div class="cnode c-yanagi"><div class="cname">YANAGI</div><div class="chex">#8A2BE2</div><div class="crole">コードが紡ぐ動き・音</div></div>
   </div>
   <div class="wrap" style="padding:24px 24px 64px">
     <div class="inspect-seal">
@@ -835,7 +842,26 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   </div>
 </section>
 
-<!-- 奥の画室への接続（参道→本殿・図地反転の種明かし） -->
+<!-- ⑦ もっと知る -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">More to Know</div>
+    <h2 class="sec-title">もっと知りたくなったら</h2>
+    <div class="card-grid">
+      <a class="link-card" href="https://x.com/sesshuuX" target="_blank" rel="noopener noreferrer"><b>X</b>日々の実験と観察。いちばん気軽なつながり方です</a>
+      <a class="link-card" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/vol.2/" target="_blank" rel="noopener noreferrer"><b>Profile</b>雪舟の背景、考え方、これまで。正式なプロフィールです</a>
+      <a class="link-card" href="mailto:yukikiki2011+work@gmail.com"><b>Email</b>情報交換はいつでも歓迎です</a>
+    </div>
+    <div class="anima-box">
+      いま画面の裏で働いていたのは、<strong>雪舟館 Anima</strong>——<br>
+      複数のAI人格と、ひとりの人間でつくる小さな組織のメンバーです。<br>
+      型をつかむ者、届け先を定める者、トーンを選ぶ者。<br>
+      人とAIで<strong>「伝わる・整う・続く」</strong>を形にする仕組みは、こちらで。
+    </div>
+  </div>
+</section>
+
+<!-- 奥の画室への接続（もっと知る→奥の画室→結び。最後は必ず雪舟の署名で終える） -->
 <section class="oku-connect" style="color:var(--paper)">
   <div class="oku-bg b1"></div>
   <div class="oku-bg b2"></div>
@@ -855,37 +881,16 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   </div>
 </section>
 
-<!-- ⑦ もっと知る -->
-<section>
-  <div class="wrap">
-    <div class="eyebrow">More to Know</div>
-    <h2 class="sec-title">もっと知りたくなったら</h2>
-    <div class="card-grid">
-      <a class="link-card" href="https://x.com/sesshuuX" target="_blank" rel="noopener noreferrer"><b>X</b>日々の実験と観察。いちばん気軽なつながり方です</a>
-      <a class="link-card" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/vol.2/" target="_blank" rel="noopener noreferrer"><b>Profile</b>雪舟の背景、考え方、これまで。正式なプロフィールです</a>
-      <a class="link-card" href="https://yukikiki2011-cloud.github.io/sesshuu-portfolio/sesshuu-anima.html" target="_blank" rel="noopener noreferrer"><b>雪舟館 Anima / BrandOps</b>地域事業者の魅力を、伝わる・使える・続けられる形へ整える取り組み</a>
-      <a class="link-card" href="https://note.com/sesshuu_2020/all" target="_blank" rel="noopener noreferrer"><b>note</b>思考の記録。長い文章はこちら</a>
-      <a class="link-card" href="https://substack.com/@sesshuu" target="_blank" rel="noopener noreferrer"><b>Substack</b>音声・思考の記録</a>
-      <a class="link-card" href="mailto:yukikiki2011+work@gmail.com"><b>Email</b>情報交換はいつでも歓迎です</a>
-    </div>
-    <div class="anima-box">
-      いま画面の裏で働いていたのは、<strong>雪舟館 Anima</strong>——<br>
-      複数のAI人格と、ひとりの人間でつくる小さな組織のメンバーです。<br>
-      芯を読む者、縁を結ぶ者、彩を与える者。<br>
-      人とAIで「伝わる・整う・続く」を形にする仕組みは、こちらで。
-    </div>
-  </div>
-</section>
-
 <!-- ⑧ 結び -->
-<section style="background:#fff" class="closing">
+<section class="sec-glow closing">
   <div class="wrap">
     <div class="eyebrow">Last Words</div>
-    <h2 class="sec-title">もし「この人、誰かに教えたいかも」と思ったら</h2>
+    <h2 class="sec-title">もし<span class="highlight-aurora">「この人、誰かに教えたいかも」</span>と思ったら</h2>
     <p class="sec-copy">このページを、そのまま送ってください。
 それがこの実験の、いちばん嬉しい結果です。
 
 今日は、お会いできてうれしかったです。</p>
+    <p class="closing-signature">雪舟</p>
   </div>
 </section>
 
@@ -898,7 +903,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   // ===== データ台帳（lp-spec-822-v3.md §5・§7 準拠） =====
   const Q1 = {
     A: { name:'藍', hex:'#165e83', var:'--ai', title:'自然に選ばれる未来', scene:'探してもらえる側に、立っています。',
-         dirHead:'選ばれる理由をひとつに絞り', place:'{aite}が最初に出会う一枚——入口のページやプロフィール。' },
+         dirHead:'選ばれる理由をひとつに絞り', place:'お客様が最初に出会う一枚——入口のページやプロフィール設計' },
     B: { name:'白群', hex:'#83ccd2', var:'--shirogun', title:'まっすぐ伝わる未来', scene:'初めての人にも、価値が最初のひとことで届いています。',
          dirHead:'最初のひとことを設計し', place:'いちばん短い自己紹介——20字の一文。' },
     C: { name:'青磁', hex:'#7ebea5', var:'--seiji', title:'無理なくめぐる未来', scene:'あなたが休んでいる日も、仕組みは静かに回っています。',
@@ -927,6 +932,190 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   const state = { q1:null, q2:null, q3:null };
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ===== ⓪ オープニング（花火）：3秒静止後にゆっくり①FVへ降下（KURO oku.htmlのglideToと同方式・1フレームずつ手動スクロール） =====
+  (function(){
+    var GLIDE_SPEED = 2.8; // px/frame（従来4.2の1.5倍ゆっくり）
+    var raf = 0;
+    function glideTo(target, done){
+      document.documentElement.style.scrollBehavior = 'auto';
+      function step(){
+        var rest = target - window.scrollY;
+        if(rest <= 2){ raf = 0; document.documentElement.style.scrollBehavior = ''; if(done) done(); return; }
+        window.scrollTo(0, window.scrollY + Math.min(GLIDE_SPEED, rest));
+        raf = requestAnimationFrame(step);
+      }
+      raf = requestAnimationFrame(step);
+    }
+    setTimeout(function(){
+      var fv = document.getElementById('fv');
+      var btn = document.getElementById('btnStart');
+      if(!fv || !btn) return;
+      if(reduced){ btn.scrollIntoView({behavior:'auto', block:'center'}); return; }
+      /* ①「ようこそ」（#fv先頭）まで降下→1.5秒停止→②ボタンまで再度降下 */
+      var fvTarget = fv.getBoundingClientRect().top + window.scrollY;
+      glideTo(fvTarget, function(){
+        setTimeout(function(){
+          var btnTarget = btn.getBoundingClientRect().top + window.scrollY - (window.innerHeight/2 - btn.offsetHeight/2);
+          glideTo(btnTarget);
+        }, 1500);
+      });
+    }, 6000);
+  })();
+
+  // ===== 音声（OPENING→体験用アンビエントのクロスフェード） =====
+  var audioMuted = true;
+  var openingStarted = false;
+  var audioOpening = document.getElementById('audioOpening');
+  var audioAmbient = document.getElementById('audioAmbient');
+  var audioToggle = document.getElementById('audioToggle');
+  var OPENING_DURATION = 28.7;
+  var CROSSFADE = 1.25;
+
+  function setAudioToggleUI(){
+    audioToggle.textContent = audioMuted ? '🔇' : '🔈';
+    audioToggle.setAttribute('aria-pressed', String(!audioMuted));
+    audioToggle.setAttribute('aria-label', audioMuted ? '音を有効にする' : '音を止める');
+  }
+  setAudioToggleUI();
+
+  function crossfadeToAmbient(){
+    audioAmbient.volume = 0;
+    audioAmbient.currentTime = 0;
+    audioAmbient.play().catch(function(){});
+    var start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min(1, (ts - start) / (CROSSFADE * 1000));
+      audioOpening.volume = 1 - p;
+      audioAmbient.volume = p * 0.3;
+      if(p < 1){ requestAnimationFrame(step); }
+      else { audioOpening.pause(); }
+    }
+    requestAnimationFrame(step);
+  }
+
+  var audioCtx = null;
+  function getAudioCtx(){
+    if(!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    return audioCtx;
+  }
+  function playStartChime(){
+    if(audioMuted) return;
+    try{
+      var ctx = getAudioCtx();
+      if(ctx.state === 'suspended'){ ctx.resume(); }
+      var now = ctx.currentTime;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1046.5, now);
+      osc.frequency.exponentialRampToValueAtTime(1568, now + .08);
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(.35, now + .015);
+      gain.gain.exponentialRampToValueAtTime(.0001, now + .5);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + .55);
+    } catch(e){}
+  }
+
+  function playChime(f1, f2, dur, type, peak){
+    if(audioMuted) return;
+    try{
+      var ctx = getAudioCtx();
+      if(ctx.state === 'suspended'){ ctx.resume(); }
+      var now = ctx.currentTime;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(f1, now);
+      if(f2 && f2 !== f1){ osc.frequency.exponentialRampToValueAtTime(f2, now + dur * .25); }
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(peak || .3, now + .012);
+      gain.gain.exponentialRampToValueAtTime(.0001, now + dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + dur + .05);
+    } catch(e){}
+  }
+  function playQ1Chime(){ playChime(784.0, 1046.5, .35, 'sine', .3); }
+  function playQ2Chime(){ playChime(659.3, 987.8, .35, 'triangle', .26); }
+  function playQ3Chime(){ playChime(880.0, 1318.5, .38, 'sine', .3); }
+  function playCardReveal(){
+    if(audioMuted) return;
+    try{
+      var ctx = getAudioCtx();
+      if(ctx.state === 'suspended'){ ctx.resume(); }
+      var now = ctx.currentTime;
+      var notes = [1046.5, 1174.7, 1318.5, 1568.0, 1760.0, 2093.0];
+      notes.forEach(function(freq, i){
+        var t = now + i * 0.045;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(.22, t + .01);
+        gain.gain.exponentialRampToValueAtTime(.0001, t + .9);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 1.0);
+        /* オクターブ上を薄く重ねてきらめき感を足す */
+        var osc2 = ctx.createOscillator();
+        var gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(freq * 2, t);
+        gain2.gain.setValueAtTime(0, t);
+        gain2.gain.linearRampToValueAtTime(.06, t + .01);
+        gain2.gain.exponentialRampToValueAtTime(.0001, t + .6);
+        osc2.connect(gain2).connect(ctx.destination);
+        osc2.start(t);
+        osc2.stop(t + .7);
+      });
+    } catch(e){}
+  }
+
+  function startOpeningSequence(){
+    if(openingStarted) return;
+    openingStarted = true;
+    audioOpening.currentTime = 0;
+    audioOpening.volume = 1;
+    audioOpening.play().catch(function(){});
+    /* iOS Safari対策：体験BGMも同じユーザー操作の流れで一度無音再生し、後段のplay()をロック解除しておく */
+    audioAmbient.volume = 0;
+    audioAmbient.play().then(function(){
+      audioAmbient.pause();
+      audioAmbient.currentTime = 0;
+    }).catch(function(){});
+    setTimeout(crossfadeToAmbient, Math.max(0, (OPENING_DURATION - CROSSFADE) * 1000));
+  }
+
+  audioToggle.addEventListener('click', function(){
+    audioMuted = !audioMuted;
+    setAudioToggleUI();
+    if(audioMuted){
+      audioOpening.pause();
+      audioAmbient.pause();
+    } else if(!openingStarted){
+      /* TOP画面（FV）で音をONにした瞬間にWelcome!!を鳴らす */
+      startOpeningSequence();
+    } else {
+      audioAmbient.volume = 0.3;
+      audioAmbient.play().catch(function(){});
+    }
+  });
+
+  /* 他タブ・他サイトへ移動してもこのページの音が鳴り続ける事故を防ぐ：
+     タブが非表示になった瞬間に強制ミュート（自動では再生再開しない） */
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden && !audioMuted){
+      audioMuted = true;
+      setAudioToggleUI();
+      audioOpening.pause();
+      audioAmbient.pause();
+    }
+  });
+
   function pigmentPile(el, hex){
     el.style.background =
       'radial-gradient(circle at 35% 30%, ' + hex + 'ee, ' + hex + 'cc 40%, ' + hex + '88 70%, transparent 100%),' +
@@ -950,6 +1139,8 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
     var exp = document.getElementById('experience');
     exp.classList.add('active');
     exp.scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
+    playStartChime();
+    if(!audioMuted){ startOpeningSequence(); }
     if(!reduced){
       var bar = document.getElementById('expTimerBar');
       requestAnimationFrame(function(){
@@ -963,18 +1154,21 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
       var q = btn.dataset.q, v = btn.dataset.v;
       if(q === '1'){
         state.q1 = v; var d = Q1[v];
+        playQ1Chime();
         pigmentPile(document.getElementById('pile-q1'), d.hex);
         document.getElementById('q1-name').textContent = '基調は、' + d.name + '。';
         document.getElementById('q1-hex').textContent = d.hex;
         setDots(1); showStep('reveal-q1');
       } else if(q === '2'){
         state.q2 = v; var d2 = Q2[v];
+        playQ2Chime();
         pigmentPile(document.getElementById('pile-q2'), d2.hex);
         document.getElementById('q2-name').textContent = '関係の色は、' + d2.name + '。';
         document.getElementById('q2-hex').textContent = d2.hex;
         setDots(2); showStep('reveal-q2');
       } else if(q === '3'){
         state.q3 = v; var d3 = Q3[v];
+        playQ3Chime();
         pigmentPile(document.getElementById('pile-q3'), d3.hex);
         document.getElementById('q3-name').textContent = '印象の色は、' + d3.name + '。';
         document.getElementById('q3-hex').textContent = d3.hex;
@@ -986,21 +1180,23 @@ footer{padding:40px 24px 60px;text-align:center;font-size:11px;color:var(--muted
   document.querySelectorAll('.btn-next').forEach(function(btn){
     btn.addEventListener('click', function(){
       var next = btn.dataset.next;
-      if(next === 'q2'){ showStep('step-q2'); }
-      else if(next === 'q3'){ showStep('step-q3'); }
+      if(next === 'q2'){ playQ1Chime(); showStep('step-q2'); }
+      else if(next === 'q3'){ playQ2Chime(); showStep('step-q3'); }
       else if(next === 'integrate'){
+        playQ3Chime();
         setDots(4);
         showStep('integrate');
         var a = Q1[state.q1], b = Q2[state.q2], c = Q3[state.q3];
         var blob = document.getElementById('integrateBlob');
         blob.style.background = 'conic-gradient(from 0deg, ' + a.hex + ', ' + b.hex + ', ' + c.hex + ', ' + a.hex + ')';
         blob.style.filter = 'blur(2px)';
-        setTimeout(renderCard, reduced ? 100 : 2200);
+        setTimeout(renderCard, reduced ? 100 : 3000);
       }
     });
   });
 
   function renderCard(){
+    playCardReveal();
     var a = Q1[state.q1], b = Q2[state.q2], c = Q3[state.q3];
     document.getElementById('cardTitle').textContent = a.title;
     document.getElementById('cardSignature').innerHTML =
