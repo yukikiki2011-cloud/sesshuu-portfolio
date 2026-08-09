@@ -1006,6 +1006,19 @@ function startFvAutoDescent(){
       if(!userMuted && began && introEnded && loop.paused) startLoop();
     });
   }
+
+  /* 他タブ・他サイトへ移動してもこのページの音が鳴り続ける事故を防ぐ：
+     タブが非表示になった瞬間に強制ミュート（自動では再生再開しない） */
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden && !userMuted){
+      userMuted = true;
+      intro.muted = true; loop.muted = true;
+      if(btn){
+        btn.textContent = "音 OFF";
+        btn.setAttribute("aria-label", "音声をONにする");
+      }
+    }
+  });
 })();
 })();
 </script>
