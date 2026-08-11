@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>「紹介したくなる雪舟」実証プロジェクト</title>
-<!-- 自動配置物：このファイルを直接編集しないでください -->
-
 <style>
 :root{
   /* L1: 雪舟館の場 */
@@ -106,6 +104,13 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   animation:openingHintBounce 1.8s ease-in-out infinite}
 @keyframes openingHintBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @media (prefers-reduced-motion: reduce){.opening-scroll-hint{animation:none}}
+/* スマホ縦画面では、横長画像(1672x941)をmin-height:100vh+coverで拡大すると
+   左端26%しか表示されず文言・イラストが画面外に切れるため、
+   等倍表示(height:auto)に切り替えて画像全体を欠けさせない */
+@media (max-width:600px){
+  #opening-fireworks{min-height:auto}
+  .opening-fireworks-img{position:static;height:auto}
+}
 
 /* ===== ② 30秒体験 ===== */
 /* OPENING（①FVの顔料フレーム・虹色ボタン）に合わせ、淡い虹色の光を背景に敷く */
