@@ -414,6 +414,13 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   to{background-position:center,center,300% 0%}
 }
 @media (prefers-reduced-motion: reduce){.profile-cta{animation:none}}
+/* スマホでは横並び前提のmargin-left:auto+translateX(90px)が丸ごと画面右にはみ出すため、
+   中央寄せに切り替える */
+@media (max-width:600px){
+  .profile-row{justify-content:center}
+  .profile-cta{margin-left:0;margin:8px auto 0;transform:none}
+  .profile-cta:hover{transform:translateY(-2px)}
+}
 .proof-list{margin-top:24px;padding:20px 20px 4px;background:rgba(251,250,246,.88);border-radius:12px}
 .proof-item{font-size:var(--fs-3);line-height:2;color:var(--ink)}
 .proof-item strong{color:var(--ink)}
