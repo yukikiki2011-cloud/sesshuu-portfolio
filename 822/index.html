@@ -335,6 +335,7 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   display:flex;align-items:center;justify-content:center;transition:transform .2s}
 .btn-copy-icon:hover{transform:translateY(-2px)}
 .share-cap{font-family:var(--font-ui);font-size:var(--fs-2);color:var(--muted);letter-spacing:.06em}
+.share-note{font-family:var(--font-ui);font-size:var(--fs-1);color:var(--muted);letter-spacing:.04em;margin-top:4px;text-align:center}
 
 /* ===== 通常セクション ===== */
 .sec-title{font-size:var(--fs-6);margin-bottom:20px;letter-spacing:.04em}
@@ -755,14 +756,15 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
       <p style="font-size:var(--fs-6);color:var(--ink-soft);text-align:center;margin-bottom:10px">気に入ったら、誰かに教えてください</p>
       <div class="share-row">
         <div class="share-unit">
-          <button class="btn-share" id="btnShare" aria-label="共有する">&#x2191;</button>
-          <span class="share-cap">共有</span>
+          <button class="btn-share" id="btnShare" aria-label="メールで紹介する">&#x2709;</button>
+          <span class="share-cap">メールで紹介する</span>
         </div>
         <div class="share-unit">
           <button class="btn-copy-icon" id="btnCopy" aria-label="紹介文をコピー">&#x2398;</button>
           <span class="share-cap">一言コピー</span>
         </div>
       </div>
+      <p class="share-note">※紹介メールは雪舟にもCCされます。実証記録のためです。</p>
     </div>
   </div>
 </section>
@@ -1277,19 +1279,14 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
       var a = Q1[state.q1], b = Q2[state.q2], c = Q3[state.q3];
       text = '私の未来のラフスケッチは「' + a.name + ' × ' + b.name + ' × ' + c.name + '」でした——『紹介したくなる雪舟』実証プロジェクト。3つ選ぶと、つくりたい未来が一枚の景色になります。';
     } else {
-      /* 診断未回答でも共有できるよう、汎用の紹介文にフォールバックする */
+      /* 診断未回答でもメールで紹介できるよう、汎用の紹介文にフォールバックする */
       text = SHARE_TEXTS[Math.floor(Math.random() * SHARE_TEXTS.length)];
     }
     var url = window.location.href;
-    try{
-      if(navigator.share){
-        navigator.share({ text: text, url: url }).catch(function(){});
-      } else {
-        navigator.clipboard.writeText(text + '\n' + url).then(function(){ toast('紹介文をコピーしました'); });
-      }
-    } catch(e){
-      navigator.clipboard.writeText(text + '\n' + url).then(function(){ toast('紹介文をコピーしました'); });
-    }
+    var mailto = 'mailto:?cc=' + encodeURIComponent('yukikiki2011+work@gmail.com')
+      + '&subject=' + encodeURIComponent('見てほしいページがあります')
+      + '&body=' + encodeURIComponent(text + '\n\n' + url);
+    window.location.href = mailto;
   });
 
   document.getElementById('btnCopy').addEventListener('click', function(){
