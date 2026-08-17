@@ -104,10 +104,11 @@ h1,h2{font-weight:600;letter-spacing:.06em}
   animation:openingHintBounce 1.8s ease-in-out infinite}
 @keyframes openingHintBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @media (prefers-reduced-motion: reduce){.opening-scroll-hint{animation:none}}
-/* スマホ縦画面では、横長画像(1672x941)をmin-height:100vh+coverで拡大すると
-   左端26%しか表示されず文言・イラストが画面外に切れるため、
-   等倍表示(height:auto)に切り替えて画像全体を欠けさせない */
-@media (max-width:600px){
+/* 横長画像(1672x941・比率約16:9)をmin-height:100vh+coverで拡大すると、
+   画面の縦横比が画像より縦長になった瞬間に左端しか表示されず文言・イラストが画面外に切れる。
+   横幅基準(max-width)だとPCでDevToolsを開いて横幅だけ縮んだ場合を検知できないため、
+   縦横比基準(max-aspect-ratio)で判定し、等倍表示(height:auto)に切り替えて画像全体を欠けさせない */
+@media (max-aspect-ratio:16/9){
   #opening-fireworks{min-height:auto}
   .opening-fireworks-img{position:static;height:auto}
 }
@@ -155,7 +156,8 @@ h1,h2{font-weight:600;letter-spacing:.06em}
 }
 .exp-q-label .qn{font-size:var(--fs-7);font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.3)}
 .exp-q-label .qt{font-size:var(--fs-1);opacity:.92;letter-spacing:.04em}
-.exp-q{font-size:var(--fs-8);line-height:1.6;margin-bottom:36px}
+.exp-q{font-size:var(--fs-8);line-height:1.6;margin-bottom:20px}
+.exp-hint{font-family:var(--font-ui);font-size:var(--fs-2);color:var(--muted);letter-spacing:.04em;margin-bottom:28px}
 .exp-options{display:flex;flex-direction:column;gap:12px;width:100%}
 /* 各設問・各選択肢に、L3素材色12種（伝統色）を1対1で対応させる */
 #step-q1 .exp-opt:nth-child(1){--opt:var(--ai)}
@@ -588,11 +590,11 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
       <div class="fv-copy">
         今日の実験——3分の対話で、<br>
         「今やること」はひとつ見えるか。<br>
-        その前に30秒ください。<br>
-        あなたのつくりたい未来を、一枚の景色にしてみます。
-        <span class="whisper">さあー——あなたも、今日の体験者のひとりです。</span>
+        仕事や、これからやってみたいことについて。<br>
+        まだぼんやりしている未来を、一枚の景色にしてみます。
+        <span class="whisper">よければ、試してみてください。</span>
       </div>
-      <button class="btn-start" id="btnStart">30秒で、未来を一枚に</button>
+      <button class="btn-start" id="btnStart">30秒だけ、試してみる</button>
       <div class="scroll-hint">↓ タップして始まります</div>
     </div>
   </div>
@@ -614,7 +616,8 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
     <!-- Q1 -->
     <div class="exp-step active" id="step-q1">
       <div class="exp-q-label"><span class="qn">1</span><span class="qt">/ 3</span></div>
-      <div class="exp-q">どんな未来を<br>つくりたいですか？</div>
+      <div class="exp-q">今、ちょっと<br>近づきたいのはどれですか？</div>
+      <div class="exp-hint">正解はありません。今いちばん近いものを、なんとなく選んでください。</div>
       <div class="exp-options">
         <button class="exp-opt" data-q="1" data-v="A"><span class="k">A</span>人や仕事から、自然に選ばれている</button>
         <button class="exp-opt" data-q="1" data-v="B"><span class="k">B</span>自分たちの価値が、きちんと伝わっている</button>
@@ -636,7 +639,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
     <!-- Q2 -->
     <div class="exp-step" id="step-q2">
       <div class="exp-q-label"><span class="qn">2</span><span class="qt">/ 3</span></div>
-      <div class="exp-q">その未来を、<br>誰に届けたいですか？</div>
+      <div class="exp-q">それが届いたら、<br>いちばん嬉しいのは誰ですか？</div>
       <div class="exp-options">
         <button class="exp-opt" data-q="2" data-v="1">①お客様や利用者</button>
         <button class="exp-opt" data-q="2" data-v="2">②社内のメンバーや仲間</button>
@@ -657,7 +660,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
     <!-- Q3 -->
     <div class="exp-step" id="step-q3">
       <div class="exp-q-label"><span class="qn">3</span><span class="qt">/ 3</span></div>
-      <div class="exp-q">その未来には、<br>どんな印象が必要ですか？</div>
+      <div class="exp-q">その景色に、<br>どんな空気が似合いますか？</div>
       <div class="exp-options">
         <button class="exp-opt" data-q="3" data-v="1">1. 信頼できる</button>
         <button class="exp-opt" data-q="3" data-v="2">2. 心が動く</button>
@@ -690,7 +693,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
       <div class="card-scene" id="cardScene">
         <div class="card-scene-img" id="cardSceneImg"></div>
         <div class="card-scene-tint" id="cardSceneTint"></div>
-        <div class="card-scene-title">あなたの未来デザインカード</div>
+        <div class="card-scene-title">あなたの未来のラフスケッチ</div>
       </div>
       <div class="card-body">
         <div class="card-title" id="cardTitle"></div>
@@ -769,8 +772,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
   <div class="wrap">
     <div class="eyebrow">About This Experiment</div>
     <h2 class="sec-title sec-title-lg">なぜ、こんな実験を？</h2>
-    <p class="sec-copy">「いい仕事をする」と「紹介される」のあいだには、
-見えない段差があります。</p>
+    <p class="sec-copy">実は私は、「良い仕事」が「人に伝えたくなる体験」になる条件を調べています。</p>
     <div class="gap-list">
       <div class="gap-item"><span class="gn">1</span>話が整理されること</div>
       <div class="gap-item"><span class="gn">2</span>魅力が言葉になること</div>
@@ -814,8 +816,9 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
   <div class="wrap" style="padding-bottom:8px;text-align:center">
     <div class="eyebrow">How This Page Was Made</div>
     <h2 class="sec-title sec-title-lg">このページの設計</h2>
-    <p class="sec-copy" style="text-align:center">この30秒は、その場のAI生成ではありません。
-雪舟館 Animaのエージェントたちが組み立て、最後は雪舟自身が実装したものです。</p>
+    <p class="sec-copy" style="text-align:center">この30秒は、その場でAIが答えを生成しているわけではありません。
+問い・色・言葉・動きを役割ごとにAIと設計し、最後は雪舟自身が判断して実装しています。</p>
+    <p class="sec-copy" style="text-align:center">戦略・相手・色・言葉・実装・記録。<br>このページは、それぞれ役割を分けたAIと一緒に設計しました。</p>
   </div>
   <div class="circles-figure">
     <img src="assets/generated/page-design-circles-bg-v2.png" alt="このページを設計した7つのAI人格">
@@ -898,15 +901,14 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
   <div class="wrap">
     <div class="eyebrow">Last Words</div>
     <h2 class="sec-title">もし<span class="highlight-aurora">「この人、誰かに教えたいかも」</span>と思ったら</h2>
-    <p class="sec-copy">このページを、そのまま送ってください。
-それがこの実験の、いちばん嬉しい結果です。
+    <p class="sec-copy">誰かの顔が浮かんだら、このページを渡してもらえたら嬉しいです。
 
 今日は、お会いできてうれしかったです。</p>
     <p class="closing-signature">雪舟</p>
   </div>
 </section>
 
-<footer>⛩ 「紹介したくなる雪舟」実証プロジェクト ｜ 検問通過済み（2026-08-05）</footer>
+<footer>⛩ 8.22 実証プロジェクト ｜ 検問通過済み（2026-08-05）</footer>
 
 <div class="toast" id="toast"></div>
 
@@ -936,7 +938,7 @@ footer{padding:40px 24px 60px;text-align:center;font-size:var(--fs-2);color:var(
     '4': { name:'今様', hex:'#d0576b', var:'--imayo', scene:'どこを切り取っても、あなたたちの色をしています。', dirTail:'固有の色と象徴のかたちで見せていく。', dirTailPlain:'あなたたちだけの色とマークで、らしさを出す。' }
   };
   const SHARE_TEXTS = [
-    '30秒で、自分のつくりたい未来が一枚の色になるページがある。ちょっと面白い',
+    '30秒で、今ちょっと気になっている方向が一枚の色になるページがある。ちょっと面白い',
     '話すと「今やること」がひとつ見える——という実験をしてるデザイナーに会った',
     'この前◯◯の話してたよね。これ30秒だけ。未来の配色が出る'
   ];
